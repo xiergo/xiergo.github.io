@@ -1,0 +1,3 @@
+file	path
+Radar Plot	D:\Users\xiergo\Desktop\project results\radar plot
+Scatter Plot	D:\Users\xiergo\Desktop\project results\scatterplot
