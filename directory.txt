@@ -3,3 +3,4 @@ gitpagefile	D:\Users\xiergo\Documents\GitHub\xiergo.github.io
 Radar Plot	D:\Users\xiergo\Desktop\project results\radar plot
 Scatter Plot	D:\Users\xiergo\Desktop\project results\scatterplot
 barplot	D:\Users\xiergo\Desktop\project results\barplot_tcga
+meanRank	D:\Users\xiergo\Desktop\project results\meanRank
