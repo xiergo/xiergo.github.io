@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on 好好学习 天天向上</title>
+    <link>https://xiergo.github.io/post/</link>
+    <description>Recent content in Posts on 好好学习 天天向上</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>All rights reserved - 2018</copyright>
+    <lastBuildDate>Fri, 13 Sep 2019 10:34:22 +0800</lastBuildDate>
+    
+	<atom:link href="https://xiergo.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>deconvolution</title>
+      <link>https://xiergo.github.io/post/deconvolution/</link>
+      <pubDate>Fri, 13 Sep 2019 10:34:22 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/post/deconvolution/</guid>
+      <description>iterated conditional mode algorithm two components: epithelium-derived tumor cells and surrounding stromal cells
+tumor cells,immune cells and the tumor microenvironment.
+estimate the proportions and compartment-specific gene expression for more than two compartments in each tumor sample
+ISOpure: assumes a linear mixture of raw expression data and represents noncancerous profiles in the mixed tissue samples by a convex combination of all the available profiles from reference sample
+$$ Y{ig}=\pi{1,i}N{1,ig}+\pi{2,i}N{2,ig}+(1-\pi{1,i}-\pi{2,i})T{ig} $$</description>
+    </item>
+    
+    <item>
+      <title>本地文件夹导航</title>
+      <link>https://xiergo.github.io/post/%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%A4%B9%E5%AF%BC%E8%88%AA/</link>
+      <pubDate>Fri, 13 Sep 2019 10:34:22 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/post/%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%A4%B9%E5%AF%BC%E8%88%AA/</guid>
+      <description>轻松娱乐 百度一下
+Pornhub
+deconvolution 雷达图
+散点图
+Mean Rank</description>
+    </item>
+    
+  </channel>
+</rss>
