@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on 好好学习 天天向上</title>
+    <link>https://xiergo.github.io/post/</link>
+    <description>Recent content in Posts on 好好学习 天天向上</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>All rights reserved - 2018</copyright>
+    <lastBuildDate>Fri, 13 Sep 2019 10:34:22 +0800</lastBuildDate>
+    
+	<atom:link href="https://xiergo.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>deconvolution</title>
+      <link>https://xiergo.github.io/post/deconvolution/</link>
+      <pubDate>Fri, 13 Sep 2019 10:34:22 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/post/deconvolution/</guid>
+      <description>iterated conditional mode algorithm two components: epithelium-derived tumor cells and surrounding stromal cells
+tumor cells,immune cells and the tumor microenvironment.
+estimate the proportions and compartment-specific gene expression for more than two compartments in each tumor sample
+ISOpure: assumes a linear mixture of raw expression data and represents noncancerous profiles in the mixed tissue samples by a convex combination of all the available profiles from reference sample
+$$ Y_{ig}=\pi_{1,i}N_{1,ig}+\pi_{2,i}N{2,ig}+(1-\pi_{1,i}-\pi_{2,i})T{ig} $$</description>
+    </item>
+    
+    <item>
+      <title>hugo显示数学公式</title>
+      <link>https://xiergo.github.io/post/mathjax/</link>
+      <pubDate>Fri, 13 Sep 2019 10:34:22 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/post/mathjax/</guid>
+      <description>问题描述 用hugo生成的静态网页中的公式显示不出来，无论是 inline （行内公式）的还是 display style（行间公式）。如下面所示：
+this is a test inline expression, $x_1+x2=1$ , and the display expression is as following: $$ Y{ig}=\pi{1,i}N{1,ig}+\pi{2,i}N{2,ig}+(1-\pi{1,i}-\pi{2,i})T_{ig} $$ which both fail to show properly.
+经过一番google，找到了一些解决办法，我随便挑了一个很多人都提到的方法，通过mathjax。
+成功示例： This is a inline expresion: $Y_{ig}=\pi_{1,i}N_{1,ig}+\pi_{2,i}N_{2,ig}+(1-\pi_{1,i}-\pi_{2,i})T_{ig}$, while this is a display expression:
+$$Y_{ig}=\pi_{1,i}N_{1,ig}+\pi_{2,i}N_{2,ig}+(1-\pi_{1,i}-\pi_{2,i})T_{ig}$$ 解决步骤  将 ./themes/theme-name/layouts/ 文件夹里的东西全都拷到 ./layouts/ 下面。
+ 在 ./layouts/partials/ 创建一个html文件。命名为 mathjax_support.html
+ 将下面一段代码写入mathjax_support.html
+&amp;lt;script type=&amp;quot;text/javascript&amp;quot; async src=&amp;quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&amp;quot;&amp;gt; MathJax.Hub.Config({ tex2jax: { inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]], displayMath: [[&#39;$$&#39;,&#39;$$&#39;]], processEscapes: true, processEnvironments: true, skipTags: [&#39;script&#39;, &#39;noscript&#39;, &#39;style&#39;, &#39;textarea&#39;, &#39;pre&#39;], TeX: { equationNumbers: { autoNumber: &amp;quot;AMS&amp;quot; }, extensions: [&amp;quot;AMSmath.</description>
+    </item>
+    
+    <item>
+      <title>本地文件夹导航</title>
+      <link>https://xiergo.github.io/post/%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%A4%B9%E5%AF%BC%E8%88%AA/</link>
+      <pubDate>Fri, 13 Sep 2019 10:34:22 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/post/%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%A4%B9%E5%AF%BC%E8%88%AA/</guid>
+      <description>轻松娱乐 百度一下
+Pornhub
+deconvolution 雷达图
+散点图
+Mean Rank</description>
+    </item>
+    
+  </channel>
+</rss>
