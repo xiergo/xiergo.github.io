@@ -93,7 +93,7 @@ tumor cells,immune cells and the tumor microenv" />
     },
     "headline": "deconvolution",
     "name": "deconvolution",
-    "wordCount":  69 ,
+    "wordCount":  116 ,
     "timeRequired": "PT1M",
     "inLanguage": {
       "@type": "Language",
@@ -119,6 +119,34 @@ tumor cells,immune cells and the tumor microenv" />
     
 
     
+    <script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
 </head>
 <body class="nav-closed">
 
@@ -191,8 +219,38 @@ tumor cells,immune cells and the tumor microenv" />
 <p>ISOpure: assumes a linear mixture of raw expression data and represents noncancerous profiles in the mixed tissue samples by a convex combination of all the available profiles from reference sample</p>
 
 <p>$$
-Y<em>{ig}=\pi</em>{1,i}N<em>{1,ig}+\pi</em>{2,i}N<em>{2,ig}+(1-\pi</em>{1,i}-\pi<em>{2,i})T</em>{ig}
+Y_{ig}=\pi_{1,i}N_{1,ig}+\pi_{2,i}N<em>{2,ig}+(1-\pi_{1,i}-\pi_{2,i})T</em>{ig}
 $$</p>
+
+<p>$$
+Y_{ig}=\pi_{1,i}N_{1,ig}
+$$</p>
+
+<div> Y_{ig}=\pi_{1,i}N_{1,ig}+\pi_{2,i}N_{2,ig}+(1-\pi_{1,i}-\pi_{2,i})T_{ig}</div>
+
+<div>$$ Y_{ig}=\pi_{1,i}N_{1,ig}+\pi_{2,i}N_{2,ig}+(1-\pi_{1,i}-\pi_{2,i})T_{ig}$$</div>
+<div>$$Y_{ig}=\pi_{1,i}N_{1,ig}+\pi_{2,i}N_{2,ig}+(1-\pi_{1,i}-\pi_{2,i})T_{ig}$$</div>
+<div>$$Y_{ig}=\pi_{1,i}N_{1,ig}+\pi_{2,i}N_{2,ig}+(1-\pi_{1,i}-\pi_{2,i})T_{ig}$$</div>
+
+<p>this is a test $x_i​$</p>
+
+<p>hi owshi <code>$x_i$</code></p>
+
+<p>fhdiaf  $x_i​$</p>
+
+<p>afjdsafj $ <code>x_i</code>$</p>
+
+<p>afjdsafj  <code>x_i</code></p>
+
+<p>fafdsaghk fjdaskfjda <code>$$a_1$$</code> fdasfa</p>
+
+<p>fafdsaghk fjdaskfjda $$a_1​$$ gdsaf faf</p>
+
+<p>fafdsaghk fjdaskfjda $a_1​$ gdsaf faf</p>
+
+<p>fafdsaghk fjdaskfjda $$Y<em>{ig}=\pi</em>{1,i}N<em>{1,ig}+\pi</em>{2,i}N<em>{2,ig}+(1-\pi</em>{1,i}-\pi<em>{2,i})T</em>{ig}$$ gdsaf faf</p>
+
+<p>fafdsaghk fjdaskfjda <code>$Y_{ig}=\pi_{1,i}N_{1,ig}+\pi_{2,i}N_{2,ig}+(1-\pi_{1,i}-\pi_{2,i})T_{ig}$</code> gdsaf faf</p>
 
     </section>
 
@@ -266,9 +324,9 @@ s.setAttribute('data-timestamp', +new Date());
   <aside class="read-next">
   
   
-      <a class="read-next-story prev" style="no-cover" href="https://xiergo.github.io/post/%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%A4%B9%E5%AF%BC%E8%88%AA/">
+      <a class="read-next-story prev" style="no-cover" href="https://xiergo.github.io/post/mathjax/">
           <section class="post">
-              <h2>本地文件夹导航</h2>
+              <h2>hugo显示数学公式</h2>
           </section>
       </a>
   
@@ -286,6 +344,9 @@ s.setAttribute('data-timestamp', +new Date());
     <script type="text/javascript" src="https://xiergo.github.io/js/jquery.js"></script>
     <script type="text/javascript" src="https://xiergo.github.io/js/jquery.fitvids.js"></script>
     <script type="text/javascript" src="https://xiergo.github.io/js/index.js"></script>
+
+
+    
     
 </body>
 </html>

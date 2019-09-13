@@ -122,6 +122,34 @@ Mean Rank" />
     
 
     
+    <script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
 </head>
 <body class="nav-closed">
 
@@ -191,9 +219,9 @@ Mean Rank" />
 
 <h4 id="deconvolution">deconvolution</h4>
 
-<p><a href="localexplorer:D:UsersxiergoDesktopproject resultsradar plot">雷达图</a></p>
+<p><a href="localexplorer:D:\Users\xiergo\Desktop\project results\radar plot">雷达图</a></p>
 
-<p><a href="localexplorer:D:UsersxiergoDesktopproject resultsscatterplot">散点图</a></p>
+<p><a href="localexplorer:D:/Users/xiergo/Desktop/project results/scatterplot">散点图</a></p>
 
 <p><a href="localexplorer:D:UsersxiergoDesktopproject resultsmeanRank">Mean Rank</a></p>
 
@@ -268,9 +296,9 @@ s.setAttribute('data-timestamp', +new Date());
 
   <aside class="read-next">
   
-      <a class="read-next-story" style="no-cover" href="https://xiergo.github.io/post/deconvolution/">
+      <a class="read-next-story" style="no-cover" href="https://xiergo.github.io/post/mathjax/">
           <section class="post">
-              <h2>deconvolution</h2>
+              <h2>hugo显示数学公式</h2>
               
           </section>
       </a>
@@ -290,6 +318,9 @@ s.setAttribute('data-timestamp', +new Date());
     <script type="text/javascript" src="https://xiergo.github.io/js/jquery.js"></script>
     <script type="text/javascript" src="https://xiergo.github.io/js/jquery.fitvids.js"></script>
     <script type="text/javascript" src="https://xiergo.github.io/js/index.js"></script>
+
+
+    
     
 </body>
 </html>
