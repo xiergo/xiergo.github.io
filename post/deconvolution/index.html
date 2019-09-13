@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="deconvolution"/>
+<meta name="twitter:description" content=""/>
+<meta name="twitter:site" content="@"/>
+
+
+
+  	<meta property="og:title" content="deconvolution &middot; 好好学习 天天向上" />
+  	<meta property="og:site_name" content="好好学习 天天向上" />
+  	<meta property="og:url" content="https://xiergo.github.io/post/deconvolution/" />
+
+    
+        
+    
+
+    
+    <meta property="og:description" content="" />
+  	<meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2019-09-13T10:34:22&#43;08:00" />
+
+    
+    
+
+    <title>deconvolution &middot; 好好学习 天天向上</title>
+
+    
+    <meta name="description" content="iterated conditional mode algorithm two components: epithelium-derived tumor cells and surrounding stromal cells
+tumor cells,immune cells and the tumor microenv" />
+    
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://xiergo.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://xiergo.github.io/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="https://xiergo.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://xiergo.github.io/css/nav.css" />
+
+    
+
+    
+
+    
+      
+          <link href="https://xiergo.github.io/index.xml" rel="alternate" type="application/rss+xml" title="好好学习 天天向上" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.58.1" />
+
+    <link rel="canonical" href="https://xiergo.github.io/post/deconvolution/" />
+
+    
+      
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name":  null 
+    },
+    "author": {
+        "@type": "Person",
+        "name":  null ,
+        
+        "url":  null ,
+        "sameAs": [
+            
+            
+             
+             
+             
+             
+             
+            
+        ]
+    },
+    "headline": "deconvolution",
+    "name": "deconvolution",
+    "wordCount":  116 ,
+    "timeRequired": "PT1M",
+    "inLanguage": {
+      "@type": "Language",
+      "alternateName": "en"
+    },
+    "url": "https://xiergo.github.io/post/deconvolution/",
+    "datePublished": "2019-09-13T10:34Z",
+    "dateModified": "2019-09-13T10:34Z",
+    
+    
+    "description": "",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://xiergo.github.io/post/deconvolution/"
+    }
+}
+    </script>
+    
+
+
+    
+
+    
+
+    
+    <script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+    </ul>
+
+    
+    <a class="subscribe-button icon-feed" href="https://xiergo.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+  
+      <a class="menu-button icon-feed" href="https://xiergo.github.io/index.xml" >&nbsp;&nbsp;Subscribe</a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">deconvolution</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2019-09-13T10:34:22&#43;08:00">
+            Sep 13, 2019
+          </time>
+        
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<h4 id="iterated-conditional-mode-algorithm">iterated conditional mode algorithm</h4>
+
+<p>two components: epithelium-derived tumor cells and surrounding stromal cells</p>
+
+<p>tumor cells,immune cells and the tumor microenvironment.</p>
+
+<p>estimate the proportions and compartment-specific gene expression for more than two compartments in each tumor sample</p>
+
+<p>ISOpure: assumes a linear mixture of raw expression data and represents noncancerous profiles in the mixed tissue samples by a convex combination of all the available profiles from reference sample</p>
+
+<p>$$
+Y_{ig}=\pi_{1,i}N_{1,ig}+\pi_{2,i}N<em>{2,ig}+(1-\pi_{1,i}-\pi_{2,i})T</em>{ig}
+$$</p>
+
+<p>$$
+Y_{ig}=\pi_{1,i}N_{1,ig}
+$$</p>
+
+<div> Y_{ig}=\pi_{1,i}N_{1,ig}+\pi_{2,i}N_{2,ig}+(1-\pi_{1,i}-\pi_{2,i})T_{ig}</div>
+
+<div>$$ Y_{ig}=\pi_{1,i}N_{1,ig}+\pi_{2,i}N_{2,ig}+(1-\pi_{1,i}-\pi_{2,i})T_{ig}$$</div>
+<div>$$Y_{ig}=\pi_{1,i}N_{1,ig}+\pi_{2,i}N_{2,ig}+(1-\pi_{1,i}-\pi_{2,i})T_{ig}$$</div>
+<div>$$Y_{ig}=\pi_{1,i}N_{1,ig}+\pi_{2,i}N_{2,ig}+(1-\pi_{1,i}-\pi_{2,i})T_{ig}$$</div>
+
+<p>this is a test $x_i​$</p>
+
+<p>hi owshi <code>$x_i$</code></p>
+
+<p>fhdiaf  $x_i​$</p>
+
+<p>afjdsafj $ <code>x_i</code>$</p>
+
+<p>afjdsafj  <code>x_i</code></p>
+
+<p>fafdsaghk fjdaskfjda <code>$$a_1$$</code> fdasfa</p>
+
+<p>fafdsaghk fjdaskfjda $$a_1​$$ gdsaf faf</p>
+
+<p>fafdsaghk fjdaskfjda $a_1​$ gdsaf faf</p>
+
+<p>fafdsaghk fjdaskfjda $$Y<em>{ig}=\pi</em>{1,i}N<em>{1,ig}+\pi</em>{2,i}N<em>{2,ig}+(1-\pi</em>{1,i}-\pi<em>{2,i})T</em>{ig}$$ gdsaf faf</p>
+
+<p>fafdsaghk fjdaskfjda <code>$Y_{ig}=\pi_{1,i}N_{1,ig}+\pi_{2,i}N_{2,ig}+(1-\pi_{1,i}-\pi_{2,i})T_{ig}$</code> gdsaf faf</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=deconvolution&nbsp;-&nbsp;%e5%a5%bd%e5%a5%bd%e5%ad%a6%e4%b9%a0%20%e5%a4%a9%e5%a4%a9%e5%90%91%e4%b8%8a&amp;url=https%3a%2f%2fxiergo.github.io%2fpost%2fdeconvolution%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fxiergo.github.io%2fpost%2fdeconvolution%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fxiergo.github.io%2fpost%2fdeconvolution%2f&amp;description=deconvolution"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fxiergo.github.io%2fpost%2fdeconvolution%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = "https:\/\/xiergo.github.io\/post\/deconvolution\/";  
+this.page.identifier = "https:\/\/xiergo.github.io\/post\/deconvolution\/"; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://suixin-1.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+
+
+
+
+
+  </footer>
+</article>
+
+</main>
+
+
+  <aside class="read-next">
+  
+  
+      <a class="read-next-story prev" style="no-cover" href="https://xiergo.github.io/post/mathjax/">
+          <section class="post">
+              <h2>hugo显示数学公式</h2>
+          </section>
+      </a>
+  
+</aside>
+
+
+
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">好好学习 天天向上</a> All rights reserved - 2018</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://xiergo.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://xiergo.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://xiergo.github.io/js/index.js"></script>
+
+
+    
+    
+</body>
+</html>
+
