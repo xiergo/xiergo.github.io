@@ -6,7 +6,7 @@
     <description>Recent content on Even - A super concise theme for Hugo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 10 Jul 2018 00:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 13 Sep 2019 10:34:22 +0800</lastBuildDate>
     
 	<atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     
@@ -29,6 +29,24 @@
       <description>Hugo is a static site engine written in Go.
 It makes use of a variety of open source projects including:
  Cobra Viper J Walter Weatherman Cast  Learn more and contribute on GitHub.</description>
+    </item>
+    
+    <item>
+      <title>hugo显示数学公式</title>
+      <link>http://localhost:1313/post/mathjax/</link>
+      <pubDate>Fri, 13 Sep 2019 10:34:22 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/mathjax/</guid>
+      <description>hugo显示数学公式</description>
+    </item>
+    
+    <item>
+      <title>本地文件夹导航</title>
+      <link>http://localhost:1313/post/%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%A4%B9%E5%AF%BC%E8%88%AA/</link>
+      <pubDate>Fri, 13 Sep 2019 10:34:22 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%A4%B9%E5%AF%BC%E8%88%AA/</guid>
+      <description>deconvolution 雷达图 散点图 Mean Rank</description>
     </item>
     
     <item>
