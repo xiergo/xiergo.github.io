@@ -6,7 +6,7 @@
     <description>Recent content on Even - A super concise theme for Hugo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 17 Sep 2019 20:47:51 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 18 Sep 2019 20:29:46 +0800</lastBuildDate>
     
 	<atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     
@@ -29,6 +29,15 @@
       <description>Hugo is a static site engine written in Go.
 It makes use of a variety of open source projects including:
  Cobra Viper J Walter Weatherman Cast  Learn more and contribute on GitHub.</description>
+    </item>
+    
+    <item>
+      <title>Discrete Pheatmap</title>
+      <link>http://localhost:1313/post/discrete-pheatmap/</link>
+      <pubDate>Wed, 18 Sep 2019 20:29:46 +0800</pubDate>
+      
+      <guid>http://localhost:1313/post/discrete-pheatmap/</guid>
+      <description></description>
     </item>
     
     <item>

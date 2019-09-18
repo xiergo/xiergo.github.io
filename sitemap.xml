@@ -16,21 +16,56 @@
   </url>
   
   <url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2019-09-17T20:47:51+08:00</lastmod>
+    <loc>http://localhost:1313/categories/</loc>
+    <lastmod>2019-09-18T20:29:46+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://localhost:1313/post/mathtest/</loc>
-    <lastmod>2019-09-17T20:47:51+08:00</lastmod>
+    <loc>http://localhost:1313/post/discrete-pheatmap/</loc>
+    <lastmod>2019-09-18T20:29:46+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2019-09-18T20:29:46+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>http://localhost:1313/post/</loc>
+    <lastmod>2019-09-18T20:29:46+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/r/</loc>
+    <lastmod>2019-09-18T20:29:46+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/categories/r-plot/</loc>
+    <lastmod>2019-09-18T20:29:46+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2019-09-18T20:29:46+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:1313/post/mathtest/</loc>
     <lastmod>2019-09-17T20:47:51+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -46,13 +81,6 @@
   <url>
     <loc>http://localhost:1313/post/%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%A4%B9%E5%AF%BC%E8%88%AA/</loc>
     <lastmod>2019-09-13T10:34:22+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2018-11-05T16:01:23+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -86,13 +114,6 @@
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2018-11-05T16:01:23+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>http://localhost:1313/categories/theme-preview/</loc>
     <lastmod>2018-07-10T00:00:00+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -121,14 +142,14 @@
   </url>
   
   <url>
-    <loc>http://localhost:1313/categories/english/</loc>
+    <loc>http://localhost:1313/tags/english/</loc>
     <lastmod>2017-08-31T15:43:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/english/</loc>
+    <loc>http://localhost:1313/categories/english/</loc>
     <lastmod>2017-08-31T15:43:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -184,14 +205,14 @@
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/%E4%B8%AD%E6%96%87/</loc>
+    <loc>http://localhost:1313/categories/%E4%B8%AD%E6%96%87/</loc>
     <lastmod>2017-08-30T01:37:56+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://localhost:1313/categories/%E4%B8%AD%E6%96%87/</loc>
+    <loc>http://localhost:1313/tags/%E4%B8%AD%E6%96%87/</loc>
     <lastmod>2017-08-30T01:37:56+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -233,14 +254,14 @@
   </url>
   
   <url>
-    <loc>http://localhost:1313/tags/syntax-highlighting/</loc>
+    <loc>http://localhost:1313/categories/syntax-highlighting/</loc>
     <lastmod>2018-11-05T16:01:23+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://localhost:1313/categories/syntax-highlighting/</loc>
+    <loc>http://localhost:1313/tags/syntax-highlighting/</loc>
     <lastmod>2018-11-05T16:01:23+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
