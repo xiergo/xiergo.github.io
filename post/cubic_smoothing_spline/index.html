@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Cubic_smoothing_spline - Even - A super concise theme for Hugo</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Yuhao Xie" /><meta name="description" content="" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.58.1 with theme even" />
+
+
+<link rel="canonical" href="http://localhost:1313/post/cubic_smoothing_spline/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+<link href="/dist/even.d7e035d8.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Cubic_smoothing_spline" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/post/cubic_smoothing_spline/" />
+<meta property="article:published_time" content="2019-09-23T21:29:02+08:00" />
+<meta property="article:modified_time" content="2019-09-23T21:29:02+08:00" />
+<meta itemprop="name" content="Cubic_smoothing_spline">
+<meta itemprop="description" content="">
+
+
+<meta itemprop="datePublished" content="2019-09-23T21:29:02&#43;08:00" />
+<meta itemprop="dateModified" content="2019-09-23T21:29:02&#43;08:00" />
+<meta itemprop="wordCount" content="834">
+
+
+
+<meta itemprop="keywords" content="math,R," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Cubic_smoothing_spline"/>
+<meta name="twitter:description" content=""/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Even</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Even<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+    <script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+  </ul>
+</nav>
+
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Cubic_smoothing_spline</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-09-23 </span>
+        <div class="post-category">
+            <a href="/categories/math/"> math </a>
+            <a href="/categories/r/"> R </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#问题描述">问题描述</a></li>
+<li><a href="#解决方案">解决方案</a></li>
+<li><a href="#代码">代码</a></li>
+<li><a href="#结果展示">结果展示</a></li>
+<li><a href="#reference">reference</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="问题描述">问题描述</h2>
+
+<p>利用cibersort 工具进行deconvolution时候，由于LM22 signature矩阵是利用array数据得到的，在分析RNA-seq数据的时候性能有所下降，为此有文献就提出将RNA-Seq数据转化为array-like的数据进行deconvolution结果可能会好一点。那么怎么转化呢？</p>
+
+<h2 id="解决方案">解决方案</h2>
+
+<p>文献的附件里有提到方法的部分细节，如下图所示：</p>
+
+<p><img src="/img/221cb0885daffa67c7f7d22a12f2a13.png" alt="221cb0885daffa67c7f7d22a12f2a13" /></p>
+
+<p>即先将TCGA里的同时包含rna-seq和array的数据下载下来，一共550左右个样本。然后将TPM化为$log_2(TPM+1)$ ,再进行cubic smoothing spline拟合y~x之间的方程，这里的自由度文献给出了：df=4。</p>
+
+<blockquote>
+<p>至于什么是spline，自行google，文末有个用r进行spline的教程，里面简要的介绍了一部分，其实我也不是很清楚，时间有限就不深究了。</p>
+</blockquote>
+
+<p>值得注意的是，文献中有个关键词不能忽略了，<code>gene-specific</code>， 即对于每一个rna-seq和array的共同的基因，都有一条特异的拟合曲线。</p>
+
+<p>至于如何进行cubic smoothing spline，有现成的R包，<code>splines</code>，这是一个基础包，你不用再安装了，直接library了就能用，里面的spline.smooth()函数直接就能做这个，非常简单。</p>
+
+<p><img src="/img/1d0998b82941817cc00b3b7a6a92672.png" alt="1d0998b82941817cc00b3b7a6a92672" /></p>
+
+<h2 id="代码">代码</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-r" data-lang="r"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-r" data-lang="r"><span class="kn">library</span><span class="p">(</span><span class="s">&#39;splines&#39;</span><span class="p">)</span>
+
+wdir<span class="o">=</span><span class="s">&#39;/home/pub/project/deconvolution/tcga/splineScatterPlot&#39;</span>
+<span class="kp">options</span><span class="p">(</span>StringsAsFactors<span class="o">=</span><span class="bp">F</span><span class="p">)</span>
+<span class="kp">setwd</span><span class="p">(</span>wdir<span class="p">)</span>
+<span class="kr">if</span> <span class="p">(</span><span class="s">&#39;tmp1.rda&#39;</span> <span class="o">%in%</span> <span class="kp">list.files</span><span class="p">())</span> <span class="kp">load</span><span class="p">(</span><span class="s">&#39;tmp1.rda&#39;</span><span class="p">)</span> <span class="kr">else</span> <span class="p">{</span>
+	ov.array<span class="o">=</span>read.delim<span class="p">(</span><span class="s">&#39;/home/pub/project/deconvolution/results/Transcriptome/dataset/TCGA/microarray/OV/OV.array.geneExp.txt&#39;</span><span class="p">)</span>
+	gbm.array<span class="o">=</span>read.delim<span class="p">(</span><span class="s">&#39;/home/pub/project/deconvolution/results/Transcriptome/dataset/TCGA/microarray/GBM/GBM.array.geneExp.txt&#39;</span><span class="p">)</span>
+	lusc.array<span class="o">=</span>read.delim<span class="p">(</span><span class="s">&#39;/home/pub/project/deconvolution/results/Transcriptome/dataset/TCGA/microarray/LUSC/LUSC.array.geneExp.txt&#39;</span><span class="p">)</span>
+	hk.gene<span class="o">=</span>read.delim<span class="p">(</span><span class="s">&#34;/home/pub/project/deconvolution/results/Transcriptome/dataset/TCGA/microarray/houseKeeping.gene.txt&#34;</span><span class="p">,</span>header <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
+	<span class="kp">load</span><span class="p">(</span><span class="s">&#39;/home/pub/project/deconvolution/tcga/exprTPM/exprT.rda&#39;</span><span class="p">)</span>
+	<span class="kp">save</span><span class="p">(</span><span class="kt">list</span> <span class="o">=</span> <span class="kp">ls</span><span class="p">(),</span>file <span class="o">=</span> <span class="s">&#39;tmp1.rda&#39;</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="kp">dim</span><span class="p">(</span>ov.array<span class="p">)</span>
+<span class="kp">dim</span><span class="p">(</span>gbm.array<span class="p">)</span>
+<span class="kp">dim</span><span class="p">(</span>lusc.array<span class="p">)</span>
+
+mi.array1<span class="o">=</span><span class="kp">merge</span><span class="p">(</span>ov.array<span class="p">,</span>gbm.array<span class="p">,</span>by<span class="o">=</span><span class="s">&#39;Gene_symbol&#39;</span><span class="p">,</span>all<span class="o">=</span><span class="bp">T</span><span class="p">)</span>
+mi.array1<span class="o">=</span><span class="kp">merge</span><span class="p">(</span>mi.array1<span class="p">,</span>lusc.array<span class="p">,</span>by<span class="o">=</span><span class="s">&#39;Gene_symbol&#39;</span><span class="p">,</span>all<span class="o">=</span><span class="bp">T</span><span class="p">)</span>
+<span class="kp">dim</span><span class="p">(</span>mi.array1<span class="p">)</span>
+mi.array<span class="o">=</span>mi.array1<span class="p">[,</span><span class="m">-1</span><span class="p">]</span>
+<span class="kp">rownames</span><span class="p">(</span>mi.array<span class="p">)</span><span class="o">=</span>mi.array1<span class="p">[,</span><span class="m">1</span><span class="p">]</span>
+<span class="kp">head</span><span class="p">(</span>mi.array<span class="p">[,</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">])</span>
+sid<span class="o">=</span><span class="kp">names</span><span class="p">(</span>mi.array<span class="p">)</span>
+sid<span class="o">=</span><span class="kp">substring</span><span class="p">(</span>sid<span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="m">15</span><span class="p">)</span>
+sid<span class="o">=</span><span class="kp">gsub</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">,</span><span class="s">&#39;-&#39;</span><span class="p">,</span>sid<span class="p">,</span>fixed <span class="o">=</span> <span class="bp">T</span><span class="p">)</span>
+<span class="kp">print</span><span class="p">(</span>sid<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">])</span>
+<span class="kp">print</span><span class="p">(</span><span class="kp">length</span><span class="p">(</span>sid<span class="p">))</span>
+mi.array<span class="o">=</span>mi.array<span class="p">[,</span><span class="o">!</span><span class="kp">duplicated</span><span class="p">(</span>sid<span class="p">)]</span>
+sid<span class="o">=</span><span class="kp">unique</span><span class="p">(</span>sid<span class="p">)</span>
+<span class="kp">print</span><span class="p">(</span><span class="kp">length</span><span class="p">(</span>sid<span class="p">))</span>
+ind<span class="o">=</span><span class="kp">match</span><span class="p">(</span>sid<span class="p">,</span><span class="kp">names</span><span class="p">(</span>exprT<span class="p">))</span>
+mi.array<span class="o">=</span>mi.array<span class="p">[,</span><span class="kp">which</span><span class="p">(</span><span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>ind<span class="p">))]</span>
+ind<span class="o">=</span>ind<span class="p">[</span><span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>ind<span class="p">)]</span>
+tpm<span class="o">=</span>exprT<span class="p">[,</span>ind<span class="p">]</span>
+<span class="kp">rownames</span><span class="p">(</span>tpm<span class="p">)</span><span class="o">=</span>exprT<span class="p">[,</span><span class="m">1</span><span class="p">]</span>
+<span class="kp">dim</span><span class="p">(</span>tpm<span class="p">)</span>
+<span class="kp">dim</span><span class="p">(</span>mi.array<span class="p">)</span>
+tpm<span class="o">=</span><span class="kp">as.matrix</span><span class="p">(</span>tpm<span class="p">)</span>
+mi.array<span class="o">=</span><span class="kp">as.matrix</span><span class="p">(</span>mi.array<span class="p">)</span>
+tpm<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">,</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">]</span>
+mi.array<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">,</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">]</span>
+
+<span class="c1">## 原始的为log2(tpm+0.5)，处理成log2(tpm+1)</span>
+
+<span class="kp">print</span><span class="p">(</span><span class="s">&#39;start plot~~~~~~~&#39;</span><span class="p">)</span>
+tpm<span class="o">=</span><span class="kp">log2</span><span class="p">(</span><span class="m">2</span><span class="o">^</span>tpm<span class="m">+0.5</span><span class="p">)</span>
+gene<span class="o">=</span><span class="kp">as.character</span><span class="p">(</span>hk.gene<span class="o">$</span>V1<span class="p">)</span>
+<span class="kp">print</span><span class="p">(</span>gene<span class="p">)</span>
+<span class="kr">for</span><span class="p">(</span>g <span class="kr">in</span> gene<span class="p">){</span>
+	<span class="kp">print</span><span class="p">(</span>g<span class="p">)</span>
+	<span class="kr">if</span><span class="p">(</span>g <span class="o">%in%</span> <span class="kp">rownames</span><span class="p">(</span>tpm<span class="p">)</span> <span class="o">&amp;</span> g <span class="o">%in%</span> <span class="kp">rownames</span><span class="p">(</span>mi.array<span class="p">)){</span>
+		x<span class="o">=</span>tpm<span class="p">[</span><span class="kp">rownames</span><span class="p">(</span>tpm<span class="p">)</span><span class="o">==</span>g<span class="p">,]</span>
+		y<span class="o">=</span>mi.array<span class="p">[</span><span class="kp">rownames</span><span class="p">(</span>mi.array<span class="p">)</span><span class="o">==</span>g<span class="p">,]</span>
+		not.na<span class="o">=</span><span class="p">(</span><span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>x<span class="p">))</span><span class="o">&amp;</span><span class="p">(</span><span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>y<span class="p">))</span>
+		n<span class="o">=</span><span class="kp">length</span><span class="p">(</span>not.na<span class="p">)</span>
+		<span class="kp">print</span><span class="p">(</span>n<span class="p">)</span>
+		x<span class="o">=</span>x<span class="p">[</span>not.na<span class="p">]</span>
+		y<span class="o">=</span>y<span class="p">[</span>not.na<span class="p">]</span>
+		fit<span class="o">=</span>smooth.spline<span class="p">(</span>x<span class="p">,</span>y<span class="p">,</span>df<span class="o">=</span><span class="m">4</span><span class="p">)</span>
+		main<span class="o">=</span><span class="kp">paste0</span><span class="p">(</span>g<span class="p">,</span><span class="s">&#39; (&#39;</span><span class="p">,</span>n<span class="p">,</span><span class="s">&#39; samples)&#39;</span><span class="p">)</span>
+		png<span class="p">(</span><span class="kp">paste0</span><span class="p">(</span>g<span class="p">,</span><span class="s">&#39;.png&#39;</span><span class="p">),</span>height<span class="o">=</span><span class="m">500</span><span class="p">,</span>width<span class="o">=</span><span class="m">500</span><span class="p">)</span>
+		plot<span class="p">(</span>x<span class="p">,</span>y<span class="p">,</span>main<span class="o">=</span>main<span class="p">,</span>xlab<span class="o">=</span><span class="s">&#39;log2(TPM+1)&#39;</span><span class="p">,</span>ylab<span class="o">=</span><span class="s">&#39;microarray&#39;</span><span class="p">)</span>
+		lines<span class="p">(</span>fit<span class="p">,</span>lwd<span class="o">=</span><span class="m">2</span><span class="p">,</span>col<span class="o">=</span><span class="s">&#34;purple&#34;</span><span class="p">)</span>
+		legend<span class="p">(</span><span class="s">&#34;topright&#34;</span><span class="p">,(</span><span class="s">&#34;Smoothing Splines with 4 df&#34;</span><span class="p">),</span>col<span class="o">=</span><span class="s">&#34;purple&#34;</span><span class="p">,</span>lwd<span class="o">=</span><span class="m">2</span><span class="p">)</span>
+		dev.off<span class="p">()</span>
+	<span class="p">}</span><span class="kp">else</span><span class="p">{</span>
+		<span class="kp">cat</span><span class="p">(</span><span class="s">&#39;\n&#39;</span><span class="p">,</span>g<span class="p">,</span><span class="s">&#39;is not included in tpm and mi.array\n&#39;</span><span class="p">)</span>
+	<span class="p">}</span>
+	
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<blockquote>
+<p>代码的前半部分为数据的清洗和处理，每个人的数据来源和数据格式都不一样，所有这部分会略有差异。</p>
+</blockquote>
+
+<h2 id="结果展示">结果展示</h2>
+
+<p>我挑了其中的2个管家基因的散点图以及拟合曲线进行展示。</p>
+
+<p><img src="/img/TFRC.png" alt="TFRC" />
+<img src="/img/ACTB.png" alt="ACTB" /></p>
+
+<h2 id="reference">reference</h2>
+
+<p><a href="https://datascienceplus.com/cubic-and-smoothing-splines-in-r/">Cubic and Smoothing Splines in R</a></p>
+
+<p><a href="https://linkinghub.elsevier.com/retrieve/pii/S2211-1247(16)31709-0">Pan-cancer Immunogenomix Analyses Reveal Genotype-Immunophenotype Relationships of Response to Checkpoint Blackade</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">Yuhao Xie</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2019-09-23
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/math/">math</a>
+          <a href="/tags/r/">R</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/even-preview/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Theme preview</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/discrete-pheatmap/">
+            <span class="next-text nav-default">Discrete Pheatmap</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="http://localhost:1313" class="iconfont icon-facebook" title="facebook"></a>
+      <a href="http://localhost:1313" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-pocket" title="pocket"></a>
+      <a href="http://localhost:1313" class="iconfont icon-tumblr" title="tumblr"></a>
+      <a href="http://localhost:1313" class="iconfont icon-instagram" title="instagram"></a>
+      <a href="http://localhost:1313" class="iconfont icon-gitlab" title="gitlab"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://localhost:1313/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">olOwOlo</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/even.26188efa.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
