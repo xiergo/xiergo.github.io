@@ -41,15 +41,6 @@ It makes use of a variety of open source projects including:
     </item>
     
     <item>
-      <title>Default</title>
-      <link>http://localhost:1313/post/default/</link>
-      <pubDate>Mon, 30 Sep 2019 21:45:20 +0800</pubDate>
-      
-      <guid>http://localhost:1313/post/default/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Cubic_smoothing_spline</title>
       <link>http://localhost:1313/post/cubic_smoothing_spline/</link>
       <pubDate>Mon, 23 Sep 2019 21:29:02 +0800</pubDate>
