@@ -26,10 +26,7 @@
       <pubDate>Sun, 20 Aug 2017 21:38:52 +0800</pubDate>
       
       <guid>http://localhost:1313/about/</guid>
-      <description>{:width=&amp;ldquo;50px&amp;rdquo; height=&amp;ldquo;50px&amp;rdquo;}
-Hugo is a static site engine written in Go.
-It makes use of a variety of open source projects including:
- Cobra Viper J Walter Weatherman Cast  Learn more and contribute on GitHub.</description>
+      <description>这是谢豫豪的博客，哈哈哈哈~ Hugo is a static site engine written in Go. It makes use of a variety of open source projects including: Cobra Viper J Walter Weatherman Cast Learn more and contribute on GitHub.</description>
     </item>
     
     <item>
