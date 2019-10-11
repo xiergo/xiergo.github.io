@@ -50,7 +50,7 @@
 
 <meta itemprop="datePublished" content="2019-10-11T17:40:03&#43;08:00" />
 <meta itemprop="dateModified" content="2019-10-11T17:40:03&#43;08:00" />
-<meta itemprop="wordCount" content="173">
+<meta itemprop="wordCount" content="197">
 
 
 
@@ -261,8 +261,8 @@ $$</p>
 <h4 id="correlation">Correlation</h4>
 
 <p>$$
-X=\left( \begin{matrix}x_1\newline x_2 \newline \vdots\x_n\end{matrix}\right) \ \ \
-Y=\left(\begin{matrix}y_1\y_2\y_n\end{matrix}\right)\\<br />
+X=\left( \begin{matrix}x_1\newline x_2 \newline \vdots\newline x_n\end{matrix}\right) \ \ \
+Y=\left(\begin{matrix}y_1\newline y_2\newline \vdots \newline y_n\end{matrix}\right) \\<br />
 X_1=X-\overline{X};  \ \ \ Y_1=Y-\overline{Y}
 $$</p>
 
@@ -273,6 +273,26 @@ correlation(X,Y)&amp;=cos(X_1,Y_1)\newline
 &amp;=\frac{\sum</em>{i=1}^n(x_i-\overline{x})(y<em>i-\overline{y})}
 {\sqrt{\sum</em>{i=1}^n(x<em>i-\overline{x})^2\sum</em>{i=1}^n(y_i-\overline{y})^2}}
 \end{align}
+$$</p>
+
+<p>$$
+\begin{eqnarray}
+correlation(X,Y)&amp;=cos(X_1,Y_1)\newline
+&amp;=\frac{X_1Y_1}{|X_1||Y<em>1|}\newline
+&amp;=\frac{\sum</em>{i=1}^n(x_i-\overline{x})(y<em>i-\overline{y})}
+{\sqrt{\sum</em>{i=1}^n(x<em>i-\overline{x})^2\sum</em>{i=1}^n(y_i-\overline{y})^2}}
+\end{eqnarray}
+$$</p>
+
+<p>$$
+\begin{equation}
+\begin{aligned}
+correlation(X,Y)&amp;=cos(X_1,Y_1)\newline
+&amp;=\frac{X_1Y_1}{|X_1||Y<em>1|}\newline
+&amp;=\frac{\sum</em>{i=1}^n(x_i-\overline{x})(y<em>i-\overline{y})}
+{\sqrt{\sum</em>{i=1}^n(x<em>i-\overline{x})^2\sum</em>{i=1}^n(y_i-\overline{y})^2}}
+\end{aligned}
+\end{equation}
 $$</p>
 
 <blockquote>
