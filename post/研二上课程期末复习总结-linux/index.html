@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Yuhao Xie" /><meta name="description" content="" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="Yuhao Xie" /><meta name="description" content="研二上课程期末复习总结 Linux" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -39,25 +39,25 @@
 
 
 <meta property="og:title" content="" />
-<meta property="og:description" content="" />
+<meta property="og:description" content="研二上课程期末复习总结 Linux" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://localhost:1313/post/%E7%A0%94%E4%BA%8C%E4%B8%8A%E8%AF%BE%E7%A8%8B%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93-linux/" />
 <meta property="article:published_time" content="2019-10-14T14:44:40+08:00" />
 <meta property="article:modified_time" content="2019-10-14T14:44:40+08:00" />
 <meta itemprop="name" content="">
-<meta itemprop="description" content="">
+<meta itemprop="description" content="研二上课程期末复习总结 Linux">
 
 
 <meta itemprop="datePublished" content="2019-10-14T14:44:40&#43;08:00" />
 <meta itemprop="dateModified" content="2019-10-14T14:44:40&#43;08:00" />
-<meta itemprop="wordCount" content="2741">
+<meta itemprop="wordCount" content="4942">
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="linux," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content=""/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:description" content="研二上课程期末复习总结 Linux"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -203,6 +203,23 @@
 <li><a href="#regular-expression">regular expression</a></li>
 <li><a href="#linux-三剑客">linux 三剑客</a></li>
 <li><a href="#vim">vim</a></li>
+<li><a href="#后台运行">后台运行</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#10-10">10-10</a>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#只读变量">只读变量</a></li>
+<li><a href="#数组">数组</a></li>
+</ul></li>
+<li><a href="#循环">循环</a>
+<ul>
+<li><a href="#for循环">for循环</a></li>
+<li><a href="#case">case</a></li>
+</ul></li>
 <li><a href="#判断">判断</a></li>
 </ul></li>
 </ul></li>
@@ -1136,6 +1153,1031 @@ exit: 跳出循环，不跳过end</p>
 
 <p>:help</p>
 
+<p>df: 整体磁盘使用量</p>
+
+<p>​   -a : all</p>
+
+<p>​   -h : human</p>
+
+<p>​   -T</p>
+
+<p>磁盘阵列： raid</p>
+
+<p>​   redundant arrays of inexpensive disks</p>
+
+<p>​   raid-0: 性能佳</p>
+
+<p>​   raid-1:最安全</p>
+
+<p>​   raid-5: 中间</p>
+
+<h3 id="后台运行">后台运行</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">nohup <span class="p">&amp;</span>
+
+top </code></pre></td></tr></table>
+</div>
+</div>
+<p>ncbi</p>
+
+<p>embl</p>
+
+<p>ucsc</p>
+
+<p>解压： gzip/gunzip</p>
+
+<p>打包: tar</p>
+
+<h1 id="10-10">10-10</h1>
+
+<p>变量定义</p>
+
+<p>没空格</p>
+
+<p>英文数字下划线，数字不开头</p>
+
+<p>若变量要在其他子进程执行，要export使变量变成全局变量</p>
+
+<h4 id="只读变量">只读变量</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nv">aa</span><span class="o">=</span><span class="m">123</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">readonly</span> aa
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nv">aa</span><span class="o">=</span><span class="m">55</span>
+-bash: aa: <span class="nb">readonly</span> variable
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ aa
+bash: aa: <span class="nb">command</span> not found...
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">echo</span> aa
+aa
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="nv">$aa</span>
+<span class="m">123</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">unset</span> aa
+-bash: unset: aa: cannot unset: <span class="nb">readonly</span> variable
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ 
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ 
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nv">a</span><span class="o">=</span><span class="m">1</span>+2+3
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="nv">$a</span>
+<span class="m">1</span>+2+3
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">declare</span> -i <span class="nv">a</span><span class="o">=</span><span class="m">1</span>+3+3
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="nv">$a</span>
+<span class="m">7</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nv">a</span><span class="o">=</span>terera
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="nv">$a</span>
+<span class="m">0</span></code></pre></td></tr></table>
+</div>
+</div>
+<h4 id="数组">数组</h4>
+
+<p>0-based</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ v<span class="o">[</span><span class="m">0</span><span class="o">]=</span><span class="m">1</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ v<span class="o">[</span><span class="m">1</span><span class="o">]=</span><span class="m">44</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ v<span class="o">[</span><span class="m">2</span><span class="o">]=</span><span class="m">4423</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="nv">$v</span>
+<span class="m">1</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="nv">$v</span><span class="o">[</span><span class="m">2</span><span class="o">]</span>
+<span class="m">1</span><span class="o">[</span><span class="m">2</span><span class="o">]</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="si">${</span><span class="nv">v</span><span class="p">[2]</span><span class="si">}</span>
+<span class="m">4423</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ ehco <span class="si">${</span><span class="nv">v</span><span class="p">[@]</span><span class="si">}</span>
+bash: ehco: <span class="nb">command</span> not found...
+Similar <span class="nb">command</span> is: <span class="s1">&#39;echo&#39;</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="si">${</span><span class="nv">v</span><span class="p">[@]</span><span class="si">}</span>
+<span class="m">1</span> <span class="m">44</span> <span class="m">4423</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="si">${</span><span class="nv">v</span><span class="p">[*]</span><span class="si">}</span>
+<span class="m">1</span> <span class="m">44</span> <span class="m">4423</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="si">${#</span><span class="nv">v</span><span class="si">}</span>
+<span class="m">1</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="si">${#</span><span class="nv">v</span><span class="p">[*]</span><span class="si">}</span>
+<span class="m">3</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nv">a</span><span class="o">=(</span><span class="m">1</span> <span class="m">32</span> aaa<span class="o">)</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="si">${</span><span class="nv">a</span><span class="p">[@]</span><span class="si">}</span>
+<span class="m">1</span> <span class="m">32</span> <span class="m">0</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ aaa
+bash: aaa: <span class="nb">command</span> not found...
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="nv">$aaa</span>
+
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nv">b</span><span class="o">=(</span><span class="m">1</span> fa fdafa<span class="o">)</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="si">${</span><span class="nv">b</span><span class="p">[@]</span><span class="si">}</span>
+<span class="m">1</span> fa fdafa</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1">##. source 在父进程进行,不开新进程</span>
+<span class="c1">##./runtest  开子进程</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ cat runTest.sh 
+<span class="nb">unset</span> var
+<span class="nv">var</span><span class="o">=</span><span class="s1">&#39;test&#39;</span>
+<span class="nb">echo</span> <span class="s2">&#34;the value of var is </span><span class="nv">$var</span><span class="s2">&#34;</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ ./runTest.sh 
+the value of var is <span class="nb">test</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="nv">$var</span>
+
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nb">source</span> runTest.sh 
+the value of var is <span class="nb">test</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="nv">$var</span>
+<span class="nb">test</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nb">unset</span> var
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="nv">$var</span>
+
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ . runTest.sh 
+the value of var is <span class="nb">test</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="nv">$var</span>
+test</code></pre></td></tr></table>
+</div>
+</div>
+<p>（（）） 转义（）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nv">x</span><span class="o">=</span><span class="m">12</span>
+<span class="o">(</span>base<span class="o">)</span> <span class="o">[</span>student-1811210054@localhost week3<span class="o">]</span>$ <span class="nv">y</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$x</span><span class="s2"> 5&#34;</span><span class="p">|</span>awk <span class="s1">&#39;{printf($1+$2)}&#39;</span><span class="sb">`</span> <span class="p">;</span><span class="nb">echo</span> <span class="nv">$y</span>
+<span class="m">17</span></code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="循环">循环</h3>
+
+<h4 id="for循环">for循环</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="k">for</span> var in list
+<span class="k">do</span>
+	命令
+<span class="k">done</span>
+
+<span class="k">for</span> i in <span class="k">$(</span>seq <span class="m">1</span> <span class="m">10</span><span class="k">)</span>
+<span class="k">for</span> i in <span class="o">{</span><span class="m">1</span>..10<span class="o">}</span>
+<span class="k">for</span> <span class="o">((</span><span class="nv">i</span><span class="o">=</span><span class="m">1</span><span class="p">;</span>i&lt;<span class="m">11</span><span class="p">;</span>i++<span class="o">))</span>
+<span class="k">for</span> i in <span class="sb">`</span>ls<span class="sb">`</span>
+
+root@localhost ~<span class="o">]</span><span class="c1"># for ((i=0;i&lt;5;i++));do echo n $i;done</span>
+<span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># for i in $(seq 0 4);do echo n $i;done</span>
+<span class="o">[</span>root@localhost ~<span class="o">]</span><span class="c1"># for i in `seq 0 4`;do echo n $i;done</span>
+
+
+
+<span class="k">for</span> place in Alabama Alaska Arizona Arkansas California Colorado
+<span class="k">do</span>
+<span class="nb">echo</span> <span class="s2">&#34;Have you ever visited </span><span class="si">${</span><span class="nv">place</span><span class="si">}</span><span class="s2">?&#34;</span>
+<span class="k">done</span>
+
+<span class="c1"># special character in list</span>
+<span class="k">for</span> <span class="nb">test</span> in I don<span class="se">\&#39;</span>t know <span class="k">if</span> <span class="s2">&#34;this&#39;ll&#34;</span> work
+<span class="k">do</span>
+<span class="nb">echo</span> <span class="s2">&#34;word:</span><span class="nv">$test</span><span class="s2">&#34;</span>
+<span class="k">done</span>
+
+<span class="c1"># variable as list</span>
+<span class="nv">list</span><span class="o">=</span><span class="s2">&#34;Alabama Alaska Arizona Arkansas Colorado&#34;</span>
+<span class="nv">list</span><span class="o">=</span><span class="nv">$list</span><span class="s2">&#34; Connecticut&#34;</span>
+<span class="k">for</span> state in <span class="nv">$list</span>
+<span class="k">do</span>
+<span class="nb">echo</span> <span class="s2">&#34;Have you ever visited </span><span class="si">${</span><span class="nv">state</span><span class="si">}</span><span class="s2">?&#34;</span>
+<span class="k">done</span>
+
+<span class="c1"># command as list</span>
+<span class="k">for</span> file in <span class="sb">`</span>ls<span class="sb">`</span>
+<span class="k">do</span>
+<span class="nb">echo</span> <span class="s2">&#34;file: </span><span class="nv">$file</span><span class="s2">&#34;</span>
+<span class="k">done</span>
+
+Have you ever visited Alabama?
+Have you ever visited Alaska?
+Have you ever visited Arizona?
+Have you ever visited Arkansas?
+Have you ever visited California?
+Have you ever visited Colorado?
+word:I
+word:don<span class="s1">&#39;t
+</span><span class="s1">word:know
+</span><span class="s1">word:if
+</span><span class="s1">word:this&#39;</span>ll
+word:work
+Have you ever visited Alabama?
+Have you ever visited Alaska?
+Have you ever visited Arizona?
+Have you ever visited Arkansas?
+Have you ever visited Colorado?
+Have you ever visited Connecticut?
+file: art.lambda.cov1001.fq
+file: art.lambda.cov1002.fq
+file: breakTest.sh
+file: caseTest.sh
+file: continueTest.sh
+file: empty.txt
+file: expr.calc
+file: forTest.sh
+file: getoptsTest2.sh
+file: getoptsTest.sh
+file: getoptTest.sh
+file: ifTest.sh
+file: lambda.sample1.R1.fastq</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="c1">#ifTest</span>
+<span class="c1">#to show the method of if</span>
+
+<span class="nb">read</span> -p <span class="s2">&#34;Enter the first integer: &#34;</span> FIRST
+
+<span class="nb">read</span> -p <span class="s2">&#34;Enter the second integer: &#34;</span> SECOND
+
+<span class="k">if</span> <span class="o">[</span> <span class="s2">&#34;</span><span class="nv">$FIRST</span><span class="s2">&#34;</span> -gt <span class="s2">&#34;</span><span class="nv">$SECOND</span><span class="s2">&#34;</span> <span class="o">]</span>
+<span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$FIRST</span><span class="s2"> is greater than </span><span class="nv">$SECOND</span><span class="s2">&#34;</span>
+<span class="k">elif</span> <span class="o">[</span> <span class="s2">&#34;</span><span class="nv">$FIRST</span><span class="s2">&#34;</span> -lt <span class="s2">&#34;</span><span class="nv">$SECOND</span><span class="s2">&#34;</span> <span class="o">]</span>
+<span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$FIRST</span><span class="s2"> is less than </span><span class="nv">$SECOND</span><span class="s2">&#34;</span>
+<span class="k">else</span>
+    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$FIRST</span><span class="s2"> is equal to </span><span class="nv">$SECOND</span><span class="s2">&#34;</span>
+<span class="k">fi</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="nv">var</span><span class="o">=</span><span class="m">5</span>
+<span class="k">while</span> <span class="o">[</span> <span class="nv">$var</span> -gt <span class="m">0</span> <span class="o">]</span>
+<span class="k">do</span>
+	<span class="nb">echo</span> <span class="nv">$var</span>
+	<span class="nv">var</span><span class="o">=</span>$<span class="o">[</span> <span class="nv">$var</span> - <span class="m">1</span> <span class="o">]</span>
+<span class="k">done</span>
+
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nv">var</span><span class="o">=</span><span class="m">4</span><span class="p">;</span><span class="k">while</span> <span class="o">((</span><span class="nv">$var</span>&gt;0<span class="o">))</span><span class="p">;</span><span class="k">do</span> <span class="nb">echo</span> <span class="nv">$var</span> <span class="p">;</span> <span class="nv">var</span><span class="o">=</span><span class="nv">$var</span>-1<span class="p">;</span><span class="k">done</span>
+<span class="m">4</span>
+<span class="m">4</span>-1
+<span class="m">4</span>-1-1
+<span class="m">4</span>-1-1-1
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nv">var</span><span class="o">=</span><span class="m">4</span><span class="p">;</span><span class="k">while</span> <span class="o">((</span><span class="nv">$var</span>&gt;0<span class="o">))</span><span class="p">;</span><span class="k">do</span> <span class="nb">echo</span> <span class="nv">$var</span> <span class="p">;</span> <span class="nv">var</span><span class="o">=</span><span class="k">$((</span><span class="nv">$var</span><span class="o">-</span><span class="m">1</span><span class="k">))</span><span class="p">;</span><span class="k">done</span>
+<span class="m">4</span>
+<span class="m">3</span>
+<span class="m">2</span>
+<span class="m">1</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nv">var</span><span class="o">=</span><span class="m">4</span><span class="p">;</span><span class="k">while</span> <span class="o">((</span><span class="nv">$var</span>&gt;0<span class="o">))</span><span class="p">;</span><span class="k">do</span> <span class="nb">echo</span> <span class="nv">$var</span> <span class="p">;</span> <span class="nv">var</span><span class="o">=</span>$<span class="o">[</span><span class="nv">$var</span>-1<span class="o">]</span><span class="p">;</span><span class="k">done</span> 
+<span class="m">4</span>
+<span class="m">3</span>
+<span class="m">2</span>
+<span class="m">1</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># breaking out of a for 1oop</span>
+<span class="k">for</span> var in <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">5</span> <span class="m">6</span> <span class="m">7</span> <span class="m">8</span> <span class="m">9</span> <span class="m">10</span>
+<span class="k">do</span>
+    <span class="k">if</span> <span class="o">[</span> <span class="nv">$var</span> -eq <span class="m">5</span> <span class="o">]</span>
+    <span class="k">then</span>
+        <span class="nb">break</span>
+    <span class="k">fi</span>
+    <span class="nb">echo</span> <span class="s2">&#34;Iteration number:</span><span class="nv">$var</span><span class="s2">&#34;</span>
+<span class="k">done</span>
+<span class="nb">echo</span> <span class="s2">&#34;The for loop is completed&#34;</span>
+
+<span class="c1"># breaking out of an inner loop</span>
+<span class="nb">echo</span> <span class="s2">&#34;--------------------------------&#34;</span>
+<span class="k">for</span> <span class="o">((</span><span class="nv">a</span><span class="o">=</span><span class="m">1</span><span class="p">;</span>a&lt;<span class="m">4</span><span class="p">;</span>a++<span class="o">))</span>
+<span class="k">do</span>
+    <span class="nb">echo</span> <span class="s2">&#34;Outer loop:</span><span class="nv">$a</span><span class="s2">&#34;</span>
+    <span class="k">for</span><span class="o">((</span> <span class="nv">b</span> <span class="o">=</span> <span class="m">1</span><span class="p">;</span> b &lt; <span class="m">100</span><span class="p">;</span> b++ <span class="o">))</span>
+    <span class="k">do</span>
+        <span class="k">if</span> <span class="o">[</span> <span class="nv">$b</span> -eq <span class="m">5</span> <span class="o">]</span>
+        <span class="k">then</span>
+            <span class="nb">break</span>
+        <span class="k">fi</span>
+        <span class="nb">echo</span> <span class="s2">&#34;Inner loop:</span><span class="nv">$b</span><span class="s2">&#34;</span>
+    <span class="k">done</span>
+<span class="k">done</span>
+
+<span class="c1"># breaking out of an outer 1oop</span>
+<span class="nb">echo</span> <span class="s2">&#34;---------------------------------&#34;</span>
+<span class="k">for</span> <span class="o">((</span> <span class="nv">a</span><span class="o">=</span><span class="m">1</span><span class="p">;</span>a&lt;<span class="m">4</span><span class="p">;</span>a++<span class="o">))</span>
+<span class="k">do</span>
+    <span class="nb">echo</span> <span class="s2">&#34;Outer loop:</span><span class="nv">$a</span><span class="s2">&#34;</span>
+    <span class="k">for</span><span class="o">((</span><span class="nv">b</span><span class="o">=</span><span class="m">1</span><span class="p">;</span>b&lt;<span class="m">100</span><span class="p">;</span>b++<span class="o">))</span>
+    <span class="k">do</span>
+        <span class="k">if</span> <span class="o">[</span> <span class="nv">$b</span> -gt <span class="m">4</span> <span class="o">]</span>
+        <span class="k">then</span>
+            <span class="nb">break</span> <span class="m">2</span>
+        <span class="k">fi</span>
+    <span class="nb">echo</span> <span class="s2">&#34;Inner loop:</span><span class="nv">$b</span><span class="s2">&#34;</span>
+    <span class="k">done</span>
+<span class="k">done</span>
+
+Iteration number:1
+Iteration number:2
+Iteration number:3
+Iteration number:4
+The <span class="k">for</span> loop is completed
+--------------------------------
+Outer loop:1
+Inner loop:1
+Inner loop:2
+Inner loop:3
+Inner loop:4
+Outer loop:2
+Inner loop:1
+Inner loop:2
+Inner loop:3
+Inner loop:4
+Outer loop:3
+Inner loop:1
+Inner loop:2
+Inner loop:3
+Inner loop:4
+---------------------------------
+Outer loop:1
+Inner loop:1
+Inner loop:2
+Inner loop:3
+Inner loop:4</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="s1">&#39;$a&#39;</span>
+<span class="nv">$a</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$a</span><span class="s2">&#34;</span>
+<span class="m">1</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nv">a</span><span class="o">=</span><span class="s2">&#34;wo shi jj&#34;</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="nv">$a</span>
+wo shi jj
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="si">${#</span><span class="nv">a</span><span class="si">}</span><span class="c1"># length</span>
+<span class="m">9</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="si">${</span><span class="nv">a</span><span class="p">:</span><span class="nv">1</span><span class="p">:</span><span class="nv">4</span><span class="si">}</span>
+o sh
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="si">${</span><span class="nv">a</span><span class="p">:</span><span class="nv">1</span><span class="p">:</span><span class="nv">100</span><span class="si">}</span>
+o shi jj
+<span class="si">${</span><span class="nv">str</span><span class="p">:</span><span class="nv">start</span><span class="p">:</span><span class="nv">length</span><span class="si">}</span> <span class="c1"># 0-based</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>运算符</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">-d file
+-f file
+-f file <span class="c1"># 文件存在且不为空，返回true</span>
+-e file <span class="c1"># 检测文件（包括目录）是否存在</span>
+-r file
+-w file
+-x file
+
+command1 <span class="o">&amp;&amp;</span> command2 <span class="o">||</span> command3
+<span class="k">if</span><span class="o">(</span>command1<span class="o">)</span><span class="p">;</span> <span class="k">then</span> command2<span class="p">;</span> <span class="k">else</span> command3<span class="p">;</span><span class="k">fi</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nb">test</span> -d <span class="k">while</span>.sh <span class="o">&amp;&amp;</span> <span class="nb">echo</span> dir <span class="o">||</span> <span class="nb">echo</span> not dir
+not dir
+
+<span class="c1">## test expr 和[ expr ]是等价的(必须有空格)</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="o">[</span> -d <span class="k">while</span>.sh <span class="o">]&amp;&amp;</span> <span class="nb">echo</span> dir<span class="o">||</span><span class="nb">echo</span> not dir
+not dir
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="o">[[</span> -d <span class="k">while</span>.sh <span class="o">]]&amp;&amp;</span> <span class="nb">echo</span> dir<span class="o">||</span><span class="nb">echo</span> not dir
+not dir
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="o">[[</span> <span class="s1">&#39;a&#39;</span> -a <span class="s1">&#39;b&#39;</span> <span class="o">]]&amp;&amp;</span> <span class="nb">echo</span> dir<span class="o">||</span><span class="nb">echo</span> not dir
+-bash: conditional binary operator expected
+-bash: syntax error near <span class="sb">`</span>-a<span class="s1">&#39;
+</span><span class="s1">[xieyuhao@ccb-web week3]$ [[ &#39;</span>a<span class="s1">&#39; &amp;&amp; &#39;</span>b<span class="s1">&#39; ]]&amp;&amp; echo dir||echo not dir
+</span><span class="s1">dir
+</span><span class="s1">[xieyuhao@ccb-web week3]$ [ &#39;</span>a<span class="s1">&#39; -a &#39;</span>b<span class="err">&#39;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> dir<span class="o">||</span><span class="nb">echo</span> not dir
+dir</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 运算符</span>
++
+-
+<span class="se">\*</span>
+/ 取商（整数）
+% <span class="nv">取余</span>
+<span class="o">=</span>
+<span class="o">==</span>
+！<span class="o">=</span>
+<span class="c1"># 乘号要转义</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ expr <span class="m">10</span> * <span class="m">10</span>
+expr: syntax error
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ expr <span class="m">10</span> <span class="se">\*</span> <span class="m">10</span>
+<span class="m">100</span>
+<span class="c1">#注意空格</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ expr <span class="m">1</span> + <span class="m">1</span>
+<span class="m">2</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ expr <span class="m">1</span> +1
+expr: syntax error
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ expr <span class="m">1</span>+ <span class="m">1</span>
+expr: syntax error
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ expr <span class="m">1</span>+1
+<span class="m">1</span>+1
+<span class="c1"># $[] $(())不用注意空格</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nv">x</span><span class="o">=</span><span class="m">12</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nv">y</span><span class="o">=</span>$<span class="o">[</span>x+7<span class="o">]</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nv">z</span><span class="o">=</span><span class="k">$((</span>x+8<span class="k">))</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nv">z</span><span class="o">=</span><span class="k">$((</span>x+8<span class="k">))</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="nv">$y</span> <span class="nv">$z</span>
+<span class="m">19</span> <span class="m">20</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nv">y</span><span class="o">=</span>$<span class="o">[</span>x-7<span class="o">]</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nv">z</span><span class="o">=</span><span class="k">$((</span> x <span class="o">-</span> <span class="m">8</span> <span class="k">))</span>
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ <span class="nb">echo</span> <span class="nv">$y</span> gg <span class="nv">$z</span>
+<span class="m">5</span> gg <span class="m">4</span>
+
+
+<span class="c1"># declare -i 定义一个整数</span>
+<span class="c1"># declare -r read-only</span></code></pre></td></tr></table>
+</div>
+</div>
+<h4 id="case">case</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ cat caseTest.sh 
+<span class="c1">#!/bin/sh</span>
+
+<span class="nv">option</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">1</span><span class="si">}</span><span class="s2">&#34;</span> 
+<span class="k">case</span> <span class="si">${</span><span class="nv">option</span><span class="si">}</span> in 
+   -f<span class="o">)</span> <span class="nv">FILE</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2">&#34;</span> 
+      <span class="nb">echo</span> <span class="s2">&#34;File name is </span><span class="nv">$FILE</span><span class="s2">&#34;</span>
+      <span class="p">;;</span> 
+   -d<span class="o">)</span> <span class="nv">DIR</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">2</span><span class="si">}</span><span class="s2">&#34;</span> 
+      <span class="nb">echo</span> <span class="s2">&#34;Dir name is </span><span class="nv">$DIR</span><span class="s2">&#34;</span>
+      <span class="p">;;</span> 
+   *<span class="o">)</span>  			<span class="c1"># 如果参数非&#34;-f&#34;或&#34;-d&#34;</span>
+      <span class="nb">echo</span> <span class="s2">&#34;`basename </span><span class="si">${</span><span class="nv">0</span><span class="si">}</span><span class="s2">`:usage: [-f file] | [-d directory]&#34;</span> 
+      <span class="nb">exit</span> <span class="m">1</span> <span class="c1"># Command to come out of the program with status 1</span>
+      <span class="p">;;</span> 
+<span class="k">esac</span>
+
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ sh caseTest.sh -d ~/.bashrc
+Dir name is /home/xieyuhao/.bashrc
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ sh caseTest.sh -hh ~/.bashrc
+caseTest.sh:usage: <span class="o">[</span>-f file<span class="o">]</span> <span class="p">|</span> <span class="o">[</span>-d directory<span class="o">]</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1">#参数传递</span>
+<span class="c1">#!/bin/bash</span>
+<span class="c1">#varTest.sh</span>
+<span class="c1">#To test the variables</span>
+<span class="nv">USER</span><span class="o">=</span>username
+<span class="nb">echo</span> <span class="s2">&#34;Hello, </span><span class="si">${</span><span class="nv">USER</span><span class="si">}</span><span class="s2">, the output of this script are as follows:&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;The script name is:				`basename </span><span class="nv">$0</span><span class="s2">`&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;The first param of the script is:		</span><span class="nv">$1</span><span class="s2">&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;The second param of the script is:		</span><span class="nv">$2</span><span class="s2">&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;The tenth param of the script is:		</span><span class="nv">$10</span><span class="s2">&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;All the params you input are:			</span><span class="nv">$@</span><span class="s2">&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;The number of the params you input is:	</span><span class="nv">$#</span><span class="s2">&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;The process ID for this script is:		</span><span class="nv">$$</span><span class="s2">&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;The exit status of last command:		</span><span class="nv">$?</span><span class="s2">&#34;</span>
+tree
+<span class="nb">echo</span> <span class="s2">&#34;The exit status of command tree:		</span><span class="nv">$?</span><span class="s2">&#34;</span>
+
+
+<span class="o">[</span>xieyuhao@ccb-web week3<span class="o">]</span>$ sh varTest.sh p<span class="o">{</span><span class="m">1</span>..12<span class="o">}</span>
+Hello, username, the output of this script are as follows:
+The script name is:				varTest.sh
+The first param of the script is:		p1
+The second param of the script is:		p2
+The tenth param of the script is:		p10
+All the params you input are:			p1 p2 p3 p4 p5 p6 p7 p8 p9 p10 p11 p12
+The number of the params you input is:	<span class="m">12</span>
+The process ID <span class="k">for</span> this script is:		<span class="m">56737</span>
+The <span class="nb">exit</span> status of last command:		<span class="m">0</span>
+.
+<span class="p">|</span>-- art.lambda.cov1001.fq
+<span class="p">|</span>-- art.lambda.cov1002.fq
+<span class="p">|</span>-- breakTest.sh
+<span class="p">|</span>-- case1.sh
+<span class="p">|</span>-- caseTest.sh
+<span class="p">|</span>-- continueTest.sh
+<span class="p">|</span>-- empty.txt
+<span class="p">|</span>-- expr.calc
+<span class="p">|</span>-- forTest.sh
+<span class="p">|</span>-- getopt.sh
+<span class="p">|</span>-- getoptsTest2.sh
+<span class="p">|</span>-- getoptsTest.sh
+<span class="p">|</span>-- getoptTest.sh
+<span class="p">|</span>-- ifTest.sh
+<span class="p">|</span>-- lambda.sample1.R1.fastq
+<span class="p">|</span>-- lambda.sample1.R2.fastq
+<span class="p">|</span>-- lambda.sample2.R1.fastq
+<span class="p">|</span>-- lambda.sample2.R2.fastq
+<span class="p">|</span>-- lambda.sample3.R1.fastq
+<span class="p">|</span>-- lambda.sample3.R2.fastq
+<span class="p">|</span>-- lambda.sample4.R1.fastq
+<span class="p">|</span>-- lambda.sample4.R2.fastq
+<span class="p">|</span>-- lambda.sample5.R1.fastq
+<span class="p">|</span>-- lambda.sample5.R2.fastq
+<span class="p">|</span>-- lambda.sample6.R1.fastq
+<span class="p">|</span>-- lambda.sample6.R2.fastq
+<span class="p">|</span>-- lambda.sample7.R1.fastq
+<span class="p">|</span>-- lambda.sample7.R2.fastq
+<span class="p">|</span>-- lambda.sample8.R1.fastq
+<span class="p">|</span>-- lambda.sample8.R2.fastq
+<span class="p">|</span>-- operator1.sh
+<span class="p">|</span>-- operator2.sh
+<span class="p">|</span>-- operator3.sh
+<span class="p">|</span>-- operator4.sh
+<span class="p">|</span>-- plot2.sh
+<span class="p">|</span>-- plot.sh
+<span class="p">|</span>-- runTest.sh
+<span class="p">|</span>-- script.sh
+<span class="p">|</span>-- varTest.sh
+<span class="sb">`</span>-- <span class="k">while</span>.sh
+
+<span class="m">0</span> directories, <span class="m">40</span> files
+The <span class="nb">exit</span> status of <span class="nb">command</span> tree:</code></pre></td></tr></table>
+</div>
+</div>
+<p>将测序数据比对到参考基因组上</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">workingdir</span><span class="o">=</span>~/lambda/
+<span class="nv">outdir</span><span class="o">=</span>~/lambda/bwa_output
+<span class="nv">bwa</span><span class="o">=</span>/home/student/miniconda3/bin/bwa
+<span class="nv">samtools</span><span class="o">=</span>/home/student/miniconda3/bin/samtools
+<span class="nv">bwa_index</span><span class="o">=</span>/home/student/data/ref_lambda/index_bwa/lambda
+<span class="k">for</span> i in <span class="sb">`</span>ls lambda.sample*.R1.fastq<span class="sb">`</span><span class="p">;</span><span class="k">do</span>
+	<span class="nv">sample</span><span class="o">=</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$i</span><span class="p">|</span> sed <span class="s1">&#39;s/.R1.fastq//&#39;</span><span class="sb">`</span>
+	<span class="nv">output</span><span class="o">=</span><span class="nv">$outdir</span>.<span class="si">${</span><span class="nv">sample</span><span class="si">}</span>.sorted.bam
+	<span class="nv">$bwa</span> mem <span class="se">\
+</span><span class="se"></span>		<span class="si">${</span><span class="nv">bwa_index</span><span class="si">}</span><span class="se">\
+</span><span class="se"></span>		<span class="nv">$workdir</span>/<span class="si">${</span><span class="nv">sample</span><span class="si">}</span>.R1.fastq <span class="se">\
+</span><span class="se"></span>		<span class="nv">$workdir</span>/<span class="si">${</span><span class="nv">sample</span><span class="si">}</span>.R2.fastq <span class="p">|</span> <span class="nv">$samtools</span> sort -o <span class="nv">$outdir</span>/<span class="si">${</span><span class="nv">sample</span><span class="si">}</span>.sorted.bam <span class="o">&amp;&amp;</span> <span class="se">\ </span>
+		<span class="k">if</span> <span class="o">[</span> -s <span class="nv">$output</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+			<span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">sample</span><span class="si">}</span><span class="s2"> mapping finished&#34;</span>
+		<span class="k">fi</span>
+<span class="k">done</span></code></pre></td></tr></table>
+</div>
+</div>
 <p>略</p>
 
 <p>20 填空</p>
@@ -1175,7 +2217,9 @@ exit: 跳出循环，不跳过end</p>
   
 </div>
 <footer class="post-footer">
-      
+      <div class="post-tags">
+          <a href="/tags/linux/">linux</a>
+          </div>
       <nav class="post-nav">
         <a class="prev" href="/post/even-preview/">
             <i class="iconfont icon-left"></i>
