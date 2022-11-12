@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>👨🏻‍💻 技术 on Xiergo&#39;s Blog</title>
+    <link>https://xiergo.github.io/posts/tech/</link>
+    <description>Recent content in 👨🏻‍💻 技术 on Xiergo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 12 Nov 2022 16:30:21 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使PaperMod支持数学公式</title>
+      <link>https://xiergo.github.io/posts/tech/%E4%BD%BFpapermod%E6%94%AF%E6%8C%81%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</link>
+      <pubDate>Sat, 12 Nov 2022 16:30:21 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/%E4%BD%BFpapermod%E6%94%AF%E6%8C%81%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Glmnet</title>
+      <link>https://xiergo.github.io/posts/tech/glmnet/</link>
+      <pubDate>Thu, 23 Jan 2020 16:30:21 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/glmnet/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>研二上课程期末复习总结 Linux</title>
+      <link>https://xiergo.github.io/posts/tech/%E7%A0%94%E4%BA%8C%E4%B8%8A%E8%AF%BE%E7%A8%8B%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93-linux/</link>
+      <pubDate>Mon, 14 Oct 2019 14:44:40 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/%E7%A0%94%E4%BA%8C%E4%B8%8A%E8%AF%BE%E7%A8%8B%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93-linux/</guid>
+      <description>研二上课程期末复习总结 Linux</description>
+    </item>
+    
+    <item>
+      <title>Toefl Speaking</title>
+      <link>https://xiergo.github.io/posts/tech/toefl-speaking/</link>
+      <pubDate>Sun, 13 Oct 2019 13:24:12 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/toefl-speaking/</guid>
+      <description>托福听力总结-会持续更新</description>
+    </item>
+    
+    <item>
+      <title>OpenIntro_Statistics_Lesson6</title>
+      <link>https://xiergo.github.io/posts/tech/openintro_statistics_lesson6/</link>
+      <pubDate>Fri, 11 Oct 2019 17:40:03 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/openintro_statistics_lesson6/</guid>
+      <description>研二的统计课的第六节课的内容</description>
+    </item>
+    
+    <item>
+      <title>Cubic_smoothing_spline</title>
+      <link>https://xiergo.github.io/posts/tech/cubic_smoothing_spline/</link>
+      <pubDate>Mon, 23 Sep 2019 21:29:02 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/cubic_smoothing_spline/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Discrete Pheatmap</title>
+      <link>https://xiergo.github.io/posts/tech/discrete-pheatmap/</link>
+      <pubDate>Wed, 18 Sep 2019 20:29:46 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/discrete-pheatmap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hugo显示数学公式</title>
+      <link>https://xiergo.github.io/posts/tech/mathjax/</link>
+      <pubDate>Fri, 13 Sep 2019 10:34:22 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/mathjax/</guid>
+      <description>hugo显示数学公式</description>
+    </item>
+    
+  </channel>
+</rss>

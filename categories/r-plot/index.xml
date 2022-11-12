@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>R plot on Xiergo&#39;s Blog</title>
+    <link>https://xiergo.github.io/categories/r-plot/</link>
+    <description>Recent content in R plot on Xiergo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 18 Sep 2019 20:29:46 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/categories/r-plot/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Discrete Pheatmap</title>
+      <link>https://xiergo.github.io/posts/tech/discrete-pheatmap/</link>
+      <pubDate>Wed, 18 Sep 2019 20:29:46 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/discrete-pheatmap/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

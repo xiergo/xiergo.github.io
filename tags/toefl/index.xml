@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Toefl on Xiergo&#39;s Blog</title>
+    <link>https://xiergo.github.io/tags/toefl/</link>
+    <description>Recent content in Toefl on Xiergo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 16 Jan 2020 21:22:13 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/tags/toefl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>考托福</title>
+      <link>https://xiergo.github.io/posts/life/%E8%80%83%E6%89%98%E7%A6%8F/</link>
+      <pubDate>Thu, 16 Jan 2020 21:22:13 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/life/%E8%80%83%E6%89%98%E7%A6%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Toefl Speaking</title>
+      <link>https://xiergo.github.io/posts/tech/toefl-speaking/</link>
+      <pubDate>Sun, 13 Oct 2019 13:24:12 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/toefl-speaking/</guid>
+      <description>托福听力总结-会持续更新</description>
+    </item>
+    
+  </channel>
+</rss>
