@@ -1,123 +1,130 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Xiergo&#39;s Blog</title>
-    <link>http://localhost:1313/</link>
+    <link>https://xiergo.github.io/</link>
     <description>Recent content on Xiergo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <lastBuildDate>Thu, 23 Jan 2020 16:30:21 +0800</lastBuildDate>
-    
-	<atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 12 Nov 2022 16:30:21 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Theme preview</title>
-      <link>http://localhost:1313/post/even-preview/</link>
-      <pubDate>Tue, 10 Jul 2018 00:00:00 +0800</pubDate>
+      <title>使PaperMod支持数学公式</title>
+      <link>https://xiergo.github.io/posts/blog/%E4%BD%BFpapermod%E6%94%AF%E6%8C%81%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</link>
+      <pubDate>Sat, 12 Nov 2022 16:30:21 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/even-preview/</guid>
-      <description>Based on MarkdownPreview test.md. Markdown 1 2 3 4 5 6 7 8 # H1 ## H2 ### H3 #### H4 ##### H5 ###### H6 ### Duplicate Header ### Duplicate Header H1 H2 H3 H4 H5 H6 Duplicate Header Duplicate Header Paragraphs 1 2 3 4 This is a paragraph. I am still part of the paragraph. New paragraph. This is a paragraph. I am still part of the paragraph.</description>
+      <guid>https://xiergo.github.io/posts/blog/%E4%BD%BFpapermod%E6%94%AF%E6%8C%81%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</guid>
+      <description></description>
     </item>
     
     <item>
-      <title>About</title>
-      <link>http://localhost:1313/about/</link>
-      <pubDate>Sun, 20 Aug 2017 21:38:52 +0800</pubDate>
+      <title>使PaperMod支持数学公式</title>
+      <link>https://xiergo.github.io/posts/tech/%E4%BD%BFpapermod%E6%94%AF%E6%8C%81%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</link>
+      <pubDate>Sat, 12 Nov 2022 16:30:21 +0800</pubDate>
       
-      <guid>http://localhost:1313/about/</guid>
-      <description>这是谢豫豪的博客，哈哈哈哈~ Hugo is a static site engine written in Go. It makes use of a variety of open source projects including: Cobra Viper J Walter Weatherman Cast Learn more and contribute on GitHub.</description>
+      <guid>https://xiergo.github.io/posts/tech/%E4%BD%BFpapermod%E6%94%AF%E6%8C%81%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>🤝友链</title>
+      <link>https://xiergo.github.io/links/</link>
+      <pubDate>Sat, 06 Nov 2021 15:15:53 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/links/</guid>
+      <description>Xiergo&amp;#39;s Blog 一个记录技术、阅读、生活的博客 👉友链格式 名称： Xiergo&amp;rsquo;s Blog 网址： https://xiergo.github.io 图标： https://xiergo.github.io/img/Q.jpg 描述： 一个记录技术、阅读、生活的博客 👉友链申请要求 &gt; 秉承互换友链原则、文章定期更新、不能有太多广告、个人描述字数控制在15字内</description>
+    </item>
+    
+    <item>
+      <title>🙋🏻‍♂️关于</title>
+      <link>https://xiergo.github.io/about/</link>
+      <pubDate>Sat, 06 Nov 2021 14:57:28 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/about/</guid>
+      <description>关于我 英文名: Xiergo 职业: 搬砖人 运动: 跑步、乒乓球、爬山</description>
     </item>
     
     <item>
       <title>Glmnet</title>
-      <link>http://localhost:1313/post/glmnet/</link>
+      <link>https://xiergo.github.io/posts/tech/glmnet/</link>
       <pubDate>Thu, 23 Jan 2020 16:30:21 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/glmnet/</guid>
+      <guid>https://xiergo.github.io/posts/tech/glmnet/</guid>
       <description></description>
     </item>
     
     <item>
       <title>考托福</title>
-      <link>http://localhost:1313/post/%E8%80%83%E6%89%98%E7%A6%8F/</link>
+      <link>https://xiergo.github.io/posts/life/%E8%80%83%E6%89%98%E7%A6%8F/</link>
       <pubDate>Thu, 16 Jan 2020 21:22:13 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/%E8%80%83%E6%89%98%E7%A6%8F/</guid>
+      <guid>https://xiergo.github.io/posts/life/%E8%80%83%E6%89%98%E7%A6%8F/</guid>
       <description></description>
     </item>
     
     <item>
       <title>研二上课程期末复习总结 Linux</title>
-      <link>http://localhost:1313/post/%E7%A0%94%E4%BA%8C%E4%B8%8A%E8%AF%BE%E7%A8%8B%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93-linux/</link>
+      <link>https://xiergo.github.io/posts/tech/%E7%A0%94%E4%BA%8C%E4%B8%8A%E8%AF%BE%E7%A8%8B%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93-linux/</link>
       <pubDate>Mon, 14 Oct 2019 14:44:40 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/%E7%A0%94%E4%BA%8C%E4%B8%8A%E8%AF%BE%E7%A8%8B%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93-linux/</guid>
-      <description></description>
+      <guid>https://xiergo.github.io/posts/tech/%E7%A0%94%E4%BA%8C%E4%B8%8A%E8%AF%BE%E7%A8%8B%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93-linux/</guid>
+      <description>研二上课程期末复习总结 Linux</description>
     </item>
     
     <item>
       <title>Toefl Speaking</title>
-      <link>http://localhost:1313/post/toefl-speaking/</link>
+      <link>https://xiergo.github.io/posts/tech/toefl-speaking/</link>
       <pubDate>Sun, 13 Oct 2019 13:24:12 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/toefl-speaking/</guid>
-      <description></description>
+      <guid>https://xiergo.github.io/posts/tech/toefl-speaking/</guid>
+      <description>托福听力总结-会持续更新</description>
     </item>
     
     <item>
       <title>OpenIntro_Statistics_Lesson6</title>
-      <link>http://localhost:1313/post/openintro_statistics_lesson6/</link>
+      <link>https://xiergo.github.io/posts/tech/openintro_statistics_lesson6/</link>
       <pubDate>Fri, 11 Oct 2019 17:40:03 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/openintro_statistics_lesson6/</guid>
-      <description></description>
+      <guid>https://xiergo.github.io/posts/tech/openintro_statistics_lesson6/</guid>
+      <description>研二的统计课的第六节课的内容</description>
     </item>
     
     <item>
       <title>我和我的祖国</title>
-      <link>http://localhost:1313/post/%E6%88%91%E5%92%8C%E6%88%91%E7%9A%84%E7%A5%96%E5%9B%BD/</link>
+      <link>https://xiergo.github.io/posts/life/%E6%88%91%E5%92%8C%E6%88%91%E7%9A%84%E7%A5%96%E5%9B%BD/</link>
       <pubDate>Mon, 30 Sep 2019 21:45:56 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/%E6%88%91%E5%92%8C%E6%88%91%E7%9A%84%E7%A5%96%E5%9B%BD/</guid>
+      <guid>https://xiergo.github.io/posts/life/%E6%88%91%E5%92%8C%E6%88%91%E7%9A%84%E7%A5%96%E5%9B%BD/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Cubic_smoothing_spline</title>
-      <link>http://localhost:1313/post/cubic_smoothing_spline/</link>
+      <link>https://xiergo.github.io/posts/tech/cubic_smoothing_spline/</link>
       <pubDate>Mon, 23 Sep 2019 21:29:02 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/cubic_smoothing_spline/</guid>
+      <guid>https://xiergo.github.io/posts/tech/cubic_smoothing_spline/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Discrete Pheatmap</title>
-      <link>http://localhost:1313/post/discrete-pheatmap/</link>
+      <link>https://xiergo.github.io/posts/tech/discrete-pheatmap/</link>
       <pubDate>Wed, 18 Sep 2019 20:29:46 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/discrete-pheatmap/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Mathtest</title>
-      <link>http://localhost:1313/post/mathtest/</link>
-      <pubDate>Tue, 17 Sep 2019 20:47:51 +0800</pubDate>
-      
-      <guid>http://localhost:1313/post/mathtest/</guid>
+      <guid>https://xiergo.github.io/posts/tech/discrete-pheatmap/</guid>
       <description></description>
     </item>
     
     <item>
       <title>hugo显示数学公式</title>
-      <link>http://localhost:1313/post/mathjax/</link>
+      <link>https://xiergo.github.io/posts/tech/mathjax/</link>
       <pubDate>Fri, 13 Sep 2019 10:34:22 +0800</pubDate>
       
-      <guid>http://localhost:1313/post/mathjax/</guid>
+      <guid>https://xiergo.github.io/posts/tech/mathjax/</guid>
       <description>hugo显示数学公式</description>
     </item>
+    
+    
     
   </channel>
 </rss>
