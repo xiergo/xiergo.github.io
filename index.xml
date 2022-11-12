@@ -6,7 +6,16 @@
     <description>Recent content on Xiergo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 12 Nov 2022 16:30:21 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 12 Nov 2022 23:22:37 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>一个恶心的bug</title>
+      <link>https://xiergo.github.io/posts/blog/%E4%B8%80%E4%B8%AA%E6%81%B6%E5%BF%83%E7%9A%84bug/</link>
+      <pubDate>Sat, 12 Nov 2022 23:22:37 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/blog/%E4%B8%80%E4%B8%AA%E6%81%B6%E5%BF%83%E7%9A%84bug/</guid>
+      <description>问题描述 在本地可以部署，且正常显示 在服务器上无法显示正常格式 排除baseURL的错误 在控制台看到报integrity的错误 解决办法 将config.yml中的文件添加一个参数 1 2 3 params: assets: disableFingerprinting: true 参考 Hugo - Failed to find a valid digest in the &amp;lsquo;integrity&amp;rsquo; attribute for resource - The resource has been blocked - Host on Github</description>
+    </item>
+    
     <item>
       <title>使PaperMod支持数学公式</title>
       <link>https://xiergo.github.io/posts/blog/%E4%BD%BFpapermod%E6%94%AF%E6%8C%81%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</link>
