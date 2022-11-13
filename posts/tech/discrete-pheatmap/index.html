@@ -346,12 +346,12 @@ var _hmt = _hmt || [];
         <div class="post-content"><h2 id="问题描述">问题描述<a hidden class="anchor" aria-hidden="true" href="#问题描述">#</a></h2>
 <p>pheatmap包是R绘图包里的重要一员，在绘制热图方面有着独特的优势，学生信的人基本都用过。可是一般很少用heatmap画离散变量，尤其是画完离散变量后，加个legend非常麻烦。今天我遇到了这个需求：</p>
 <p>下图是用pheatmap函数画的图，用的matrix是 Pearson correlation，取值<code>[-1, 1]</code>， 灰色代表NA值，红色越深，约接近1；蓝色越深，越接近0 。</p>
-<p><img loading="lazy" src="/img/5fb59125e0f17174fa63fd2670c8d1e.png" alt="5fb59125e0f17174fa63fd2670c8d1e"  />
+<p><img loading="lazy" src="/img/discrete_heatmap/5fb59125e0f17174fa63fd2670c8d1e.png" alt="5fb59125e0f17174fa63fd2670c8d1e"  />
 </p>
 <p>老师又让我画一个离散化的热图。就是用一系列的值将<code>[-1，1]</code>区间截断，每个小区间对应一个颜色。如：颜色设置归档：[0.8,1]，[0.6,0.8)，[0.4,0.6)，[0.2,0.4)，[-1,0.2)。</p>
 <h2 id="结果展示">结果展示<a hidden class="anchor" aria-hidden="true" href="#结果展示">#</a></h2>
 <p>我在原函数的基础上写了一个新函数<code>pheatmap.discre()</code>，做了如下的图：</p>
-<p><img loading="lazy" src="/img/discrete_heatmap.png" alt="discrete_heatmap"  />
+<p><img loading="lazy" src="/img/discrete_heatmap/discrete_heatmap.png" alt="discrete_heatmap"  />
 </p>
 <h2 id="代码">代码<a hidden class="anchor" aria-hidden="true" href="#代码">#</a></h2>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
@@ -493,11 +493,6 @@ var _hmt = _hmt || [];
     <br>
     <span>Cubic_smoothing_spline</span>
   </a>
-  <a class="next" href="https://xiergo.github.io/posts/tech/mathjax/">
-    <span class="title">下一页 »</span>
-    <br>
-    <span>hugo显示数学公式</span>
-  </a>
 </nav>
 
 
@@ -567,7 +562,7 @@ var _hmt = _hmt || [];
 
     <script>
         twikoo.init({
-            envId: "https://twikoo-api-xiergo.vercel.app", 
+            envId: "https://twikooapi.vercel.app", 
             el: "#tcomment",
             lang: 'zh-CN',
             region: "ap-beijing",
@@ -587,6 +582,9 @@ var _hmt = _hmt || [];
 </main>
 
 
+<script async src="https://unpkg.com/mermaid@8.8.1/dist/mermaid.min.js"></script>
+
+
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
@@ -594,18 +592,18 @@ var _hmt = _hmt || [];
     <span>
         Copyright
         &copy;
-        2020-2022
+        -2022
         <a href="https://xiergo.github.io/" style="color:#939393;">Xiergo&#39;s Blog</a>
         All Rights Reserved
     </span>
 
-    <a href="https://beian.miit.gov.cn/" target="_blank" style="color:#939393;">填写自己的备案号</a>&nbsp;
+    <a href="https://beian.miit.gov.cn/" target="_blank" style="color:#939393;"></a>&nbsp;
 
     <span>
         <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null"
            style="display:inline-block;text-decoration:none;height:20px;color:#939393;">
-            <img src="%e5%a1%ab%e8%87%aa%e5%b7%b1%e7%9a%84%e5%85%ac%e5%ae%89%e5%9b%be%e6%a0%87%e9%93%be%e6%8e%a5" style="float:left;margin: 0px 5px 0px 0px;"/>
-            填自己的公网安备
+            <img src="" style="float:left;margin: 0px 5px 0px 0px;"/>
+            
         </a>
     </span>
 

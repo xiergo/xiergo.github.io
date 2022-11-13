@@ -6,7 +6,16 @@
     <description>Recent content on Xiergo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 12 Nov 2022 23:22:37 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 13 Nov 2022 12:50:39 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>今日有点烦</title>
+      <link>https://xiergo.github.io/posts/life/%E4%BB%8A%E6%97%A5%E6%9C%89%E7%82%B9%E7%83%A6/</link>
+      <pubDate>Sun, 13 Nov 2022 12:50:39 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/life/%E4%BB%8A%E6%97%A5%E6%9C%89%E7%82%B9%E7%83%A6/</guid>
+      <description>今天开始，记一点随笔，坚持一个记录的好习惯。折腾了半天评论的东西，结果只有开了代理才能用，不开代理就用不了，白瞎折腾了。而且github屏蔽了百度的爬虫，百度根本搜索不到任何博客的东西。既然搜不到，评不评论都无所谓了。就把这个地方当成一个记录生活、记录科研、分享技术的地方吧（分享</description>
+    </item>
+    
     <item>
       <title>一个恶心的bug</title>
       <link>https://xiergo.github.io/posts/blog/%E4%B8%80%E4%B8%AA%E6%81%B6%E5%BF%83%E7%9A%84bug/</link>
@@ -26,21 +35,12 @@
     </item>
     
     <item>
-      <title>使PaperMod支持数学公式</title>
-      <link>https://xiergo.github.io/posts/tech/%E4%BD%BFpapermod%E6%94%AF%E6%8C%81%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</link>
-      <pubDate>Sat, 12 Nov 2022 16:30:21 +0800</pubDate>
-      
-      <guid>https://xiergo.github.io/posts/tech/%E4%BD%BFpapermod%E6%94%AF%E6%8C%81%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>🤝友链</title>
       <link>https://xiergo.github.io/links/</link>
       <pubDate>Sat, 06 Nov 2021 15:15:53 +0800</pubDate>
       
       <guid>https://xiergo.github.io/links/</guid>
-      <description>Xiergo&amp;#39;s Blog 一个记录技术、阅读、生活的博客 👉友链格式 名称： Xiergo&amp;rsquo;s Blog 网址： https://xiergo.github.io 图标： https://xiergo.github.io/img/Q.jpg 描述： 一个记录技术、阅读、生活的博客 👉友链申请要求 &gt; 秉承互换友链原则、文章定期更新、不能有太多广告、个人描述字数控制在15字内</description>
+      <description>Xiergo&amp;#39;s Blog 摸鱼大师 Sulv&amp;#39;s Blog 一个记录技术、阅读、生活的博客 👉友链格式 名称： Xiergo&amp;rsquo;s Blog 网址： https://xiergo.github.io 图标： https://xiergo.github.io/img/Q.jpg 描述： 一个记录技术、阅读、生活的博客 👉友链申请要求 &gt; 秉承互换友链原则、文章定期更新、不能有太多广告、个人描述字数控制在15字内</description>
     </item>
     
     <item>
@@ -89,15 +89,6 @@
     </item>
     
     <item>
-      <title>OpenIntro_Statistics_Lesson6</title>
-      <link>https://xiergo.github.io/posts/tech/openintro_statistics_lesson6/</link>
-      <pubDate>Fri, 11 Oct 2019 17:40:03 +0800</pubDate>
-      
-      <guid>https://xiergo.github.io/posts/tech/openintro_statistics_lesson6/</guid>
-      <description>研二的统计课的第六节课的内容</description>
-    </item>
-    
-    <item>
       <title>我和我的祖国</title>
       <link>https://xiergo.github.io/posts/life/%E6%88%91%E5%92%8C%E6%88%91%E7%9A%84%E7%A5%96%E5%9B%BD/</link>
       <pubDate>Mon, 30 Sep 2019 21:45:56 +0800</pubDate>
@@ -122,15 +113,6 @@
       
       <guid>https://xiergo.github.io/posts/tech/discrete-pheatmap/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>hugo显示数学公式</title>
-      <link>https://xiergo.github.io/posts/tech/mathjax/</link>
-      <pubDate>Fri, 13 Sep 2019 10:34:22 +0800</pubDate>
-      
-      <guid>https://xiergo.github.io/posts/tech/mathjax/</guid>
-      <description>hugo显示数学公式</description>
     </item>
     
     
