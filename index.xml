@@ -6,7 +6,34 @@
     <description>Recent content on Xiergo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 13 Nov 2022 12:50:39 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Nov 2022 16:33:17 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>抗体VDJ重排</title>
+      <link>https://xiergo.github.io/posts/tech/%E6%8A%97%E4%BD%93vdj%E9%87%8D%E6%8E%92/</link>
+      <pubDate>Mon, 14 Nov 2022 16:33:17 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/%E6%8A%97%E4%BD%93vdj%E9%87%8D%E6%8E%92/</guid>
+      <description>抗体简介 抗体根据其重链恒定区不同，可以分为五类，如下表： 抗体分类 以IgG为例，抗体由2条重链和两条轻链组成。其中，重链由14号染色体编码。轻链有两种，$\kappa$链由2号染色体编码，$\lambda$链由22号染色体编码。 Chain Chr V D J heavy chain 14 56 23 6 $\kappa$ light chain 2 52 0 5 $\lambda$ light chain 22 30 0 7 抗体</description>
+    </item>
+    
+    <item>
+      <title>酵母表面展示技术Yeast Display</title>
+      <link>https://xiergo.github.io/posts/tech/%E9%85%B5%E6%AF%8D%E8%A1%A8%E9%9D%A2%E5%B1%95%E7%A4%BA%E6%8A%80%E6%9C%AFyeast_display/</link>
+      <pubDate>Mon, 14 Nov 2022 10:01:22 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/%E9%85%B5%E6%AF%8D%E8%A1%A8%E9%9D%A2%E5%B1%95%E7%A4%BA%E6%8A%80%E6%9C%AFyeast_display/</guid>
+      <description>基本原理 酵母表面展示（Yeast display or yeast surface display）技术由Boder和Wittrup在1997年首创，是研究真核生物，尤其是人类蛋白质表达的理想方法之一。 前提：酵母菌的蛋白表达方式与高等真核生物细胞十分相似 基本原理是将外源靶蛋白基因与特定的载体基因序列融合后导入酵母细胞，利用</description>
+    </item>
+    
+    <item>
+      <title>元气满满的一天</title>
+      <link>https://xiergo.github.io/posts/life/%E5%85%83%E6%B0%94%E6%BB%A1%E6%BB%A1%E7%9A%84%E4%B8%80%E5%A4%A9/</link>
+      <pubDate>Mon, 14 Nov 2022 08:10:08 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/life/%E5%85%83%E6%B0%94%E6%BB%A1%E6%BB%A1%E7%9A%84%E4%B8%80%E5%A4%A9/</guid>
+      <description>今天周一，早上凌晨5点50起来送女朋友去地铁站。超级冷，路上骑车，风吹的眼睛一直在流眼泪。第一个到实验室，差不多6点40多。然后把我的书桌整理了一遍，收拾了很多陈年垃圾，瞬间清爽了很多。 很久没有这样认真整理收拾了，感觉心情顿时舒畅了不少。又来到了最熟悉的环节： 今天重新开始做人！！</description>
+    </item>
+    
     <item>
       <title>今日有点烦</title>
       <link>https://xiergo.github.io/posts/life/%E4%BB%8A%E6%97%A5%E6%9C%89%E7%82%B9%E7%83%A6/</link>
@@ -40,7 +67,7 @@
       <pubDate>Sat, 06 Nov 2021 15:15:53 +0800</pubDate>
       
       <guid>https://xiergo.github.io/links/</guid>
-      <description>Xiergo&amp;#39;s Blog 摸鱼大师 Sulv&amp;#39;s Blog 一个记录技术、阅读、生活的博客 👉友链格式 名称： Xiergo&amp;rsquo;s Blog 网址： https://xiergo.github.io 图标： https://xiergo.github.io/img/Q.jpg 描述： 一个记录技术、阅读、生活的博客 👉友链申请要求 &gt; 秉承互换友链原则、文章定期更新、不能有太多广告、个人描述字数控制在15字内</description>
+      <description>Xiergo&amp;#39;s Blog 摸鱼大师 Sulv&amp;#39;s Blog 一个记录技术、阅读、生活的博客 👉友链格式 名称： Xiergo&amp;rsquo;s Blog 网址： https://xiergo.github.io 图标： https://xiergo.github.io/img/Q.jpg 描述： 摸鱼大师 👉友链申请要求 &gt; 秉承互换友链原则、文章定期更新、不能有太多广告、个人描述字数控制在15字内</description>
     </item>
     
     <item>
@@ -49,7 +76,7 @@
       <pubDate>Sat, 06 Nov 2021 14:57:28 +0800</pubDate>
       
       <guid>https://xiergo.github.io/about/</guid>
-      <description></description>
+      <description>英文名: Xiergo 地点： 北京 爱好： 游戏，乒乓球 职业： 博士在读 关注领域： 蛋白质结构预测和序列设计、深度学习、生物信息</description>
     </item>
     
     <item>

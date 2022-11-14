@@ -6,7 +6,25 @@
     <description>Recent content in 👨🏻‍💻 技术 on Xiergo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 23 Jan 2020 16:30:21 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Nov 2022 16:33:17 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>抗体VDJ重排</title>
+      <link>https://xiergo.github.io/posts/tech/%E6%8A%97%E4%BD%93vdj%E9%87%8D%E6%8E%92/</link>
+      <pubDate>Mon, 14 Nov 2022 16:33:17 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/%E6%8A%97%E4%BD%93vdj%E9%87%8D%E6%8E%92/</guid>
+      <description>抗体简介 抗体根据其重链恒定区不同，可以分为五类，如下表： 抗体分类 以IgG为例，抗体由2条重链和两条轻链组成。其中，重链由14号染色体编码。轻链有两种，$\kappa$链由2号染色体编码，$\lambda$链由22号染色体编码。 Chain Chr V D J heavy chain 14 56 23 6 $\kappa$ light chain 2 52 0 5 $\lambda$ light chain 22 30 0 7 抗体</description>
+    </item>
+    
+    <item>
+      <title>酵母表面展示技术Yeast Display</title>
+      <link>https://xiergo.github.io/posts/tech/%E9%85%B5%E6%AF%8D%E8%A1%A8%E9%9D%A2%E5%B1%95%E7%A4%BA%E6%8A%80%E6%9C%AFyeast_display/</link>
+      <pubDate>Mon, 14 Nov 2022 10:01:22 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/%E9%85%B5%E6%AF%8D%E8%A1%A8%E9%9D%A2%E5%B1%95%E7%A4%BA%E6%8A%80%E6%9C%AFyeast_display/</guid>
+      <description>基本原理 酵母表面展示（Yeast display or yeast surface display）技术由Boder和Wittrup在1997年首创，是研究真核生物，尤其是人类蛋白质表达的理想方法之一。 前提：酵母菌的蛋白表达方式与高等真核生物细胞十分相似 基本原理是将外源靶蛋白基因与特定的载体基因序列融合后导入酵母细胞，利用</description>
+    </item>
+    
     <item>
       <title>Glmnet</title>
       <link>https://xiergo.github.io/posts/tech/glmnet/</link>
