@@ -5,12 +5,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>抗体VDJ重排 | Xiergo&#39;s Blog</title>
-<meta name="keywords" content="biology">
-<meta name="description" content="抗体简介 抗体根据其重链恒定区不同，可以分为五类，如下表： 抗体分类 以IgG为例，抗体由2条重链和两条轻链组成。其中，重链由14号染色体编码。轻链有两种，$\kappa$链由2号染色体编码，$\lambda$链由22号染色体编码。 Chain Chr V D J heavy chain 14 56 23 6 $\kappa$ light chain 2 52 0 5 $\lambda$ light chain 22 30 0 7 抗体">
+<title>MLE | Xiergo&#39;s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="最大似然估计(Maximum likelihood estimation, MLE) 有一些样本$X$，我们假设它是从一种分布（比如正太分布）中产生的数据，但是分布的参数$\theta$我们并不知道，我们希望找到这样的$\theta$: $$ \begin{aligned}\hat \theta&amp;=\underset{\theta}{\operatorname{argmax}} P(\theta|X)\\&amp;=\underset{\theta}{\operatorname{argmax}} \frac{P(\theta ;X)}{P(X)}\\&amp;=\underset{\theta}{\operatorname{argmax}} \frac{P(X|\theta )P(\theta)}{P(X)}\\ &amp;=\underset{\theta}{\operatorname{argmax}}P(X|\theta )P(\theta) \end{aligned} \tag{1} $$ $X$的分布$P(X)=\int_\Theta P(X|\theta)P(\theta)\text d\theta$是不可">
 <meta name="author" content="
 作者:&nbsp;Xiergo">
-<link rel="canonical" href="https://xiergo.github.io/posts/tech/%E6%8A%97%E4%BD%93vdj%E9%87%8D%E6%8E%92/">
+<link rel="canonical" href="https://xiergo.github.io/posts/tech/mle/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://xiergo.github.io/img/Q.jpg">
@@ -83,18 +83,18 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>
-<meta property="og:title" content="抗体VDJ重排" />
-<meta property="og:description" content="抗体简介 抗体根据其重链恒定区不同，可以分为五类，如下表： 抗体分类 以IgG为例，抗体由2条重链和两条轻链组成。其中，重链由14号染色体编码。轻链有两种，$\kappa$链由2号染色体编码，$\lambda$链由22号染色体编码。 Chain Chr V D J heavy chain 14 56 23 6 $\kappa$ light chain 2 52 0 5 $\lambda$ light chain 22 30 0 7 抗体" />
+<meta property="og:title" content="MLE" />
+<meta property="og:description" content="最大似然估计(Maximum likelihood estimation, MLE) 有一些样本$X$，我们假设它是从一种分布（比如正太分布）中产生的数据，但是分布的参数$\theta$我们并不知道，我们希望找到这样的$\theta$: $$ \begin{aligned}\hat \theta&amp;=\underset{\theta}{\operatorname{argmax}} P(\theta|X)\\&amp;=\underset{\theta}{\operatorname{argmax}} \frac{P(\theta ;X)}{P(X)}\\&amp;=\underset{\theta}{\operatorname{argmax}} \frac{P(X|\theta )P(\theta)}{P(X)}\\ &amp;=\underset{\theta}{\operatorname{argmax}}P(X|\theta )P(\theta) \end{aligned} \tag{1} $$ $X$的分布$P(X)=\int_\Theta P(X|\theta)P(\theta)\text d\theta$是不可" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://xiergo.github.io/posts/tech/%E6%8A%97%E4%BD%93vdj%E9%87%8D%E6%8E%92/" />
-<meta property="og:image" content="https://xiergo.github.io/posts/tech/antibody_vdj_recombination/0.jpg" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-11-14T16:33:17&#43;08:00" />
-<meta property="article:modified_time" content="2022-11-14T16:33:17&#43;08:00" />
+<meta property="og:url" content="https://xiergo.github.io/posts/tech/mle/" />
+<meta property="og:image" content="https://xiergo.github.io/posts/tech/MLE/0.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-11-23T10:51:05&#43;08:00" />
+<meta property="article:modified_time" content="2022-11-23T10:51:05&#43;08:00" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://xiergo.github.io/posts/tech/antibody_vdj_recombination/0.jpg" />
-<meta name="twitter:title" content="抗体VDJ重排"/>
-<meta name="twitter:description" content="抗体简介 抗体根据其重链恒定区不同，可以分为五类，如下表： 抗体分类 以IgG为例，抗体由2条重链和两条轻链组成。其中，重链由14号染色体编码。轻链有两种，$\kappa$链由2号染色体编码，$\lambda$链由22号染色体编码。 Chain Chr V D J heavy chain 14 56 23 6 $\kappa$ light chain 2 52 0 5 $\lambda$ light chain 22 30 0 7 抗体"/>
+<meta name="twitter:image" content="https://xiergo.github.io/posts/tech/MLE/0.png" />
+<meta name="twitter:title" content="MLE"/>
+<meta name="twitter:description" content="最大似然估计(Maximum likelihood estimation, MLE) 有一些样本$X$，我们假设它是从一种分布（比如正太分布）中产生的数据，但是分布的参数$\theta$我们并不知道，我们希望找到这样的$\theta$: $$ \begin{aligned}\hat \theta&amp;=\underset{\theta}{\operatorname{argmax}} P(\theta|X)\\&amp;=\underset{\theta}{\operatorname{argmax}} \frac{P(\theta ;X)}{P(X)}\\&amp;=\underset{\theta}{\operatorname{argmax}} \frac{P(X|\theta )P(\theta)}{P(X)}\\ &amp;=\underset{\theta}{\operatorname{argmax}}P(X|\theta )P(\theta) \end{aligned} \tag{1} $$ $X$的分布$P(X)=\int_\Theta P(X|\theta)P(\theta)\text d\theta$是不可"/>
 
 
 <script type="application/ld+json">
@@ -117,8 +117,8 @@ var _hmt = _hmt || [];
     {
       "@type": "ListItem",
       "position":  3 ,
-      "name": "抗体VDJ重排",
-      "item": "https://xiergo.github.io/posts/tech/%E6%8A%97%E4%BD%93vdj%E9%87%8D%E6%8E%92/"
+      "name": "MLE",
+      "item": "https://xiergo.github.io/posts/tech/mle/"
     }
   ]
 }
@@ -127,24 +127,24 @@ var _hmt = _hmt || [];
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "抗体VDJ重排",
-  "name": "抗体VDJ重排",
-  "description": "抗体简介 抗体根据其重链恒定区不同，可以分为五类，如下表： 抗体分类 以IgG为例，抗体由2条重链和两条轻链组成。其中，重链由14号染色体编码。轻链有两种，$\\kappa$链由2号染色体编码，$\\lambda$链由22号染色体编码。 Chain Chr V D J heavy chain 14 56 23 6 $\\kappa$ light chain 2 52 0 5 $\\lambda$ light chain 22 30 0 7 抗体",
+  "headline": "MLE",
+  "name": "MLE",
+  "description": "最大似然估计(Maximum likelihood estimation, MLE) 有一些样本$X$，我们假设它是从一种分布（比如正太分布）中产生的数据，但是分布的参数$\\theta$我们并不知道，我们希望找到这样的$\\theta$: $$ \\begin{aligned}\\hat \\theta\u0026amp;=\\underset{\\theta}{\\operatorname{argmax}} P(\\theta|X)\\\\\u0026amp;=\\underset{\\theta}{\\operatorname{argmax}} \\frac{P(\\theta ;X)}{P(X)}\\\\\u0026amp;=\\underset{\\theta}{\\operatorname{argmax}} \\frac{P(X|\\theta )P(\\theta)}{P(X)}\\\\ \u0026amp;=\\underset{\\theta}{\\operatorname{argmax}}P(X|\\theta )P(\\theta) \\end{aligned} \\tag{1} $$ $X$的分布$P(X)=\\int_\\Theta P(X|\\theta)P(\\theta)\\text d\\theta$是不可",
   "keywords": [
-    "biology"
+    
   ],
-  "articleBody": "\r抗体简介 抗体根据其重链恒定区不同，可以分为五类，如下表：\n抗体分类\r以IgG为例，抗体由2条重链和两条轻链组成。其中，重链由14号染色体编码。轻链有两种，$\\kappa$链由2号染色体编码，$\\lambda$链由22号染色体编码。\nChain Chr V D J heavy chain 14 56 23 6 $\\kappa$ light chain 2 52 0 5 $\\lambda$ light chain 22 30 0 7 抗体轻重链\rV(D)J基因片段重排 如下图所示，VDJ分别为Variable (V), Diversity (D) 和 Joining (J)的首字母缩写，代表各类的基因片段。重链先DJ重排，再V和DJ重排。轻链只有VJ重排。RSS(Recombination Signal Sequences)保证了VDJ排列的顺序是对的，包括12RSS、23RSS，序列长度不一样。Constant区域相对固定，重链有3个恒定去区，一个可变区，轻链有一个恒定区，一个可变区。可变区包括4个框架区（Framework Region, FR）和3个互补决定区（complementary determing region, CDR），其中CDR区就是与抗原紧密接触的区域。CDR1，CDR2由V区的片段构成，CDR3由VDJ（重链）或VJ（轻链）组成，因此其多样性最高。\nV(D)J重排详细示意图。\r参考文献 Dunn-Walters D, Townsend C, Sinclair E, Stewart A. Immunoglobulin gene analysis as a tool for investigating human immune responses. Immunol Rev. 2018 Jul;284(1):132-147. doi: 10.1111/imr.12659. PMID: 29944755; PMCID: PMC6033188.\n",
-  "wordCount" : "502",
+  "articleBody": "\r最大似然估计(Maximum likelihood estimation, MLE) 有一些样本$X$，我们假设它是从一种分布（比如正太分布）中产生的数据，但是分布的参数$\\theta$我们并不知道，我们希望找到这样的$\\theta$:\n$$ \\begin{aligned}\\hat \\theta\u0026=\\underset{\\theta}{\\operatorname{argmax}} P(\\theta|X)\\\\\u0026=\\underset{\\theta}{\\operatorname{argmax}} \\frac{P(\\theta ;X)}{P(X)}\\\\\u0026=\\underset{\\theta}{\\operatorname{argmax}} \\frac{P(X|\\theta )P(\\theta)}{P(X)}\\\\ \u0026=\\underset{\\theta}{\\operatorname{argmax}}P(X|\\theta )P(\\theta) \\end{aligned} \\tag{1} $$\n$X$的分布$P(X)=\\int_\\Theta P(X|\\theta)P(\\theta)\\text d\\theta$是不可知的，但这对我们选最好的$\\theta$没有影响，故可以去掉。\n这里$P(X|\\theta )P(\\theta)$就是后验概率（posterior）的分子（A posteriori）,直接最大化后验概率的方法就是最大后验概率估计（Maximum a posteriori estimation, MAP）。\n$$ \\begin{aligned} \\hat \\theta_{MLE}=\u0026\\underset{\\theta}{\\operatorname{argmax}} P(X|\\theta)P(\\theta)\\\\ =\u0026\\underset{\\theta}{\\operatorname{argmax}} P(\\theta) \\prod_{i=1}^n P(x_i|\\theta)\\\\ =\u0026\\underset{\\theta}{\\operatorname{argmin}} -\\operatorname{log}(P(\\theta))-\\sum_{i=1}^n \\operatorname{log}(P(x_i|\\theta)) \\end{aligned} \\tag{2} $$\n如果，$\\theta$的分布也不知道，我们没有任何关于$\\theta$的先验知识，不知道哪个$\\theta$更好，因此，我们使用uninformative prior，即认为$\\theta$在其参数空间是均匀分布的，所以$P(\\theta)$是一个常数，也可以去掉。 $$ \\begin{aligned} \\hat \\theta_{MLE}=\u0026\\underset{\\theta}{\\operatorname{argmax}} P(X|\\theta)\\\\ =\u0026\\underset{\\theta}{\\operatorname{argmax}} \\prod_{i=1}^n P(x_i|\\theta)\\\\ =\u0026\\underset{\\theta}{\\operatorname{argmin}} -\\sum_{i=1}^n \\operatorname{log}(P(x_i|\\theta)) \\end{aligned} \\tag{3} $$ 其中$P(X|\\theta)$就是似然（likelihood）。\n均方误差（Mean squared error, MSE） 现有一些样本点${(x_i, y_i)|i=1,…,n}$，对于模型$f(x)$的MSE就是： $$ \\text {MSE}=1 / n\\sum_{i=1}^n (f(x_i|\\theta)-y_i)^2 $$ 本质上来说，这就是MLE。\n假设$y_i \\sim \\mathcal N(f(x_i|\\theta),\\sigma^2) $，则似然函数就是 $$ \\ell(\\theta)=\\prod_{i} \\frac{1}{\\sqrt{2\\pi\\sigma^2}}\\exp\\bigg({-\\frac{(f(x_i|\\theta)-y_i)^2}{2\\sigma^2}}\\bigg) $$ 最大似然就相当于最小化$-\\log\\ell(\\theta)$ $$ \\begin{aligned} \\hat\\theta=\u0026\\underset{\\theta}{\\operatorname{argmin}}-\\log \\ell(\\theta)\\\\ =\u0026\\underset{\\theta}{\\operatorname{argmin}} \\frac{n}{2}\\log(2\\pi\\sigma^2)+\\frac{1}{2\\sigma^2}\\sum_i (f(x_i|\\theta)-y_i)^2\\\\ =\u0026\\underset{\\theta}{\\operatorname{argmin}} \\frac{1}{n}\\sum_{i=1}^n (f(x_i|\\theta)-y_i)^2\\\\ =\u0026\\underset{\\theta}{\\operatorname{argmin}} \\text{MSE} \\end{aligned} $$\n",
+  "wordCount" : "614",
   "inLanguage": "en",
-  "image":"https://xiergo.github.io/posts/tech/antibody_vdj_recombination/0.jpg","datePublished": "2022-11-14T16:33:17+08:00",
-  "dateModified": "2022-11-14T16:33:17+08:00",
+  "image":"https://xiergo.github.io/posts/tech/MLE/0.png","datePublished": "2022-11-23T10:51:05+08:00",
+  "dateModified": "2022-11-23T10:51:05+08:00",
   "author":[{
     "@type": "Person",
     "name": "Xiergo"
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://xiergo.github.io/posts/tech/%E6%8A%97%E4%BD%93vdj%E9%87%8D%E6%8E%92/"
+    "@id": "https://xiergo.github.io/posts/tech/mle/"
   },
   "publisher": {
     "@type": "Organization",
@@ -249,17 +249,14 @@ var _hmt = _hmt || [];
         <header class="post-header">
             <div class="breadcrumbs"><a href="https://xiergo.github.io/">主页</a>&nbsp;»&nbsp;<a href="https://xiergo.github.io/posts/">📚文章</a>&nbsp;»&nbsp;<a href="https://xiergo.github.io/posts/tech/">👨🏻‍💻 技术</a></div>
             <h1 class="post-title">
-                抗体VDJ重排
+                MLE
             </h1>
-            <div class="post-meta">创建:&nbsp;<span title='2022-11-14 16:33:17 +0800 CST'>2022-11-14</span>&nbsp;|&nbsp;更新:&nbsp;2022-11-14&nbsp;|&nbsp;字数:&nbsp;502字&nbsp;|&nbsp;时长:&nbsp;2分钟&nbsp;|&nbsp;
+            <div class="post-meta">创建:&nbsp;<span title='2022-11-23 10:51:05 +0800 CST'>2022-11-23</span>&nbsp;|&nbsp;更新:&nbsp;2022-11-23&nbsp;|&nbsp;字数:&nbsp;614字&nbsp;|&nbsp;时长:&nbsp;2分钟&nbsp;|&nbsp;
 作者:&nbsp;Xiergo
 
 
 
                 &nbsp;|&nbsp;标签: &nbsp;
-                <ul class="post-tags-meta">
-                    <a href="https://xiergo.github.io/tags/biology/">biology</a>
-                </ul>
 
                 
                 <span id="busuanzi_container_page_pv">
@@ -268,7 +265,7 @@ var _hmt = _hmt || [];
 
 </div>
         </header> 
-<figure class="entry-cover1"><img loading="lazy" src="https://xiergo.github.io/posts/tech/antibody_vdj_recombination/0.jpg" alt="">
+<figure class="entry-cover1"><img loading="lazy" src="https://xiergo.github.io/posts/tech/MLE/0.png" alt="">
         
 </figure>
         <aside id="toc-container" class="toc-container wide">
@@ -280,11 +277,9 @@ var _hmt = _hmt || [];
 
         <div class="inner"><ul>
                 <li>
-                    <a href="#%e6%8a%97%e4%bd%93%e7%ae%80%e4%bb%8b" aria-label="抗体简介">抗体简介</a></li>
+                    <a href="#%e6%9c%80%e5%a4%a7%e4%bc%bc%e7%84%b6%e4%bc%b0%e8%ae%a1maximum-likelihood-estimation-mle" aria-label="最大似然估计(Maximum likelihood estimation, MLE)">最大似然估计(Maximum likelihood estimation, MLE)</a></li>
                 <li>
-                    <a href="#vdj%e5%9f%ba%e5%9b%a0%e7%89%87%e6%ae%b5%e9%87%8d%e6%8e%92" aria-label="V(D)J基因片段重排">V(D)J基因片段重排</a></li>
-                <li>
-                    <a href="#%e5%8f%82%e8%80%83%e6%96%87%e7%8c%ae" aria-label="参考文献">参考文献</a>
+                    <a href="#%e5%9d%87%e6%96%b9%e8%af%af%e5%b7%aemean-squared-error-mse" aria-label="均方误差（Mean squared error, MSE）">均方误差（Mean squared error, MSE）</a>
                 </li>
             </ul>
         </div>
@@ -363,68 +358,50 @@ var _hmt = _hmt || [];
 </center>
 
 -->
-<h2 id="抗体简介">抗体简介<a hidden class="anchor" aria-hidden="true" href="#抗体简介">#</a></h2>
-<p>抗体根据其重链恒定区不同，可以分为五类，如下表：</p>
-<center>
-    <img  style="border-radius:0.3125em;
-    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src="/img/tech/antibody_vdj_recombination/0.jpg">
-    <div style="color:gray; border-bottom: 1px solid gray;
-    display: inline-block;">抗体分类</div>
-</center>
-<p>以IgG为例，抗体由2条重链和两条轻链组成。其中，重链由14号染色体编码。轻链有两种，$\kappa$链由2号染色体编码，$\lambda$链由22号染色体编码。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Chain</th>
-<th>Chr</th>
-<th>V</th>
-<th>D</th>
-<th>J</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">heavy chain</td>
-<td>14</td>
-<td>56</td>
-<td>23</td>
-<td>6</td>
-</tr>
-<tr>
-<td style="text-align:left">$\kappa$ light chain</td>
-<td>2</td>
-<td>52</td>
-<td>0</td>
-<td>5</td>
-</tr>
-<tr>
-<td style="text-align:left">$\lambda$ light chain</td>
-<td>22</td>
-<td>30</td>
-<td>0</td>
-<td>7</td>
-</tr>
-</tbody>
-</table>
-<center>
-    <img  style="border-radius:0.3125em;
-    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src="/img/tech/antibody_vdj_recombination/1.jpg">
-    <div style="color:gray; border-bottom: 1px solid gray;
-    display: inline-block;">抗体轻重链</div>
-</center>
-<h2 id="vdj基因片段重排">V(D)J基因片段重排<a hidden class="anchor" aria-hidden="true" href="#vdj基因片段重排">#</a></h2>
-<p>如下图所示，VDJ分别为Variable (V), Diversity (D) 和 Joining (J)的首字母缩写，代表各类的基因片段。重链先DJ重排，再V和DJ重排。轻链只有VJ重排。RSS(Recombination Signal Sequences)保证了VDJ排列的顺序是对的，包括12RSS、23RSS，序列长度不一样。Constant区域相对固定，重链有3个恒定去区，一个可变区，轻链有一个恒定区，一个可变区。可变区包括4个框架区（Framework Region, FR）和3个互补决定区（complementary determing region, CDR），其中CDR区就是与抗原紧密接触的区域。CDR1，CDR2由V区的片段构成，CDR3由VDJ（重链）或VJ（轻链）组成，因此其多样性最高。</p>
-<center>
-    <img  style="border-radius:0.3125em;
-    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src="/img/tech/antibody_vdj_recombination/2.jpg">
-    <div style="color:gray; border-bottom: 1px solid gray;
-    display: inline-block;">V(D)J重排详细示意图。</div>
-</center>
-<h2 id="参考文献">参考文献<a hidden class="anchor" aria-hidden="true" href="#参考文献">#</a></h2>
-<p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6033188/">Dunn-Walters D, Townsend C, Sinclair E, Stewart A. Immunoglobulin gene analysis as a tool for investigating human immune responses. Immunol Rev. 2018 Jul;284(1):132-147. doi: 10.1111/imr.12659. PMID: 29944755; PMCID: PMC6033188.</a></p>
+<h2 id="最大似然估计maximum-likelihood-estimation-mle">最大似然估计(Maximum likelihood estimation, MLE)<a hidden class="anchor" aria-hidden="true" href="#最大似然估计maximum-likelihood-estimation-mle">#</a></h2>
+<p>有一些样本$X$，我们假设它是从一种分布（比如正太分布）中产生的数据，但是分布的参数$\theta$我们并不知道，我们希望找到这样的$\theta$:</p>
+<p>$$
+\begin{aligned}\hat \theta&amp;=\underset{\theta}{\operatorname{argmax}} P(\theta|X)\\&amp;=\underset{\theta}{\operatorname{argmax}} \frac{P(\theta ;X)}{P(X)}\\&amp;=\underset{\theta}{\operatorname{argmax}} \frac{P(X|\theta )P(\theta)}{P(X)}\\
+&amp;=\underset{\theta}{\operatorname{argmax}}P(X|\theta )P(\theta)
+\end{aligned} \tag{1}
+$$</p>
+<p>$X$的分布$P(X)=\int_\Theta P(X|\theta)P(\theta)\text d\theta$是不可知的，但这对我们选最好的$\theta$没有影响，故可以去掉。</p>
+<p>这里$P(X|\theta )P(\theta)$就是后验概率（posterior）的分子（A posteriori）,直接最大化后验概率的方法就是最大后验概率估计（Maximum a posteriori estimation, MAP）。</p>
+<p>$$
+\begin{aligned}
+\hat \theta_{MLE}=&amp;\underset{\theta}{\operatorname{argmax}} P(X|\theta)P(\theta)\\
+=&amp;\underset{\theta}{\operatorname{argmax}} P(\theta) \prod_{i=1}^n P(x_i|\theta)\\
+=&amp;\underset{\theta}{\operatorname{argmin}} -\operatorname{log}(P(\theta))-\sum_{i=1}^n \operatorname{log}(P(x_i|\theta))
+\end{aligned} \tag{2}
+$$</p>
+<p>如果，$\theta$的分布也不知道，我们没有任何关于$\theta$的先验知识，不知道哪个$\theta$更好，因此，我们使用uninformative prior，即认为$\theta$在其参数空间是均匀分布的，所以$P(\theta)$是一个常数，也可以去掉。
+$$
+\begin{aligned}
+\hat \theta_{MLE}=&amp;\underset{\theta}{\operatorname{argmax}} P(X|\theta)\\
+=&amp;\underset{\theta}{\operatorname{argmax}} \prod_{i=1}^n P(x_i|\theta)\\
+=&amp;\underset{\theta}{\operatorname{argmin}} -\sum_{i=1}^n \operatorname{log}(P(x_i|\theta))
+\end{aligned} \tag{3}
+$$
+其中$P(X|\theta)$就是<strong>似然（likelihood）</strong>。</p>
+<h2 id="均方误差mean-squared-error-mse">均方误差（Mean squared error, MSE）<a hidden class="anchor" aria-hidden="true" href="#均方误差mean-squared-error-mse">#</a></h2>
+<p>现有一些样本点${(x_i, y_i)|i=1,&hellip;,n}$，对于模型$f(x)$的MSE就是：
+$$
+\text {MSE}=1 / n\sum_{i=1}^n (f(x_i|\theta)-y_i)^2
+$$
+本质上来说，这就是MLE。</p>
+<p>假设$y_i \sim \mathcal N(f(x_i|\theta),\sigma^2) $，则似然函数就是
+$$
+\ell(\theta)=\prod_{i} \frac{1}{\sqrt{2\pi\sigma^2}}\exp\bigg({-\frac{(f(x_i|\theta)-y_i)^2}{2\sigma^2}}\bigg)
+$$
+最大似然就相当于最小化$-\log\ell(\theta)$
+$$
+\begin{aligned}
+\hat\theta=&amp;\underset{\theta}{\operatorname{argmin}}-\log \ell(\theta)\\
+=&amp;\underset{\theta}{\operatorname{argmin}} \frac{n}{2}\log(2\pi\sigma^2)+\frac{1}{2\sigma^2}\sum_i (f(x_i|\theta)-y_i)^2\\
+=&amp;\underset{\theta}{\operatorname{argmin}} \frac{1}{n}\sum_{i=1}^n (f(x_i|\theta)-y_i)^2\\
+=&amp;\underset{\theta}{\operatorname{argmin}} \text{MSE}
+\end{aligned}
+$$</p>
 
 
         </div>
@@ -459,15 +436,15 @@ var _hmt = _hmt || [];
         <footer class="post-footer">
             
 <nav class="paginav">
-  <a class="prev" href="https://xiergo.github.io/posts/life/%E9%9D%A2%E8%AF%95%E6%98%8C%E5%B9%B3%E5%AE%9E%E9%AA%8C%E5%AE%A4%E5%AE%9E%E4%B9%A0/">
+  <a class="prev" href="https://xiergo.github.io/posts/tech/kl%E6%95%A3%E5%BA%A6/">
     <span class="title">« 上一页</span>
     <br>
-    <span>面试昌平实验室实习</span>
+    <span>KL散度</span>
   </a>
-  <a class="next" href="https://xiergo.github.io/posts/tech/%E9%85%B5%E6%AF%8D%E8%A1%A8%E9%9D%A2%E5%B1%95%E7%A4%BA%E6%8A%80%E6%9C%AFyeast_display/">
+  <a class="next" href="https://xiergo.github.io/posts/tech/vae/">
     <span class="title">下一页 »</span>
     <br>
-    <span>酵母表面展示技术Yeast Display</span>
+    <span>VAE</span>
   </a>
 </nav>
 

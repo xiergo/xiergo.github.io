@@ -6,7 +6,70 @@
     <description>Recent content on Xiergo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 14 Nov 2022 16:33:17 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 03 Dec 2022 15:33:14 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>双人成行</title>
+      <link>https://xiergo.github.io/posts/life/%E5%8F%8C%E4%BA%BA%E6%88%90%E8%A1%8C/</link>
+      <pubDate>Sat, 03 Dec 2022 15:33:14 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/life/%E5%8F%8C%E4%BA%BA%E6%88%90%E8%A1%8C/</guid>
+      <description>这一周用了若干个（4~5）晚上和女朋友将“双人成行”这款游戏通关了。用一句话概括就是：过程无比曲折，游戏非常不错。 这个游戏在其他平台早就有了，前不久刚登上switch平台。游戏讲述了一对即将离婚的夫妻，因为女儿对着一本魔法书许愿他们和好，灵魂意外附身到女儿的两个玩偶身上，然后这对</description>
+    </item>
+    
+    <item>
+      <title>变分法</title>
+      <link>https://xiergo.github.io/posts/tech/%E5%8F%98%E5%88%86%E6%B3%95/</link>
+      <pubDate>Tue, 29 Nov 2022 10:52:43 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/%E5%8F%98%E5%88%86%E6%B3%95/</guid>
+      <description>变分法可以用来求泛函的极值问题，即： 找一个满足边界条件$y(x_1)=y_1;y(x_2)=y_2$的函数$y=y(x)$使得泛函$I=\int_{x_1}^{x_2}F(x,y,y&amp;rsquo;)\text dx$达到极值点。 这就是欧拉-拉格朗日方程解决的问题。 证明：Euler-</description>
+    </item>
+    
+    <item>
+      <title>扩散模型</title>
+      <link>https://xiergo.github.io/posts/tech/%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Wed, 23 Nov 2022 23:08:30 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B/</guid>
+      <description>扩散过程/前向过程（从右到左）逆扩散过程/重建过程（从左到右） 前向过程 前向过程是一个加噪音的过程： $$ q(x_t|x_{t-1}):=\mathcal N(x_t;\sqrt{\alpha_t}x_{t-1},\beta_t\bold I) $$ 即： $$ x_t=\sqrt{\alpha_t}x_{t-1}+\sqrt{\beta_t}\epsilon_t $$ 其中，$\epsilon_t\sim\mathcal N(0,I)$是噪音，$\sqrt{\beta_t}\in(0,1)$是噪声因子，$\sqrt{\alpha_</description>
+    </item>
+    
+    <item>
+      <title>KL散度</title>
+      <link>https://xiergo.github.io/posts/tech/kl%E6%95%A3%E5%BA%A6/</link>
+      <pubDate>Wed, 23 Nov 2022 17:15:12 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/kl%E6%95%A3%E5%BA%A6/</guid>
+      <description>度量（Metric） $M$是一个集合，我们称$d:M\times M \rightarrow \R $ 是 $M$上的度量，，如果它满足以下条件： $d(x,x)=0$ 正定性：$d(x,y)\ge 0$当且仅当$x=y$等号成立 对称性：$d(x,y)=d(y,x)$ 三角不等式：$d(x,y)\le d(x,z)+d(y,z)$ 这是，我们称$(M,d)$是一个度量</description>
+    </item>
+    
+    <item>
+      <title>MLE</title>
+      <link>https://xiergo.github.io/posts/tech/mle/</link>
+      <pubDate>Wed, 23 Nov 2022 10:51:05 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/mle/</guid>
+      <description>最大似然估计(Maximum likelihood estimation, MLE) 有一些样本$X$，我们假设它是从一种分布（比如正太分布）中产生的数据，但是分布的参数$\theta$我们并不知道，我们希望找到这样的$\theta$: $$ \begin{aligned}\hat \theta&amp;amp;=\underset{\theta}{\operatorname{argmax}} P(\theta|X)\\&amp;amp;=\underset{\theta}{\operatorname{argmax}} \frac{P(\theta ;X)}{P(X)}\\&amp;amp;=\underset{\theta}{\operatorname{argmax}} \frac{P(X|\theta )P(\theta)}{P(X)}\\ &amp;amp;=\underset{\theta}{\operatorname{argmax}}P(X|\theta )P(\theta) \end{aligned} \tag{1} $$ $X$的分布$P(X)=\int_\Theta P(X|\theta)P(\theta)\text d\theta$是不可</description>
+    </item>
+    
+    <item>
+      <title>VAE</title>
+      <link>https://xiergo.github.io/posts/tech/vae/</link>
+      <pubDate>Wed, 23 Nov 2022 09:16:57 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/vae/</guid>
+      <description>自编码器（Autoencoder, AE） 自编码器，利用神经网络进行数据将维，类似非线性PCA。 $$ z=g(x)\\ \tilde{x}=f(z)\\ \ell=||x-\tilde x||^2 $$ Autoencoder 变分自编码器（Variational autoencoder, VAE） 模型接受输入$x$，经过encoder压缩到一个隐空间（latent space），从隐空间采样$z$，并将$z$经过decod</description>
+    </item>
+    
+    <item>
+      <title>面试昌平实验室实习</title>
+      <link>https://xiergo.github.io/posts/life/%E9%9D%A2%E8%AF%95%E6%98%8C%E5%B9%B3%E5%AE%9E%E9%AA%8C%E5%AE%A4%E5%AE%9E%E4%B9%A0/</link>
+      <pubDate>Tue, 22 Nov 2022 23:12:25 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/life/%E9%9D%A2%E8%AF%95%E6%98%8C%E5%B9%B3%E5%AE%9E%E9%AA%8C%E5%AE%A4%E5%AE%9E%E4%B9%A0/</guid>
+      <description>上周报名了昌平实验室实习，主要工作就是文献调研、公司调研和PI调研。有钱可以拿，还能迫使自己多读文献，减少自己游戏时间，一举两得。 我是最后一个面试，自己的简历还ok，至少从面试老师给我的感觉来看，我应该是参加面试比较优秀的了——属于矮子里面挑将军。面试的整理还算顺利，老师对我都印</description>
+    </item>
+    
     <item>
       <title>抗体VDJ重排</title>
       <link>https://xiergo.github.io/posts/tech/%E6%8A%97%E4%BD%93vdj%E9%87%8D%E6%8E%92/</link>

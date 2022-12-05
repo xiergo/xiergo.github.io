@@ -5,12 +5,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>抗体VDJ重排 | Xiergo&#39;s Blog</title>
-<meta name="keywords" content="biology">
-<meta name="description" content="抗体简介 抗体根据其重链恒定区不同，可以分为五类，如下表： 抗体分类 以IgG为例，抗体由2条重链和两条轻链组成。其中，重链由14号染色体编码。轻链有两种，$\kappa$链由2号染色体编码，$\lambda$链由22号染色体编码。 Chain Chr V D J heavy chain 14 56 23 6 $\kappa$ light chain 2 52 0 5 $\lambda$ light chain 22 30 0 7 抗体">
+<title>VAE | Xiergo&#39;s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="自编码器（Autoencoder, AE） 自编码器，利用神经网络进行数据将维，类似非线性PCA。 $$ z=g(x)\\ \tilde{x}=f(z)\\ \ell=||x-\tilde x||^2 $$ Autoencoder 变分自编码器（Variational autoencoder, VAE） 模型接受输入$x$，经过encoder压缩到一个隐空间（latent space），从隐空间采样$z$，并将$z$经过decod">
 <meta name="author" content="
 作者:&nbsp;Xiergo">
-<link rel="canonical" href="https://xiergo.github.io/posts/tech/%E6%8A%97%E4%BD%93vdj%E9%87%8D%E6%8E%92/">
+<link rel="canonical" href="https://xiergo.github.io/posts/tech/vae/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://xiergo.github.io/img/Q.jpg">
@@ -83,18 +83,18 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 </script>
-<meta property="og:title" content="抗体VDJ重排" />
-<meta property="og:description" content="抗体简介 抗体根据其重链恒定区不同，可以分为五类，如下表： 抗体分类 以IgG为例，抗体由2条重链和两条轻链组成。其中，重链由14号染色体编码。轻链有两种，$\kappa$链由2号染色体编码，$\lambda$链由22号染色体编码。 Chain Chr V D J heavy chain 14 56 23 6 $\kappa$ light chain 2 52 0 5 $\lambda$ light chain 22 30 0 7 抗体" />
+<meta property="og:title" content="VAE" />
+<meta property="og:description" content="自编码器（Autoencoder, AE） 自编码器，利用神经网络进行数据将维，类似非线性PCA。 $$ z=g(x)\\ \tilde{x}=f(z)\\ \ell=||x-\tilde x||^2 $$ Autoencoder 变分自编码器（Variational autoencoder, VAE） 模型接受输入$x$，经过encoder压缩到一个隐空间（latent space），从隐空间采样$z$，并将$z$经过decod" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://xiergo.github.io/posts/tech/%E6%8A%97%E4%BD%93vdj%E9%87%8D%E6%8E%92/" />
-<meta property="og:image" content="https://xiergo.github.io/posts/tech/antibody_vdj_recombination/0.jpg" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-11-14T16:33:17&#43;08:00" />
-<meta property="article:modified_time" content="2022-11-14T16:33:17&#43;08:00" />
+<meta property="og:url" content="https://xiergo.github.io/posts/tech/vae/" />
+<meta property="og:image" content="https://xiergo.github.io/posts/tech/VAE/1.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-11-23T09:16:57&#43;08:00" />
+<meta property="article:modified_time" content="2022-11-23T09:16:57&#43;08:00" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://xiergo.github.io/posts/tech/antibody_vdj_recombination/0.jpg" />
-<meta name="twitter:title" content="抗体VDJ重排"/>
-<meta name="twitter:description" content="抗体简介 抗体根据其重链恒定区不同，可以分为五类，如下表： 抗体分类 以IgG为例，抗体由2条重链和两条轻链组成。其中，重链由14号染色体编码。轻链有两种，$\kappa$链由2号染色体编码，$\lambda$链由22号染色体编码。 Chain Chr V D J heavy chain 14 56 23 6 $\kappa$ light chain 2 52 0 5 $\lambda$ light chain 22 30 0 7 抗体"/>
+<meta name="twitter:image" content="https://xiergo.github.io/posts/tech/VAE/1.png" />
+<meta name="twitter:title" content="VAE"/>
+<meta name="twitter:description" content="自编码器（Autoencoder, AE） 自编码器，利用神经网络进行数据将维，类似非线性PCA。 $$ z=g(x)\\ \tilde{x}=f(z)\\ \ell=||x-\tilde x||^2 $$ Autoencoder 变分自编码器（Variational autoencoder, VAE） 模型接受输入$x$，经过encoder压缩到一个隐空间（latent space），从隐空间采样$z$，并将$z$经过decod"/>
 
 
 <script type="application/ld+json">
@@ -117,8 +117,8 @@ var _hmt = _hmt || [];
     {
       "@type": "ListItem",
       "position":  3 ,
-      "name": "抗体VDJ重排",
-      "item": "https://xiergo.github.io/posts/tech/%E6%8A%97%E4%BD%93vdj%E9%87%8D%E6%8E%92/"
+      "name": "VAE",
+      "item": "https://xiergo.github.io/posts/tech/vae/"
     }
   ]
 }
@@ -127,24 +127,24 @@ var _hmt = _hmt || [];
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "抗体VDJ重排",
-  "name": "抗体VDJ重排",
-  "description": "抗体简介 抗体根据其重链恒定区不同，可以分为五类，如下表： 抗体分类 以IgG为例，抗体由2条重链和两条轻链组成。其中，重链由14号染色体编码。轻链有两种，$\\kappa$链由2号染色体编码，$\\lambda$链由22号染色体编码。 Chain Chr V D J heavy chain 14 56 23 6 $\\kappa$ light chain 2 52 0 5 $\\lambda$ light chain 22 30 0 7 抗体",
+  "headline": "VAE",
+  "name": "VAE",
+  "description": "自编码器（Autoencoder, AE） 自编码器，利用神经网络进行数据将维，类似非线性PCA。 $$ z=g(x)\\\\ \\tilde{x}=f(z)\\\\ \\ell=||x-\\tilde x||^2 $$ Autoencoder 变分自编码器（Variational autoencoder, VAE） 模型接受输入$x$，经过encoder压缩到一个隐空间（latent space），从隐空间采样$z$，并将$z$经过decod",
   "keywords": [
-    "biology"
+    
   ],
-  "articleBody": "\r抗体简介 抗体根据其重链恒定区不同，可以分为五类，如下表：\n抗体分类\r以IgG为例，抗体由2条重链和两条轻链组成。其中，重链由14号染色体编码。轻链有两种，$\\kappa$链由2号染色体编码，$\\lambda$链由22号染色体编码。\nChain Chr V D J heavy chain 14 56 23 6 $\\kappa$ light chain 2 52 0 5 $\\lambda$ light chain 22 30 0 7 抗体轻重链\rV(D)J基因片段重排 如下图所示，VDJ分别为Variable (V), Diversity (D) 和 Joining (J)的首字母缩写，代表各类的基因片段。重链先DJ重排，再V和DJ重排。轻链只有VJ重排。RSS(Recombination Signal Sequences)保证了VDJ排列的顺序是对的，包括12RSS、23RSS，序列长度不一样。Constant区域相对固定，重链有3个恒定去区，一个可变区，轻链有一个恒定区，一个可变区。可变区包括4个框架区（Framework Region, FR）和3个互补决定区（complementary determing region, CDR），其中CDR区就是与抗原紧密接触的区域。CDR1，CDR2由V区的片段构成，CDR3由VDJ（重链）或VJ（轻链）组成，因此其多样性最高。\nV(D)J重排详细示意图。\r参考文献 Dunn-Walters D, Townsend C, Sinclair E, Stewart A. Immunoglobulin gene analysis as a tool for investigating human immune responses. Immunol Rev. 2018 Jul;284(1):132-147. doi: 10.1111/imr.12659. PMID: 29944755; PMCID: PMC6033188.\n",
-  "wordCount" : "502",
+  "articleBody": "\r自编码器（Autoencoder, AE） 自编码器，利用神经网络进行数据将维，类似非线性PCA。 $$ z=g(x)\\\\ \\tilde{x}=f(z)\\\\ \\ell=||x-\\tilde x||^2 $$\nAutoencoder\r变分自编码器（Variational autoencoder, VAE） 模型接受输入$x$，经过encoder压缩到一个隐空间（latent space），从隐空间采样$z$，并将$z$经过decoder得到$\\tilde X$，希望产生的$\\tilde x$尽可能接近$x$。\n我们想最大化似然函数$p(x|\\theta)$，比如高斯分布$\\mathcal N(x|\\mu,\\sigma^2)$ $$ \\begin{aligned} p_\\theta(x)\u0026=\\int_zp_\\theta(x,z)dz\\\\ \u0026=\\int_zp_\\theta(x|z)p_\\theta(z)dz \\end{aligned} $$ 不太好积分，因此，我们想找一个$q_\\phi(z|x)\\approx p_\\theta(z|x)$\nKL散度（Kullback–Leibler divergence） Evidence lower bound\r$$ \\begin{aligned} D_{KL}(q_\\phi(z|x)||p_\\theta(z|x))\u0026=\\mathbb E_{z\\sim q_\\phi(.|x)}\\bigg[\\log\\frac{q_\\phi(z|x)}{p_\\theta(z|x)}\\bigg]\\\\ \u0026=\\mathbb E_{z\\sim q_\\phi(.|x)}\\bigg[\\log\\frac{q_\\phi(z|x)p_\\theta(x)}{p_\\theta(z|x)p_\\theta(x)}\\bigg]\\\\ \u0026=\\mathbb E_{z\\sim q_\\phi(.|x)}\\bigg[\\log\\frac{q_\\phi(z|x)p_\\theta(x)}{p_\\theta(z,x)}\\bigg]\\\\ \u0026=\\log p_\\theta(x)+\\mathbb E_{z\\sim q_\\phi(.|x)}\\bigg[\\log\\frac{q_\\phi(z|x)}{p_\\theta(z,x)}\\bigg]\\\\ \\end{aligned} $$ 这里定义evidence lower bound (ELBO) $$ L_{\\phi,\\theta}(x):=\\mathbb E_{z\\sim q_\\phi(z|x)}\\bigg[\\log \\frac{p_\\theta(z,x)}{q_\\phi(z|x)}\\bigg]\\\\ =\\log p_\\theta(x)-D_{KL}(q_\\phi(z|x)||p_\\theta(z|x)) $$ 最大化ELBO就相当于最大化观测数据的log-likelihood，同时最小化估计的posterior （$q_\\phi(z|x)$）和真实的posterior ($p_\\theta(z|x)$)之间的差距。\n",
+  "wordCount" : "435",
   "inLanguage": "en",
-  "image":"https://xiergo.github.io/posts/tech/antibody_vdj_recombination/0.jpg","datePublished": "2022-11-14T16:33:17+08:00",
-  "dateModified": "2022-11-14T16:33:17+08:00",
+  "image":"https://xiergo.github.io/posts/tech/VAE/1.png","datePublished": "2022-11-23T09:16:57+08:00",
+  "dateModified": "2022-11-23T09:16:57+08:00",
   "author":[{
     "@type": "Person",
     "name": "Xiergo"
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://xiergo.github.io/posts/tech/%E6%8A%97%E4%BD%93vdj%E9%87%8D%E6%8E%92/"
+    "@id": "https://xiergo.github.io/posts/tech/vae/"
   },
   "publisher": {
     "@type": "Organization",
@@ -249,17 +249,14 @@ var _hmt = _hmt || [];
         <header class="post-header">
             <div class="breadcrumbs"><a href="https://xiergo.github.io/">主页</a>&nbsp;»&nbsp;<a href="https://xiergo.github.io/posts/">📚文章</a>&nbsp;»&nbsp;<a href="https://xiergo.github.io/posts/tech/">👨🏻‍💻 技术</a></div>
             <h1 class="post-title">
-                抗体VDJ重排
+                VAE
             </h1>
-            <div class="post-meta">创建:&nbsp;<span title='2022-11-14 16:33:17 +0800 CST'>2022-11-14</span>&nbsp;|&nbsp;更新:&nbsp;2022-11-14&nbsp;|&nbsp;字数:&nbsp;502字&nbsp;|&nbsp;时长:&nbsp;2分钟&nbsp;|&nbsp;
+            <div class="post-meta">创建:&nbsp;<span title='2022-11-23 09:16:57 +0800 CST'>2022-11-23</span>&nbsp;|&nbsp;更新:&nbsp;2022-11-23&nbsp;|&nbsp;字数:&nbsp;435字&nbsp;|&nbsp;时长:&nbsp;1分钟&nbsp;|&nbsp;
 作者:&nbsp;Xiergo
 
 
 
                 &nbsp;|&nbsp;标签: &nbsp;
-                <ul class="post-tags-meta">
-                    <a href="https://xiergo.github.io/tags/biology/">biology</a>
-                </ul>
 
                 
                 <span id="busuanzi_container_page_pv">
@@ -268,7 +265,7 @@ var _hmt = _hmt || [];
 
 </div>
         </header> 
-<figure class="entry-cover1"><img loading="lazy" src="https://xiergo.github.io/posts/tech/antibody_vdj_recombination/0.jpg" alt="">
+<figure class="entry-cover1"><img loading="lazy" src="https://xiergo.github.io/posts/tech/VAE/1.png" alt="">
         
 </figure>
         <aside id="toc-container" class="toc-container wide">
@@ -280,11 +277,11 @@ var _hmt = _hmt || [];
 
         <div class="inner"><ul>
                 <li>
-                    <a href="#%e6%8a%97%e4%bd%93%e7%ae%80%e4%bb%8b" aria-label="抗体简介">抗体简介</a></li>
+                    <a href="#%e8%87%aa%e7%bc%96%e7%a0%81%e5%99%a8autoencoder-ae" aria-label="自编码器（Autoencoder, AE）">自编码器（Autoencoder, AE）</a></li>
                 <li>
-                    <a href="#vdj%e5%9f%ba%e5%9b%a0%e7%89%87%e6%ae%b5%e9%87%8d%e6%8e%92" aria-label="V(D)J基因片段重排">V(D)J基因片段重排</a></li>
+                    <a href="#%e5%8f%98%e5%88%86%e8%87%aa%e7%bc%96%e7%a0%81%e5%99%a8variational-autoencoder-vae" aria-label="变分自编码器（Variational autoencoder, VAE）">变分自编码器（Variational autoencoder, VAE）</a></li>
                 <li>
-                    <a href="#%e5%8f%82%e8%80%83%e6%96%87%e7%8c%ae" aria-label="参考文献">参考文献</a>
+                    <a href="#kl%e6%95%a3%e5%ba%a6kullbackleibler-divergence" aria-label="KL散度（Kullback–Leibler divergence）">KL散度（Kullback–Leibler divergence）</a>
                 </li>
             </ul>
         </div>
@@ -363,68 +360,52 @@ var _hmt = _hmt || [];
 </center>
 
 -->
-<h2 id="抗体简介">抗体简介<a hidden class="anchor" aria-hidden="true" href="#抗体简介">#</a></h2>
-<p>抗体根据其重链恒定区不同，可以分为五类，如下表：</p>
+<h2 id="自编码器autoencoder-ae">自编码器（Autoencoder, AE）<a hidden class="anchor" aria-hidden="true" href="#自编码器autoencoder-ae">#</a></h2>
+<p>自编码器，利用神经网络进行数据将维，类似非线性PCA。
+$$
+z=g(x)\\
+\tilde{x}=f(z)\\
+\ell=||x-\tilde x||^2
+$$</p>
 <center>
     <img  style="border-radius:0.3125em;
     box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src="/img/tech/antibody_vdj_recombination/0.jpg">
+    src="/img/tech/VAE/1.webp">
     <div style="color:gray; border-bottom: 1px solid gray;
-    display: inline-block;">抗体分类</div>
+    display: inline-block;">Autoencoder</div>
 </center>
-<p>以IgG为例，抗体由2条重链和两条轻链组成。其中，重链由14号染色体编码。轻链有两种，$\kappa$链由2号染色体编码，$\lambda$链由22号染色体编码。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Chain</th>
-<th>Chr</th>
-<th>V</th>
-<th>D</th>
-<th>J</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">heavy chain</td>
-<td>14</td>
-<td>56</td>
-<td>23</td>
-<td>6</td>
-</tr>
-<tr>
-<td style="text-align:left">$\kappa$ light chain</td>
-<td>2</td>
-<td>52</td>
-<td>0</td>
-<td>5</td>
-</tr>
-<tr>
-<td style="text-align:left">$\lambda$ light chain</td>
-<td>22</td>
-<td>30</td>
-<td>0</td>
-<td>7</td>
-</tr>
-</tbody>
-</table>
+<h2 id="变分自编码器variational-autoencoder-vae">变分自编码器（Variational autoencoder, VAE）<a hidden class="anchor" aria-hidden="true" href="#变分自编码器variational-autoencoder-vae">#</a></h2>
+<p>模型接受输入$x$，经过encoder压缩到一个隐空间（latent space），从隐空间采样$z$，并将$z$经过decoder得到$\tilde X$，希望产生的$\tilde x$尽可能接近$x$。</p>
+<p>我们想最大化似然函数$p(x|\theta)$，比如高斯分布$\mathcal N(x|\mu,\sigma^2)$
+$$
+\begin{aligned}
+p_\theta(x)&amp;=\int_zp_\theta(x,z)dz\\
+&amp;=\int_zp_\theta(x|z)p_\theta(z)dz
+\end{aligned}
+$$
+不太好积分，因此，我们想找一个$q_\phi(z|x)\approx p_\theta(z|x)$</p>
+<h2 id="kl散度kullbackleibler-divergence">KL散度（Kullback–Leibler divergence）<a hidden class="anchor" aria-hidden="true" href="#kl散度kullbackleibler-divergence">#</a></h2>
 <center>
     <img  style="border-radius:0.3125em;
     box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src="/img/tech/antibody_vdj_recombination/1.jpg">
+    src="/img/tech/VAE/2.png">
     <div style="color:gray; border-bottom: 1px solid gray;
-    display: inline-block;">抗体轻重链</div>
+    display: inline-block;">Evidence lower bound</div>
 </center>
-<h2 id="vdj基因片段重排">V(D)J基因片段重排<a hidden class="anchor" aria-hidden="true" href="#vdj基因片段重排">#</a></h2>
-<p>如下图所示，VDJ分别为Variable (V), Diversity (D) 和 Joining (J)的首字母缩写，代表各类的基因片段。重链先DJ重排，再V和DJ重排。轻链只有VJ重排。RSS(Recombination Signal Sequences)保证了VDJ排列的顺序是对的，包括12RSS、23RSS，序列长度不一样。Constant区域相对固定，重链有3个恒定去区，一个可变区，轻链有一个恒定区，一个可变区。可变区包括4个框架区（Framework Region, FR）和3个互补决定区（complementary determing region, CDR），其中CDR区就是与抗原紧密接触的区域。CDR1，CDR2由V区的片段构成，CDR3由VDJ（重链）或VJ（轻链）组成，因此其多样性最高。</p>
-<center>
-    <img  style="border-radius:0.3125em;
-    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
-    src="/img/tech/antibody_vdj_recombination/2.jpg">
-    <div style="color:gray; border-bottom: 1px solid gray;
-    display: inline-block;">V(D)J重排详细示意图。</div>
-</center>
-<h2 id="参考文献">参考文献<a hidden class="anchor" aria-hidden="true" href="#参考文献">#</a></h2>
-<p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6033188/">Dunn-Walters D, Townsend C, Sinclair E, Stewart A. Immunoglobulin gene analysis as a tool for investigating human immune responses. Immunol Rev. 2018 Jul;284(1):132-147. doi: 10.1111/imr.12659. PMID: 29944755; PMCID: PMC6033188.</a></p>
+<p>$$
+\begin{aligned}
+D_{KL}(q_\phi(z|x)||p_\theta(z|x))&amp;=\mathbb E_{z\sim q_\phi(.|x)}\bigg[\log\frac{q_\phi(z|x)}{p_\theta(z|x)}\bigg]\\
+&amp;=\mathbb E_{z\sim q_\phi(.|x)}\bigg[\log\frac{q_\phi(z|x)p_\theta(x)}{p_\theta(z|x)p_\theta(x)}\bigg]\\
+&amp;=\mathbb E_{z\sim q_\phi(.|x)}\bigg[\log\frac{q_\phi(z|x)p_\theta(x)}{p_\theta(z,x)}\bigg]\\
+&amp;=\log p_\theta(x)+\mathbb E_{z\sim q_\phi(.|x)}\bigg[\log\frac{q_\phi(z|x)}{p_\theta(z,x)}\bigg]\\
+\end{aligned}
+$$
+这里定义evidence lower bound (ELBO)
+$$
+L_{\phi,\theta}(x):=\mathbb E_{z\sim q_\phi(z|x)}\bigg[\log \frac{p_\theta(z,x)}{q_\phi(z|x)}\bigg]\\
+=\log p_\theta(x)-D_{KL}(q_\phi(z|x)||p_\theta(z|x))
+$$
+最大化ELBO就相当于最大化观测数据的log-likelihood，同时最小化估计的posterior （$q_\phi(z|x)$）和真实的posterior ($p_\theta(z|x)$)之间的差距。</p>
 
 
         </div>
@@ -459,15 +440,15 @@ var _hmt = _hmt || [];
         <footer class="post-footer">
             
 <nav class="paginav">
-  <a class="prev" href="https://xiergo.github.io/posts/life/%E9%9D%A2%E8%AF%95%E6%98%8C%E5%B9%B3%E5%AE%9E%E9%AA%8C%E5%AE%A4%E5%AE%9E%E4%B9%A0/">
+  <a class="prev" href="https://xiergo.github.io/posts/tech/mle/">
     <span class="title">« 上一页</span>
     <br>
-    <span>面试昌平实验室实习</span>
+    <span>MLE</span>
   </a>
-  <a class="next" href="https://xiergo.github.io/posts/tech/%E9%85%B5%E6%AF%8D%E8%A1%A8%E9%9D%A2%E5%B1%95%E7%A4%BA%E6%8A%80%E6%9C%AFyeast_display/">
+  <a class="next" href="https://xiergo.github.io/posts/life/%E9%9D%A2%E8%AF%95%E6%98%8C%E5%B9%B3%E5%AE%9E%E9%AA%8C%E5%AE%A4%E5%AE%9E%E4%B9%A0/">
     <span class="title">下一页 »</span>
     <br>
-    <span>酵母表面展示技术Yeast Display</span>
+    <span>面试昌平实验室实习</span>
   </a>
 </nav>
 
