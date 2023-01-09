@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>综合考试202201215总结 | Xiergo&#39;s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="国内外现状 免疫检查点阻断（immune checkpoint blockade, ICB）的内在机制尚不完全清楚，阻碍了免疫治疗的发展。 单细胞技术的发展以及单细胞数据的积累可以用于刻画经过ICB治疗之后的不同肿瘤中T细胞的动态变化和对ICB的反应。 BCC和乳腺癌的研究显示PD-1阻断治疗有效的患者耗竭的CD8&#43;T(T_">
+<meta name="author" content="
+作者:&nbsp;Xiergo">
+<link rel="canonical" href="https://xiergo.github.io/posts/tech/%E7%BB%BC%E5%90%88%E8%80%83%E8%AF%95202201215%E6%80%BB%E7%BB%93/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="icon" type="image/png" sizes="16x16" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="apple-touch-icon" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="mask-icon" href="https://xiergo.github.io/img/Q.jpg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+onload="renderMathInElement(document.body, 
+    {
+              delimiters: [
+                  {left: '$$', right: '$$', display: true},
+                  {left: '\\[', right: '\\]', display: true},
+                  {left: '$', right: '$', display: false},
+                  {left: '\\(', right: '\\)', display: false}
+              ]
+          }
+    );"></script>
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = ""; 
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta property="og:title" content="综合考试202201215总结" />
+<meta property="og:description" content="国内外现状 免疫检查点阻断（immune checkpoint blockade, ICB）的内在机制尚不完全清楚，阻碍了免疫治疗的发展。 单细胞技术的发展以及单细胞数据的积累可以用于刻画经过ICB治疗之后的不同肿瘤中T细胞的动态变化和对ICB的反应。 BCC和乳腺癌的研究显示PD-1阻断治疗有效的患者耗竭的CD8&#43;T(T_" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://xiergo.github.io/posts/tech/%E7%BB%BC%E5%90%88%E8%80%83%E8%AF%95202201215%E6%80%BB%E7%BB%93/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-12T14:54:38&#43;08:00" />
+<meta property="article:modified_time" content="2022-12-12T14:54:38&#43;08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="综合考试202201215总结"/>
+<meta name="twitter:description" content="国内外现状 免疫检查点阻断（immune checkpoint blockade, ICB）的内在机制尚不完全清楚，阻碍了免疫治疗的发展。 单细胞技术的发展以及单细胞数据的积累可以用于刻画经过ICB治疗之后的不同肿瘤中T细胞的动态变化和对ICB的反应。 BCC和乳腺癌的研究显示PD-1阻断治疗有效的患者耗竭的CD8&#43;T(T_"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "📚文章",
+      "item": "https://xiergo.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "👨🏻‍💻 技术",
+      "item": "https://xiergo.github.io/posts/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "综合考试202201215总结",
+      "item": "https://xiergo.github.io/posts/tech/%E7%BB%BC%E5%90%88%E8%80%83%E8%AF%95202201215%E6%80%BB%E7%BB%93/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "综合考试202201215总结",
+  "name": "综合考试202201215总结",
+  "description": "国内外现状 免疫检查点阻断（immune checkpoint blockade, ICB）的内在机制尚不完全清楚，阻碍了免疫治疗的发展。 单细胞技术的发展以及单细胞数据的积累可以用于刻画经过ICB治疗之后的不同肿瘤中T细胞的动态变化和对ICB的反应。 BCC和乳腺癌的研究显示PD-1阻断治疗有效的患者耗竭的CD8+T(T_",
+  "keywords": [
+    
+  ],
+  "articleBody": "\r国内外现状 免疫检查点阻断（immune checkpoint blockade, ICB）的内在机制尚不完全清楚，阻碍了免疫治疗的发展。\n单细胞技术的发展以及单细胞数据的积累可以用于刻画经过ICB治疗之后的不同肿瘤中T细胞的动态变化和对ICB的反应。\nBCC和乳腺癌的研究显示PD-1阻断治疗有效的患者耗竭的CD8+T(T_ex)细胞增多，而NSCLC中只有T_ex前体细胞对PD-1阻断有反应。\nBCC中治疗后的产生了新的肿瘤特异型CD8+T克隆，但在乳腺癌和肺癌中并不常见。\n由于肿瘤中大量非肿瘤特特异T细胞（bystanders）的存在，导致单细胞观察到的T细胞行为不能很好地反应肿瘤特异T细胞的行为。\n很多研究用耗竭相关基因（如CD39）来区分bystander和肿瘤特异T细胞。但是在ICB治疗患者中，大量肿瘤特异T细胞由于ICB的影响，耗竭相关基因表达下调以致于无法区分bystander和肿瘤特异T细胞。\n传统用于预测抗pd1和抗pd-l1的疗效用肿瘤突变负担（TMB）,但是效果不理想。\n研究问题 ICB的基本机制是什么？在不同肿瘤中，肿瘤特异性T细胞对ICB的反应是什么？ 如何定义特异性CD8+T细胞的分化状态。 克隆替代现象背后的机制是什么？为什么不同肿瘤中出现该现象的频率不一样？ 是否可以找到比TMB更好的指标来预测不同癌症病人是否对ICB治疗有效。 是否可以找到比耗竭相关基因更可靠的Marker来区分bystander和肿瘤特异T细胞？ 方法 抗原共培养鉴别治疗前的bystander和肿瘤特异T细胞。利用抗原特异性转移策略得到对应的治疗后的抗原特异性。结合单细胞转录组学分析，比如差异表达基因分析（DEG）得出治疗前后均可用CXCL13来区分肿瘤特异细胞。 通过整合多个癌种数据集进行Meta分析，得到不同背景下的T细胞对ICB的反应。 通过相关性分析，得到肿瘤特异细胞丰度和ICB疗效的正相关。 对CXCL13+CD8+T细胞进行无监督聚类（Leiden clustering）和PCA降维将其分为四类，通过对比各类的signature得分以及结合RNA velocity analysis和scATAC-seq数据得到肿瘤特异T细胞的发育轨迹。 对TIL得分和前体样细胞比例的相关性分析，得到肿瘤内部免疫抑制程度是ICB疗效不同的重要潜在因素 对外周血和CD4T细胞也进行了类似的生信分析。 此外用到的统计方法有：方差分析，T-检验，Wilcoxon检验 结果 不管是耗竭T细胞还是非耗竭T细胞，都可以用CXCL13的表达来鉴别肿瘤特异的T细胞，bystander几乎不表达CXCL13 在多个癌种中，PD-1和PD-L1阻断疗法的疗效和CXCL13+的肿瘤特异性T细胞的丰度有着很强的正相关性。 各个癌种均可以通过无监督聚类分为四类：增殖类、终末分化类和两个前提样类（IL7R+HAVCR2-和GZMK+HAVCR2-）。其中肿瘤特异T细胞包括前体样细胞和终末分化细胞。分化方向是IL7R+HAVCR2-到GZMK+HAVCR2-到终末分化细胞。 不同的环境下T细胞对ICB的反应也不同，表现为各肿瘤的前体样细胞占总的CXCL13+CD8+T细胞的比例不一样。进一步发现肿瘤内部免疫抑制程度（CIL得分）和前体样细胞占比呈负相关。肿瘤内部免疫抑制程度是ICB疗效不同的重要潜在因素。低免疫抑制ICB增加前体样细胞，高免疫抑制ICB倾向增加终末分化T细胞。但ICB有效的肿瘤样本中总的肿瘤特异T细胞都会增加。 外周血的肿瘤特异CD8+T细胞的丰度也和ICB疗效正相关。肿瘤内的肿瘤特异T细胞可以被肿瘤外的新的或已经存在的克隆补充上，在ICB有效的病人上更明显。 CXCL13+CD4+T细胞也可提高ICB（或与化疗结合）疗效，用CXCL13+CD4+T细胞和CXCL13+CD8+T细胞一起预测ICB疗效的准确性更好。 重要性和意义 找到一个更可靠的同时适用于ICB前后的分辨肿瘤特异T细胞的marker，CXCL13。 有利于合理设计某些T细胞疗法来治疗肿瘤，比如engineered TCR-T cell therapy。 提供了一个详细的细胞图谱来帮助更好地理解肿瘤特异性T细胞对ICB疗法的反应。 定义了一个统一的适用于多种癌症的肿瘤特异性CD8+T细胞的发育框架，可以单独使用或者和之前研究定义的全局T细胞框架联合使用，帮助更好地理解肿瘤免疫。 发现肿瘤特异T细胞是ICB疗效的关键，暗示肿瘤可能通过降低该细胞来抵抗ICB 肿瘤特异前体T细胞对ICB反应最为明显，提示可以通过抑制前体细胞向终末分化系细胞转变来改善肿瘤治疗。 外周血的肿瘤特异CD8+T细胞的丰度也和ICB疗效正相关，可以利用这个开发基于血液的监测ICB疗效的试剂盒。 ",
+  "wordCount" : "1915",
+  "inLanguage": "en",
+  "datePublished": "2022-12-12T14:54:38+08:00",
+  "dateModified": "2022-12-12T14:54:38+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Xiergo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://xiergo.github.io/posts/tech/%E7%BB%BC%E5%90%88%E8%80%83%E8%AF%95202201215%E6%80%BB%E7%BB%93/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Xiergo's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://xiergo.github.io/img/Q.jpg"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://xiergo.github.io/" accesskey="h" title="Xiergo&#39;s Blog (Alt + H)">
+            <img src="https://xiergo.github.io/img/Q.jpg" alt="logo" aria-label="logo"
+                 height="35">Xiergo&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://xiergo.github.io/search" title="🔍 搜索 (Alt &#43; /)" accesskey=/>
+                <span>🔍 搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/" title="🏠 主页">
+                <span>🏠 主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/posts" title="📚 文章">
+                <span>📚 文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/tags" title="🧩 标签">
+                <span>🧩 标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/archives/" title="⏱️ 时间轴">
+                <span>⏱️ 时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/about" title="🙋🏻‍♂️ 关于">
+                <span>🙋🏻‍♂️ 关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/links" title="🤝 友链">
+                <span>🤝 友链</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main page">
+<article class="post-single">
+    <div id="single-content">
+        <header class="post-header">
+            <div class="breadcrumbs"><a href="https://xiergo.github.io/">主页</a>&nbsp;»&nbsp;<a href="https://xiergo.github.io/posts/">📚文章</a>&nbsp;»&nbsp;<a href="https://xiergo.github.io/posts/tech/">👨🏻‍💻 技术</a></div>
+            <h1 class="post-title">
+                综合考试202201215总结
+            </h1>
+            <div class="post-meta">创建:&nbsp;<span title='2022-12-12 14:54:38 +0800 CST'>2022-12-12</span>&nbsp;|&nbsp;更新:&nbsp;2022-12-12&nbsp;|&nbsp;字数:&nbsp;1915字&nbsp;|&nbsp;时长:&nbsp;4分钟&nbsp;|&nbsp;
+作者:&nbsp;Xiergo
+
+
+
+                &nbsp;|&nbsp;标签: &nbsp;
+
+                
+                <span id="busuanzi_container_page_pv">
+                &nbsp;| 访问: <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+</div>
+        </header> 
+        <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">文章目录</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e5%9b%bd%e5%86%85%e5%a4%96%e7%8e%b0%e7%8a%b6" aria-label="国内外现状">国内外现状</a></li>
+                <li>
+                    <a href="#%e7%a0%94%e7%a9%b6%e9%97%ae%e9%a2%98" aria-label="研究问题">研究问题</a></li>
+                <li>
+                    <a href="#%e6%96%b9%e6%b3%95" aria-label="方法">方法</a></li>
+                <li>
+                    <a href="#%e7%bb%93%e6%9e%9c" aria-label="结果">结果</a></li>
+                <li>
+                    <a href="#%e9%87%8d%e8%a6%81%e6%80%a7%e5%92%8c%e6%84%8f%e4%b9%89" aria-label="重要性和意义">重要性和意义</a>
+                </li>
+            </ul>
+        </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+        
+        activeElement = elements[0];
+        const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+        document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+    }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 &&
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+            const id = encodeURI(element.getAttribute('id')).toLowerCase();
+            if (element === activeElement){
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+            } else {
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+            }
+        })
+    }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;
+    }
+</script>
+        
+        <div class="post-content"><!--
+添加图片方法
+
+<center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/yeast_display/1.jpg">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">图注写这里</div>
+</center>
+
+-->
+<h2 id="国内外现状">国内外现状<a hidden class="anchor" aria-hidden="true" href="#国内外现状">#</a></h2>
+<ol>
+<li>
+<p>免疫检查点阻断（immune checkpoint blockade, ICB）的内在机制尚不完全清楚，阻碍了免疫治疗的发展。</p>
+</li>
+<li>
+<p>单细胞技术的发展以及单细胞数据的积累可以用于刻画经过ICB治疗之后的不同肿瘤中T细胞的动态变化和对ICB的反应。</p>
+</li>
+<li>
+<p>BCC和乳腺癌的研究显示PD-1阻断治疗有效的患者耗竭的CD8+T(T_ex)细胞增多，而NSCLC中只有T_ex前体细胞对PD-1阻断有反应。</p>
+</li>
+<li>
+<p>BCC中治疗后的产生了新的肿瘤特异型CD8+T克隆，但在乳腺癌和肺癌中并不常见。</p>
+</li>
+<li>
+<p>由于肿瘤中大量非肿瘤特特异T细胞（bystanders）的存在，导致单细胞观察到的T细胞行为不能很好地反应肿瘤特异T细胞的行为。</p>
+</li>
+<li>
+<p>很多研究用耗竭相关基因（如CD39）来区分bystander和肿瘤特异T细胞。但是在ICB治疗患者中，大量肿瘤特异T细胞由于ICB的影响，耗竭相关基因表达下调以致于无法区分bystander和肿瘤特异T细胞。</p>
+</li>
+<li>
+<p>传统用于预测抗pd1和抗pd-l1的疗效用肿瘤突变负担（TMB）,但是效果不理想。</p>
+</li>
+</ol>
+<h2 id="研究问题">研究问题<a hidden class="anchor" aria-hidden="true" href="#研究问题">#</a></h2>
+<ol>
+<li>ICB的基本机制是什么？在不同肿瘤中，肿瘤特异性T细胞对ICB的反应是什么？</li>
+<li>如何定义特异性CD8+T细胞的分化状态。</li>
+<li>克隆替代现象背后的机制是什么？为什么不同肿瘤中出现该现象的频率不一样？</li>
+<li>是否可以找到比TMB更好的指标来预测不同癌症病人是否对ICB治疗有效。</li>
+<li>是否可以找到比耗竭相关基因更可靠的Marker来区分bystander和肿瘤特异T细胞？</li>
+</ol>
+<h2 id="方法">方法<a hidden class="anchor" aria-hidden="true" href="#方法">#</a></h2>
+<ol>
+<li>抗原共培养鉴别治疗前的bystander和肿瘤特异T细胞。利用抗原特异性转移策略得到对应的治疗后的抗原特异性。结合单细胞转录组学分析，比如差异表达基因分析（DEG）得出治疗前后均可用CXCL13来区分肿瘤特异细胞。</li>
+<li>通过整合多个癌种数据集进行Meta分析，得到不同背景下的T细胞对ICB的反应。</li>
+<li>通过相关性分析，得到肿瘤特异细胞丰度和ICB疗效的正相关。</li>
+<li>对CXCL13+CD8+T细胞进行无监督聚类（Leiden clustering）和PCA降维将其分为四类，通过对比各类的signature得分以及结合RNA velocity analysis和scATAC-seq数据得到肿瘤特异T细胞的发育轨迹。</li>
+<li>对TIL得分和前体样细胞比例的相关性分析，得到肿瘤内部免疫抑制程度是ICB疗效不同的重要潜在因素</li>
+<li>对外周血和CD4T细胞也进行了类似的生信分析。</li>
+<li>此外用到的统计方法有：方差分析，T-检验，Wilcoxon检验</li>
+</ol>
+<h2 id="结果">结果<a hidden class="anchor" aria-hidden="true" href="#结果">#</a></h2>
+<ol>
+<li>不管是耗竭T细胞还是非耗竭T细胞，都可以用CXCL13的表达来鉴别肿瘤特异的T细胞，bystander几乎不表达CXCL13</li>
+<li>在多个癌种中，PD-1和PD-L1阻断疗法的疗效和CXCL13+的肿瘤特异性T细胞的丰度有着很强的正相关性。</li>
+<li>各个癌种均可以通过无监督聚类分为四类：增殖类、终末分化类和两个前提样类（IL7R+HAVCR2-和GZMK+HAVCR2-）。其中肿瘤特异T细胞包括前体样细胞和终末分化细胞。分化方向是IL7R+HAVCR2-到GZMK+HAVCR2-到终末分化细胞。</li>
+<li>不同的环境下T细胞对ICB的反应也不同，表现为各肿瘤的前体样细胞占总的CXCL13+CD8+T细胞的比例不一样。进一步发现肿瘤内部免疫抑制程度（CIL得分）和前体样细胞占比呈负相关。肿瘤内部免疫抑制程度是ICB疗效不同的重要潜在因素。低免疫抑制ICB增加前体样细胞，高免疫抑制ICB倾向增加终末分化T细胞。但ICB有效的肿瘤样本中总的肿瘤特异T细胞都会增加。</li>
+<li>外周血的肿瘤特异CD8+T细胞的丰度也和ICB疗效正相关。肿瘤内的肿瘤特异T细胞可以被肿瘤外的新的或已经存在的克隆补充上，在ICB有效的病人上更明显。</li>
+<li>CXCL13+CD4+T细胞也可提高ICB（或与化疗结合）疗效，用CXCL13+CD4+T细胞和CXCL13+CD8+T细胞一起预测ICB疗效的准确性更好。</li>
+</ol>
+<h2 id="重要性和意义">重要性和意义<a hidden class="anchor" aria-hidden="true" href="#重要性和意义">#</a></h2>
+<ol>
+<li>找到一个更可靠的同时适用于ICB前后的分辨肿瘤特异T细胞的marker，CXCL13。</li>
+<li>有利于合理设计某些T细胞疗法来治疗肿瘤，比如engineered TCR-T cell therapy。</li>
+<li>提供了一个详细的细胞图谱来帮助更好地理解肿瘤特异性T细胞对ICB疗法的反应。</li>
+<li>定义了一个统一的适用于多种癌症的肿瘤特异性CD8+T细胞的发育框架，可以单独使用或者和之前研究定义的全局T细胞框架联合使用，帮助更好地理解肿瘤免疫。</li>
+<li>发现肿瘤特异T细胞是ICB疗效的关键，暗示肿瘤可能通过降低该细胞来抵抗ICB</li>
+<li>肿瘤特异前体T细胞对ICB反应最为明显，提示可以通过抑制前体细胞向终末分化系细胞转变来改善肿瘤治疗。</li>
+<li>外周血的肿瘤特异CD8+T细胞的丰度也和ICB疗效正相关，可以利用这个开发基于血液的监测ICB疗效的试剂盒。</li>
+</ol>
+
+
+        </div>
+        <div class="post-reward">
+            <div style="padding: 0 0 0 0; margin: 0 0 0 0; width: 100%; font-size:16px; text-align: center;">
+                <div id="QR" style="opacity: 0;">
+                    <div id="wechat" style="display: inline-block">
+                        <a class="fancybox" rel="group">
+                            <img id="wechat_qr" src="https://xiergo.github.io/img/wechat_pay.png" alt="wechat_pay"></a>
+                        <p>微信</p>
+                    </div>
+                    <div id="alipay" style="display: inline-block">
+                        <a class="fancybox" rel="group">
+                            <img id="alipay_qr" src="https://xiergo.github.io/img/alipay.png" alt="alipay"></a>
+                        <p>支付宝</p>
+                    </div>
+                </div>
+                <button id="rewardButton"
+                        onclick="
+                    var qr = document.getElementById('QR');
+                    if (qr.style.opacity === '0') {
+                        qr.style.opacity='1';
+                    } else {
+                        qr.style.opacity='0'
+                    }"
+                >
+                    <span>🧧 鼓励</span>
+                </button>
+            </div>
+        </div>
+
+        <footer class="post-footer">
+            
+<nav class="paginav">
+  <a class="next" href="https://xiergo.github.io/posts/life/%E6%88%91%E7%9A%84%E4%BA%8C%E5%8D%81%E4%B8%83%E5%91%A8%E5%B2%81%E7%94%9F%E6%97%A5/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>我的二十七周岁生日</span>
+  </a>
+</nav>
+
+        </footer>
+    </div>
+
+
+
+<div>
+    <div class="pagination__title">
+        <span class="pagination__title-h" style="font-size: 20px;">💬评论</span>
+        <hr />
+    </div>
+
+    <div id="tcomment"></div>
+
+    <script src="https://cdn.staticfile.org/twikoo/1.6.7/twikoo.all.min.js">
+    </script>
+    
+
+    
+
+    <script>
+        twikoo.init({
+            envId: "https://twikooapi.vercel.app", 
+            el: "#tcomment",
+            lang: 'zh-CN',
+            region: "ap-beijing",
+            path: window.TWIKOO_MAGIC_PATH||window.location.pathname,
+            
+            
+            
+            
+            
+            
+            
+        });
+    </script>
+
+</div>
+</article>
+</main>
+
+
+<script async src="https://unpkg.com/mermaid@8.8.1/dist/mermaid.min.js"></script>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<footer class="footer">
+    <span>
+        Copyright
+        &copy;
+        -2022
+        <a href="https://xiergo.github.io/" style="color:#939393;">Xiergo&#39;s Blog</a>
+        All Rights Reserved
+    </span>
+
+    <a href="https://beian.miit.gov.cn/" target="_blank" style="color:#939393;"></a>&nbsp;
+
+    <span>
+        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null"
+           style="display:inline-block;text-decoration:none;height:20px;color:#939393;">
+            <img src="" style="float:left;margin: 0px 5px 0px 0px;"/>
+            
+        </a>
+    </span>
+
+    <span id="busuanzi_container">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        总访客数: <span id="busuanzi_value_site_uv"></span>
+        总访问量: <span id="busuanzi_value_site_pv"></span>
+    </span>
+
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <span class="topInner">
+        <svg class="topSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z"/>
+        </svg>
+        <span id="read_progress"></span>
+    </span>
+</a>
+
+<script>
+    document.addEventListener('scroll', function (e) {
+        const readProgress = document.getElementById("read_progress");
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight;
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        
+        readProgress.innerText = ((scrollTop / (scrollHeight - clientHeight)).toFixed(2) * 100).toFixed(0);
+    })
+</script>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    let mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script>
+    document.body.addEventListener('copy', function (e) {
+        if (window.getSelection().toString() && window.getSelection().toString().length > 50) {
+            let clipboardData = e.clipboardData || window.clipboardData;
+            if (clipboardData) {
+                e.preventDefault();
+                let htmlData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「' + {
+                { .
+                    Site.Title
+                }
+            }
+                +'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                let textData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「' + {
+                { .
+                    Site.Title
+                }
+            }
+                +'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                clipboardData.setData('text/html', htmlData);
+                clipboardData.setData('text/plain', textData);
+            }
+        }
+    });
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = '📄复制';
+
+        function copyingDone() {
+            copybutton.innerText = '👌🏻已复制!';
+            setTimeout(() => {
+                copybutton.innerText = '📄复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                let text = codeblock.textContent +
+                    '\r\n————————————————\r\n' +
+                    '版权声明：本文为「' + "Xiergo's Blog"
+                +'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                navigator.clipboard.writeText(text);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) {
+            }
+            ;
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild === container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName === "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+    $("code[class^=language] ").on("mouseover", function () {
+        if (this.clientWidth < this.scrollWidth) {
+            $(this).css("width", "135%")
+        }
+    }).on("mouseout", function () {
+        $(this).css("width", "100%")
+    })
+</script>
+</body>
+
+</html>

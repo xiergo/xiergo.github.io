@@ -6,7 +6,43 @@
     <description>Recent content in 👨🏻‍💻 技术 on Xiergo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 29 Nov 2022 10:52:43 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 07 Jan 2023 13:33:44 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ANSURR:一种验证NMR蛋白结构准确性的方法</title>
+      <link>https://xiergo.github.io/posts/tech/ansurr1/</link>
+      <pubDate>Sat, 07 Jan 2023 13:33:44 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/ansurr1/</guid>
+      <description>开发了一种测量NMR蛋白结构准确性的方法。该方法比较RCI和通过数学刚性理论从NMR结构中计算得到的局部刚性（local rigidity）的相关性（二级结构）和RMSD（全局刚性，overall rigidity），并且进行后续的评估。 RCI: random coil index predicts protein flexibility by calculating an inverse weighted average of backbone secondary chemical shifts and predicting values of model-free</description>
+    </item>
+    
+    <item>
+      <title>使用AF2和NMR确定的溶液中蛋白结构的准确性</title>
+      <link>https://xiergo.github.io/posts/tech/ansurr/</link>
+      <pubDate>Fri, 06 Jan 2023 11:18:43 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/ansurr/</guid>
+      <description>Abstract CASP比赛中，AF2表现很好，其中表现最差的部分是NMR结构。两种可能：1）NMR结构很差，AF2预测优于NMR；2）晶体结构和溶液结构相差悬殊。我们使用ANSURR（Accuracy of NMR Structure Using RCI and Rigidity）衡量溶液结构的准确性。对比NMR结构和AF2结构，发现大部分A</description>
+    </item>
+    
+    <item>
+      <title>Slurm Cpu 并行</title>
+      <link>https://xiergo.github.io/posts/tech/slurm_cpu_%E5%B9%B6%E8%A1%8C/</link>
+      <pubDate>Thu, 29 Dec 2022 20:25:07 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/slurm_cpu_%E5%B9%B6%E8%A1%8C/</guid>
+      <description>问题描述 有一些重复的任务（cpu任务），输入不同，希望在slurm调度系统下进行并行。 解决方案 cpu_test.py 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 import time import os import multiprocessing as mp # define function def myfun(a, b): time.sleep(10) return a+b # input args = [[1, 2], [3, 4], [5, 6]] # use all available cores t0 = time.time() num_of_cores = int(os.environ[&amp;#39;SLURM_CPUS_PER_TASK&amp;#39;]) # num_of_cores = mp.cpu_count() # if not on slurm, use this instead with mp.Pool(num_of_cores) as pool: results = pool.starmap(myfun, args) print(f&amp;#39;results: {results}&amp;#39;) print(f&amp;#34;Num of</description>
+    </item>
+    
+    <item>
+      <title>综合考试20221215总结</title>
+      <link>https://xiergo.github.io/posts/tech/%E7%BB%BC%E5%90%88%E8%80%83%E8%AF%9520221215%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Mon, 12 Dec 2022 14:54:38 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/%E7%BB%BC%E5%90%88%E8%80%83%E8%AF%9520221215%E6%80%BB%E7%BB%93/</guid>
+      <description>文献 Title Single-cell meta-analyses reveal responses of tumor-reactive CXCL13+ T cells to immune-checkpoint blockade Author: Baolin Liu , Yuanyuan Zhang, Dongfang Wang, Xueda Hu and Zemin Zhang Abstract Immune-checkpoint blockade (ICB) therapies represent a paradigm shift in the treatment of human cancers; however, it remains incompletely understood how tumor-reactive T cells respond to ICB across tumor types. Here, we demonstrate that measuring CXCL13 expression could effectively identify both precursor and terminally differentiated tumor-reactive CD8+ T cells within tumors. Applying this approach, we performed meta-analyses of published single-cell data for CXCL13+CD8+ T cells in 225 samples from 102 patients treated with ICB across five cancer types. We found that CXCL13+CD8+ T cells were correlated with favorable responses to ICB, and the treatment further increased such cells in responsive tumors. In addition, CXCL13+ tumor-reactive subsets exhibited variable responses to ICB in</description>
+    </item>
+    
     <item>
       <title>变分法</title>
       <link>https://xiergo.github.io/posts/tech/%E5%8F%98%E5%88%86%E6%B3%95/</link>

@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>使用AF2和NMR确定的溶液中蛋白结构的准确性 | Xiergo&#39;s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Abstract CASP比赛中，AF2表现很好，其中表现最差的部分是NMR结构。两种可能：1）NMR结构很差，AF2预测优于NMR；2）晶体结构和溶液结构相差悬殊。我们使用ANSURR（Accuracy of NMR Structure Using RCI and Rigidity）衡量溶液结构的准确性。对比NMR结构和AF2结构，发现大部分A">
+<meta name="author" content="
+作者:&nbsp;Xiergo">
+<link rel="canonical" href="https://xiergo.github.io/posts/tech/ansurr/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="icon" type="image/png" sizes="16x16" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="apple-touch-icon" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="mask-icon" href="https://xiergo.github.io/img/Q.jpg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+onload="renderMathInElement(document.body, 
+    {
+              delimiters: [
+                  {left: '$$', right: '$$', display: true},
+                  {left: '\\[', right: '\\]', display: true},
+                  {left: '$', right: '$', display: false},
+                  {left: '\\(', right: '\\)', display: false}
+              ]
+          }
+    );"></script>
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = ""; 
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta property="og:title" content="使用AF2和NMR确定的溶液中蛋白结构的准确性" />
+<meta property="og:description" content="Abstract CASP比赛中，AF2表现很好，其中表现最差的部分是NMR结构。两种可能：1）NMR结构很差，AF2预测优于NMR；2）晶体结构和溶液结构相差悬殊。我们使用ANSURR（Accuracy of NMR Structure Using RCI and Rigidity）衡量溶液结构的准确性。对比NMR结构和AF2结构，发现大部分A" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://xiergo.github.io/posts/tech/ansurr/" />
+<meta property="og:image" content="https://xiergo.github.io/posts/tech/ANSURR/1.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-06T11:18:43&#43;08:00" />
+<meta property="article:modified_time" content="2023-01-06T11:18:43&#43;08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://xiergo.github.io/posts/tech/ANSURR/1.png" />
+<meta name="twitter:title" content="使用AF2和NMR确定的溶液中蛋白结构的准确性"/>
+<meta name="twitter:description" content="Abstract CASP比赛中，AF2表现很好，其中表现最差的部分是NMR结构。两种可能：1）NMR结构很差，AF2预测优于NMR；2）晶体结构和溶液结构相差悬殊。我们使用ANSURR（Accuracy of NMR Structure Using RCI and Rigidity）衡量溶液结构的准确性。对比NMR结构和AF2结构，发现大部分A"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "📚文章",
+      "item": "https://xiergo.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "👨🏻‍💻 技术",
+      "item": "https://xiergo.github.io/posts/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "使用AF2和NMR确定的溶液中蛋白结构的准确性",
+      "item": "https://xiergo.github.io/posts/tech/ansurr/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "使用AF2和NMR确定的溶液中蛋白结构的准确性",
+  "name": "使用AF2和NMR确定的溶液中蛋白结构的准确性",
+  "description": "Abstract CASP比赛中，AF2表现很好，其中表现最差的部分是NMR结构。两种可能：1）NMR结构很差，AF2预测优于NMR；2）晶体结构和溶液结构相差悬殊。我们使用ANSURR（Accuracy of NMR Structure Using RCI and Rigidity）衡量溶液结构的准确性。对比NMR结构和AF2结构，发现大部分A",
+  "keywords": [
+    
+  ],
+  "articleBody": "\rAbstract CASP比赛中，AF2表现很好，其中表现最差的部分是NMR结构。两种可能：1）NMR结构很差，AF2预测优于NMR；2）晶体结构和溶液结构相差悬殊。我们使用ANSURR（Accuracy of NMR Structure Using RCI and Rigidity）衡量溶液结构的准确性。对比NMR结构和AF2结构，发现大部分AF2结构比NMR结构准确，但也有小部分相反，它们主要是一些动态的结构。AF2可以用来做NMR结构优化，ANSURR验证过的AF2不需要结构优化。\nHighlight 对比了904对AF2结构和NMR结构； AF2结构通常比NMR结构更准； NMR结构在局部动态区域准确性高于AF2； NMR可以用来验证AF2结构，可以根据验证结果再来决定是否有必要进行优化以及如何优化。 Introduction 14届CASP比赛中，AF2大部分的GDT_TS（Global Distance Test Total Score）都大于80，中位数92.4。5/93个结构低于70，其中有三个是复合物中的单链，两个是NMR结构。NMR结构一般很小，比较容易预测，为什么AF2预测不好呢？有两种可能：\n1）NMR结构本身比较差，AF2比NMR结构准确；\n2）AF2对于NMR结构预测不准，因为它是在晶体结构上训练的。NMR结构在体温溶液下得到的，而晶体结构是在低温结晶下得到的，二者可能有所不同。\n这样产生以下问题：\n1）AF2预测溶液结构准确性如何？\n2）如果AF2结构优于NMR，是否有必要做NMR？\n3）溶液结构是否真的和晶体结构（或AF2结构）有差异？\n4）高质量的NMR结构是否可以代表真实的溶液结构？如果是，如何做到的？\n没有一个准确的方法判断NMR结构是否接近溶液构象的平均。验证NMR结构是否准确的方法是将其与晶体结构进行对比。之前的研究证明NMR结构和晶体结构接近。但是如果溶液结构和晶体结构有差异，这种比较就是不对的。\n我们之前开发了一个工具ANSURR，可以将蛋白结构的局部刚性（local rigidity）和基于主链NMR化学位移的random coil index测量得到的局部刚性做对比。\n本文大纲如下：\n1）从全局准确性和局部准确性对比3个NMR结构和相应的CASP14中AF2预测的结构；\n2）比较904个AF蛋白结构数据库中的结构和PDB中的对应的NMR结构，关注各自优于对方的结构案例；\n3）探究AF2预测准确性和ANSURR得到的准确性的关系。\n我们发现大部分AF2预测结构优于NMR结构，少部分涉及动态平均的结构中NMR结构更优。\nResults NMR结构和AF2结构的准确性 ANSURR的原理：\n通过两种策略计算蛋白的灵活度：1）基于主链化学位移；2）从结构出发，基于刚性的数学方法。计算两种方法得到的灵活度的Spearman相关系数和RMSD。PDB中所有NMR结构的上面两个值的百分位数用来计算两个分数：相关性分数和RMSD分数。画出散点图，则位于右上角的结构更好。\n如图1所示，三个NMR结构中，T1055，NMR$\\approx$AF2；T1027，NMR\u003eAF2；T1029，AF2»NMR。\nFig 1. CASP14的3个NMR结构的ANSURR得分\rT1027 从Fig 1看出，对于T1027，NMR系综比所有的预测结构准确。其中AF2预测结构优于其他预测结构。\nFig 2. T1027的ANSURR分析\rT1027一共有四个模糊区（ill-defined region），ANSURR根据主链化学位移分析的灵活度显示第二个模糊区的灵活度比其他三个模糊区小。其他三个是动态（dynamic）且无规则的（intrinsically disorder），ANSURR的结果暗示，第二个模糊区是动态的，但并不是无规则的。同时第二个区域中间有一小段灵活度降低。这两点在NMR结构中都有所体现，而在AF2中则没有。NMR结构在第二段中间有一小段$\\alpha$-helix。\n化学位移显示第三个模糊区高度无规则，中间有一小段灵活度降低。而NMR结构中，该段完全无规则，中间小的灵活度降低是由于两个弱的氢键。而在AF2的结构中，该部分是turn连接的两段松散的类似$\\beta$-sheet的结构。真正的溶液结构似乎介于灵活的NMR结构和僵硬（rigid）的AF2结构之间。\n第四段，AF2有一部分是helix结构，而NMR结构则没有。ANSURR分析该部分应该是高度灵活的。因为化学位移代表的是一个平均，因此可能该部分在溶液中有helix构象，但不是主要构象。\nT1029 T1029预测的结构GDT_TS最高只有45。然而ANSURR分析结果显示，NMR结构都不如大部分预测的结构，51%的预测结构比最好的NMR结构还要好。Huang et al. 用NOESY谱产生NMR结构与原NOESY谱相比有很多峰（peaks）缺失，暗示该NMR结构确实不准。重新挑选NOESY谱的peaks，重新计算结构，并用AF2结构进行优化（refinement）（称为inverse structure determination），得到的结构和AF2结构比较接近，并且ANSURR分数也有所提高，但是依然低于AF2结构。\n对比人类所有NMR结构和对应的AF2结构 对比了904个PDB中的NMR结构和AFDB中的AF2结构，并用ANSURR对其进行了评估。为了方便，将相关性得分和RMSD得分相加，得到最终的ANSURR得分。\nFig 3. AF2的ANSURR分数-NMR的ANSURR分数的分布\r如图三所示，A图所示是AF2的分数和NMR分数的系综平均比较，可以看出AF2明显优于NMR（差异均值为28）。之前研究显示，NMR系综里的结构差异较大，因此B图显示了AF2和NMR系综最高得分的模型的差异，两者准确性接近（差异均值为2）。图C根据二级结构分别比较了AF2和NMR系综平均，发现$\\beta$-sheet，AF2优于NMR程度最大（差异均值45），其次是$\\alpha$-helix/$\\beta$-sheet混合部分（差异均值29），最小的是$\\alpha$-helix（差异均值17）。这种现象是合理的：由于$\\alpha$-helix在局部几何形状上的变化有限，因此氢键（对于赋予刚性很重要）在细化过程中相对容易获得。 相比之下，$\\beta$-sheet可以采用更广泛的局部几何形状，这使得正确解析氢键更具挑战性。之前研究表明， NMR 结构在 $\\beta$-sheet中通常缺乏氢键。\n对于新的蛋白质，非专家可以在几分钟内生成AF2结构，而NMR结构通常需要数月的专业技能和设备。因此，一个简单的结论是AF2更快，更便宜，至少同样准确，因此应该是生成结构模型的首选方法。然而，现实情况更加微妙，下面更详细地比较两种方法。\nAF2明显优于NMR的案例 AF2-NMR的ANSURR分数超过50的样例有273个，占比30%。这些样例表明，AF2有这明显多的氢键网络，这些氢键让结构更rigid。而NMR结构相比之下氢键数目少，结构更松散。之前研究表明通过增加NMR结构中的氢键可以有效提高ANSURR分数，前提是这些氢键加的位置必须正确。因此AF2可以正确的预测这些氢键的位置。\nFig 4. AF2明显优于NMR的两个代表蛋白的ANSURR输出。结构图中绿色是NMR，青色是AF2，灰色短棒是氢键。折线图顶部的颜色代表二级结构：蓝色beta sheet，红色是alpha helix。蓝色曲线代表从化学位移中计算的灵活度，橙色曲线代表从各自结构中计算的灵活度。\r如图四所示，A，B分别是肌动蛋白B（Filamin）的NMR结构和AF2结构。C，D是锌指蛋白（zinc finger protein）的NMR和AF2结构。AF2结构更rigid，而且更贴合化学位移计算的灵活度。\nNMR明显优于AF2的案例 只有22例NMR-AF2\u003e=50的样本，占比（2%）。有三个原因导致NMR优于AF2：\n1）NMR仅测了整个蛋白的一部分（比如单个结构域），比如在Fig5A/B中，由于NMR只测了一部分，C末端的灵活度上升，如果在一个整体结构中，该部分的灵活度无法达到这么高。而AF2是在整体预测该蛋白，然后截取该部分，因此C末端更加rigid。\n2）AF2无法预测会漏掉一些二级结构，比如Fig5A/B中，AF2有两小段$\\beta$-sheet没有预测出来，导致该部分的灵活度很高与实际情况不符，但是AF2在该区域的pLDDT很低（66）。\n3）AF2会错误预测一些不存在的二级结构。如Fig5C/D，AF2将两段alpha helices连成一个alpha helix。这可能是因为AF2训练集中很少有这种alpha helix中间有一小段break的结构。但是和上面一样，该区域的pLDDT也很低（58）。\nFig 5. NMR明显优于AF2的两个代表蛋白的ANSURR输出。结构图中绿色是NMR，青色是AF2，灰色短棒是氢键。折线图顶部的颜色代表二级结构：蓝色beta sheet，红色是alpha helix。蓝色曲线代表从化学位移中计算的灵活度，橙色曲线代表从各自结构中计算的灵活度。\r比较pLDDT和ANSURR分数 Fig 6. pLDDT和ANSURR比较，B是所有的，C是well defined\rregions\r从图6看出，pLDDT和ANSURR没有明显的相关性。\n对于一些ill-defined 区域（一般是由于局部动态），AF2容易将其识别为有结构，然后给一个低的pLDDT，而NMR倾向于有部分结构（partial structure）。这也和之前的研究相符：AF2很难预测出由点突变引起的结构松散（local unfolding）。\nDiscussion 通过比较AF2结构与溶液结构的化学位移得出，AF2预测溶液结构的准确性很高。然而也有一些预测结构不如NMR结构的情况。 计算AF2结构代价很小，但是解一个NMR结构则耗时耗力。但是小型或中型蛋白的主链NMR指认（assignment）流程已经可以自动化。 对于溶液结构，可以先用AF2预测，在做一个半自动化的NMR骨架指认，然后计算ANSURR分数。如果分数高的可以直接当做准确的结构；对于分数低的，可以在AF2结构的基础上根据ANSURR的结果进行结构优化。比如：在图5A/B中，ANSURR的分析结构显示AF2预测的结构少了一小段反平行的$\\beta$-sheet结构，所以我们可以通过加一些额外的约束在AF2预测结构的基础上增加这么一段$\\beta$-sheet。 Methods 可比的NMR和AF2结构 使用SIFTS（Structure Integration with Function, Taxonomy）来匹配AFDB的Uniport Id和pdb中的NMR结构。使用uniprot_segment_observed.tsv SIFTS文件来鉴别AF2结构和NMR结构的共有区域，并用in-house软件提取共有区域。使用REDUCE v3.23对AF2预测结构加氢。对NMR结构做如下筛选：\n1）只要一条单链的NMR结构\n2）有一组主链的化学位移至少有75%完整度，来确保ANSURR分析可靠\n3）至少有20个氨基酸残基\n最终得到904个AF2/NMR结构对。\nANSURR计算 ANSURR计算使用ANSURR v1.1.0。\n参数如下：\n1）Re-reference chemical shift: PANAV\n2）计算灵活度包括非标准残基（non-standard residue），不包括配体（ligand）。\nNMR结构一般有多个model（～20），对于每一个PDB entry，计算所有model的ANSURR分数，然后取均值。一个AF2结构可能对应多个PDB entries。此情况下，就取多个PDB entries的ANSURR均值，将其与AF2对应区域的ANSURR分数均值进行比较。\n参考文献 The accuracy of protein structures in solution determined by AlphaFold and NMR ",
+  "wordCount" : "4715",
+  "inLanguage": "en",
+  "image":"https://xiergo.github.io/posts/tech/ANSURR/1.png","datePublished": "2023-01-06T11:18:43+08:00",
+  "dateModified": "2023-01-06T11:18:43+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Xiergo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://xiergo.github.io/posts/tech/ansurr/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Xiergo's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://xiergo.github.io/img/Q.jpg"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://xiergo.github.io/" accesskey="h" title="Xiergo&#39;s Blog (Alt + H)">
+            <img src="https://xiergo.github.io/img/Q.jpg" alt="logo" aria-label="logo"
+                 height="35">Xiergo&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://xiergo.github.io/search" title="🔍 搜索 (Alt &#43; /)" accesskey=/>
+                <span>🔍 搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/" title="🏠 主页">
+                <span>🏠 主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/posts" title="📚 文章">
+                <span>📚 文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/tags" title="🧩 标签">
+                <span>🧩 标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/archives/" title="⏱️ 时间轴">
+                <span>⏱️ 时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/about" title="🙋🏻‍♂️ 关于">
+                <span>🙋🏻‍♂️ 关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/links" title="🤝 友链">
+                <span>🤝 友链</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main page">
+<article class="post-single">
+    <div id="single-content">
+        <header class="post-header">
+            <div class="breadcrumbs"><a href="https://xiergo.github.io/">主页</a>&nbsp;»&nbsp;<a href="https://xiergo.github.io/posts/">📚文章</a>&nbsp;»&nbsp;<a href="https://xiergo.github.io/posts/tech/">👨🏻‍💻 技术</a></div>
+            <h1 class="post-title">
+                使用AF2和NMR确定的溶液中蛋白结构的准确性
+            </h1>
+            <div class="post-meta">创建:&nbsp;<span title='2023-01-06 11:18:43 +0800 CST'>2023-01-06</span>&nbsp;|&nbsp;更新:&nbsp;2023-01-06&nbsp;|&nbsp;字数:&nbsp;4715字&nbsp;|&nbsp;时长:&nbsp;10分钟&nbsp;|&nbsp;
+作者:&nbsp;Xiergo
+
+
+
+                &nbsp;|&nbsp;标签: &nbsp;
+
+                
+                <span id="busuanzi_container_page_pv">
+                &nbsp;| 访问: <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+</div>
+        </header> 
+<figure class="entry-cover1"><img loading="lazy" src="https://xiergo.github.io/posts/tech/ANSURR/1.png" alt="">
+        
+</figure>
+        <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">文章目录</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#abstract" aria-label="Abstract">Abstract</a></li>
+                <li>
+                    <a href="#highlight" aria-label="Highlight">Highlight</a></li>
+                <li>
+                    <a href="#introduction" aria-label="Introduction">Introduction</a></li>
+                <li>
+                    <a href="#results" aria-label="Results">Results</a><ul>
+                        
+                <li>
+                    <a href="#nmr%e7%bb%93%e6%9e%84%e5%92%8caf2%e7%bb%93%e6%9e%84%e7%9a%84%e5%87%86%e7%a1%ae%e6%80%a7" aria-label="NMR结构和AF2结构的准确性">NMR结构和AF2结构的准确性</a></li>
+                <li>
+                    <a href="#t1027" aria-label="T1027">T1027</a></li>
+                <li>
+                    <a href="#t1029" aria-label="T1029">T1029</a></li>
+                <li>
+                    <a href="#%e5%af%b9%e6%af%94%e4%ba%ba%e7%b1%bb%e6%89%80%e6%9c%89nmr%e7%bb%93%e6%9e%84%e5%92%8c%e5%af%b9%e5%ba%94%e7%9a%84af2%e7%bb%93%e6%9e%84" aria-label="对比人类所有NMR结构和对应的AF2结构">对比人类所有NMR结构和对应的AF2结构</a></li>
+                <li>
+                    <a href="#af2%e6%98%8e%e6%98%be%e4%bc%98%e4%ba%8enmr%e7%9a%84%e6%a1%88%e4%be%8b" aria-label="AF2明显优于NMR的案例">AF2明显优于NMR的案例</a></li>
+                <li>
+                    <a href="#nmr%e6%98%8e%e6%98%be%e4%bc%98%e4%ba%8eaf2%e7%9a%84%e6%a1%88%e4%be%8b" aria-label="NMR明显优于AF2的案例">NMR明显优于AF2的案例</a></li>
+                <li>
+                    <a href="#%e6%af%94%e8%be%83plddt%e5%92%8cansurr%e5%88%86%e6%95%b0" aria-label="比较pLDDT和ANSURR分数">比较pLDDT和ANSURR分数</a></li></ul>
+                </li>
+                <li>
+                    <a href="#discussion" aria-label="Discussion">Discussion</a></li>
+                <li>
+                    <a href="#methods" aria-label="Methods">Methods</a><ul>
+                        
+                <li>
+                    <a href="#%e5%8f%af%e6%af%94%e7%9a%84nmr%e5%92%8caf2%e7%bb%93%e6%9e%84" aria-label="可比的NMR和AF2结构">可比的NMR和AF2结构</a></li>
+                <li>
+                    <a href="#ansurr%e8%ae%a1%e7%ae%97" aria-label="ANSURR计算">ANSURR计算</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%8f%82%e8%80%83%e6%96%87%e7%8c%ae" aria-label="参考文献">参考文献</a>
+                </li>
+            </ul>
+        </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+        
+        activeElement = elements[0];
+        const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+        document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+    }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 &&
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+            const id = encodeURI(element.getAttribute('id')).toLowerCase();
+            if (element === activeElement){
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+            } else {
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+            }
+        })
+    }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;
+    }
+</script>
+        
+        <div class="post-content"><!--
+添加图片方法
+
+<center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/yeast_display/1.jpg">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">图注写这里</div>
+</center>
+
+-->
+<h1 id="abstract">Abstract<a hidden class="anchor" aria-hidden="true" href="#abstract">#</a></h1>
+<p>CASP比赛中，AF2表现很好，其中表现最差的部分是NMR结构。两种可能：1）NMR结构很差，AF2预测优于NMR；2）晶体结构和溶液结构相差悬殊。我们使用ANSURR（Accuracy of NMR Structure Using RCI and Rigidity）衡量溶液结构的准确性。对比NMR结构和AF2结构，发现大部分AF2结构比NMR结构准确，但也有小部分相反，它们主要是一些动态的结构。AF2可以用来做NMR结构优化，ANSURR验证过的AF2不需要结构优化。</p>
+<h1 id="highlight">Highlight<a hidden class="anchor" aria-hidden="true" href="#highlight">#</a></h1>
+<ol>
+<li>对比了904对AF2结构和NMR结构；</li>
+<li>AF2结构通常比NMR结构更准；</li>
+<li>NMR结构在局部动态区域准确性高于AF2；</li>
+<li>NMR可以用来验证AF2结构，可以根据验证结果再来决定是否有必要进行优化以及如何优化。</li>
+</ol>
+<h1 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h1>
+<p>14届CASP比赛中，AF2大部分的GDT_TS（Global Distance Test Total Score）都大于80，中位数92.4。5/93个结构低于70，其中有三个是复合物中的单链，两个是NMR结构。NMR结构一般很小，比较容易预测，为什么AF2预测不好呢？有两种可能：</p>
+<p>1）NMR结构本身比较差，AF2比NMR结构准确；</p>
+<p>2）AF2对于NMR结构预测不准，因为它是在晶体结构上训练的。NMR结构在体温溶液下得到的，而晶体结构是在低温结晶下得到的，二者可能有所不同。</p>
+<p>这样产生以下问题：</p>
+<p>1）AF2预测溶液结构准确性如何？</p>
+<p>2）如果AF2结构优于NMR，是否有必要做NMR？</p>
+<p>3）溶液结构是否真的和晶体结构（或AF2结构）有差异？</p>
+<p>4）高质量的NMR结构是否可以代表真实的溶液结构？如果是，如何做到的？</p>
+<p>没有一个准确的方法判断NMR结构是否接近溶液构象的平均。验证NMR结构是否准确的方法是将其与晶体结构进行对比。之前的研究证明NMR结构和晶体结构接近。但是如果溶液结构和晶体结构有差异，这种比较就是不对的。</p>
+<p>我们之前开发了一个工具ANSURR，可以将蛋白结构的局部刚性（local rigidity）和基于主链NMR化学位移的random coil index测量得到的局部刚性做对比。</p>
+<p>本文大纲如下：</p>
+<p>1）从全局准确性和局部准确性对比3个NMR结构和相应的CASP14中AF2预测的结构；</p>
+<p>2）比较904个AF蛋白结构数据库中的结构和PDB中的对应的NMR结构，关注各自优于对方的结构案例；</p>
+<p>3）探究AF2预测准确性和ANSURR得到的准确性的关系。</p>
+<p>我们发现大部分AF2预测结构优于NMR结构，少部分涉及动态平均的结构中NMR结构更优。</p>
+<h1 id="results">Results<a hidden class="anchor" aria-hidden="true" href="#results">#</a></h1>
+<h2 id="nmr结构和af2结构的准确性">NMR结构和AF2结构的准确性<a hidden class="anchor" aria-hidden="true" href="#nmr结构和af2结构的准确性">#</a></h2>
+<p>ANSURR的原理：</p>
+<p>通过两种策略计算蛋白的灵活度：1）基于主链化学位移；2）从结构出发，基于刚性的数学方法。计算两种方法得到的灵活度的Spearman相关系数和RMSD。PDB中所有NMR结构的上面两个值的百分位数用来计算两个分数：相关性分数和RMSD分数。画出散点图，则位于右上角的结构更好。</p>
+<p>如图1所示，三个NMR结构中，T1055，NMR$\approx$AF2；T1027，NMR&gt;AF2；T1029，AF2&raquo;NMR。</p>
+<center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/ANSURR/1.png">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">Fig 1. CASP14的3个NMR结构的ANSURR得分</div>
+</center>
+<h2 id="t1027">T1027<a hidden class="anchor" aria-hidden="true" href="#t1027">#</a></h2>
+<p>从Fig 1看出，对于T1027，NMR系综比所有的预测结构准确。其中AF2预测结构优于其他预测结构。</p>
+<center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/ANSURR/2.png">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">Fig 2. T1027的ANSURR分析</div>
+</center>
+<p>T1027一共有四个模糊区（ill-defined region），ANSURR根据主链化学位移分析的灵活度显示第二个模糊区的灵活度比其他三个模糊区小。其他三个是动态（dynamic）且无规则的（intrinsically disorder），ANSURR的结果暗示，第二个模糊区是动态的，但并不是无规则的。同时第二个区域中间有一小段灵活度降低。这两点在NMR结构中都有所体现，而在AF2中则没有。NMR结构在第二段中间有一小段$\alpha$-helix。</p>
+<p>化学位移显示第三个模糊区高度无规则，中间有一小段灵活度降低。而NMR结构中，该段完全无规则，中间小的灵活度降低是由于两个弱的氢键。而在AF2的结构中，该部分是turn连接的两段松散的类似$\beta$-sheet的结构。真正的溶液结构似乎介于灵活的NMR结构和僵硬（rigid）的AF2结构之间。</p>
+<p>第四段，AF2有一部分是helix结构，而NMR结构则没有。ANSURR分析该部分应该是高度灵活的。因为化学位移代表的是一个平均，因此可能该部分在溶液中有helix构象，但不是主要构象。</p>
+<h2 id="t1029">T1029<a hidden class="anchor" aria-hidden="true" href="#t1029">#</a></h2>
+<p>T1029预测的结构GDT_TS最高只有45。然而ANSURR分析结果显示，NMR结构都不如大部分预测的结构，51%的预测结构比最好的NMR结构还要好。Huang et al. 用NOESY谱产生NMR结构与原NOESY谱相比有很多峰（peaks）缺失，暗示该NMR结构确实不准。重新挑选NOESY谱的peaks，重新计算结构，并用AF2结构进行优化（refinement）（称为inverse structure determination），得到的结构和AF2结构比较接近，并且ANSURR分数也有所提高，但是依然低于AF2结构。</p>
+<h2 id="对比人类所有nmr结构和对应的af2结构">对比人类所有NMR结构和对应的AF2结构<a hidden class="anchor" aria-hidden="true" href="#对比人类所有nmr结构和对应的af2结构">#</a></h2>
+<p>对比了904个PDB中的NMR结构和AFDB中的AF2结构，并用ANSURR对其进行了评估。为了方便，将相关性得分和RMSD得分相加，得到最终的ANSURR得分。</p>
+<center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/ANSURR/3.png">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">Fig 3. AF2的ANSURR分数-NMR的ANSURR分数的分布</div>
+</center>
+<p>如图三所示，A图所示是AF2的分数和NMR分数的系综平均比较，可以看出AF2明显优于NMR（差异均值为28）。之前研究显示，NMR系综里的结构差异较大，因此B图显示了AF2和NMR系综最高得分的模型的差异，两者准确性接近（差异均值为2）。图C根据二级结构分别比较了AF2和NMR系综平均，发现$\beta$-sheet，AF2优于NMR程度最大（差异均值45），其次是$\alpha$-helix/$\beta$-sheet混合部分（差异均值29），最小的是$\alpha$-helix（差异均值17）。这种现象是合理的：由于$\alpha$-helix在局部几何形状上的变化有限，因此氢键（对于赋予刚性很重要）在细化过程中相对容易获得。 相比之下，$\beta$-sheet可以采用更广泛的局部几何形状，这使得正确解析氢键更具挑战性。之前研究表明， NMR 结构在 $\beta$-sheet中通常缺乏氢键。</p>
+<p>对于新的蛋白质，非专家可以在几分钟内生成AF2结构，而NMR结构通常需要数月的专业技能和设备。因此，一个简单的结论是AF2更快，更便宜，至少同样准确，因此应该是生成结构模型的首选方法。然而，现实情况更加微妙，下面更详细地比较两种方法。</p>
+<h2 id="af2明显优于nmr的案例">AF2明显优于NMR的案例<a hidden class="anchor" aria-hidden="true" href="#af2明显优于nmr的案例">#</a></h2>
+<p>AF2-NMR的ANSURR分数超过50的样例有273个，占比30%。这些样例表明，AF2有这明显多的氢键网络，这些氢键让结构更rigid。而NMR结构相比之下氢键数目少，结构更松散。之前研究表明通过增加NMR结构中的氢键可以有效提高ANSURR分数，前提是这些氢键加的位置必须正确。因此AF2可以正确的预测这些氢键的位置。</p>
+<center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/ANSURR/4.png">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">Fig 4. AF2明显优于NMR的两个代表蛋白的ANSURR输出。结构图中绿色是NMR，青色是AF2，灰色短棒是氢键。折线图顶部的颜色代表二级结构：蓝色beta sheet，红色是alpha helix。蓝色曲线代表从化学位移中计算的灵活度，橙色曲线代表从各自结构中计算的灵活度。</div>
+</center>
+<p>如图四所示，A，B分别是肌动蛋白B（Filamin）的NMR结构和AF2结构。C，D是锌指蛋白（zinc finger protein）的NMR和AF2结构。AF2结构更rigid，而且更贴合化学位移计算的灵活度。</p>
+<h2 id="nmr明显优于af2的案例">NMR明显优于AF2的案例<a hidden class="anchor" aria-hidden="true" href="#nmr明显优于af2的案例">#</a></h2>
+<p>只有22例NMR-AF2&gt;=50的样本，占比（2%）。有三个原因导致NMR优于AF2：</p>
+<p>1）NMR仅测了整个蛋白的一部分（比如单个结构域），比如在Fig5A/B中，由于NMR只测了一部分，C末端的灵活度上升，如果在一个整体结构中，该部分的灵活度无法达到这么高。而AF2是在整体预测该蛋白，然后截取该部分，因此C末端更加rigid。</p>
+<p>2）AF2无法预测会漏掉一些二级结构，比如Fig5A/B中，AF2有两小段$\beta$-sheet没有预测出来，导致该部分的灵活度很高与实际情况不符，但是AF2在该区域的pLDDT很低（66）。</p>
+<p>3）AF2会错误预测一些不存在的二级结构。如Fig5C/D，AF2将两段alpha helices连成一个alpha helix。这可能是因为AF2训练集中很少有这种alpha helix中间有一小段break的结构。但是和上面一样，该区域的pLDDT也很低（58）。</p>
+<center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/ANSURR/5.png">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">Fig 5. NMR明显优于AF2的两个代表蛋白的ANSURR输出。结构图中绿色是NMR，青色是AF2，灰色短棒是氢键。折线图顶部的颜色代表二级结构：蓝色beta sheet，红色是alpha helix。蓝色曲线代表从化学位移中计算的灵活度，橙色曲线代表从各自结构中计算的灵活度。</div>
+</center>
+<h2 id="比较plddt和ansurr分数">比较pLDDT和ANSURR分数<a hidden class="anchor" aria-hidden="true" href="#比较plddt和ansurr分数">#</a></h2>
+<center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/ANSURR/6.png">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">Fig 6. pLDDT和ANSURR比较，B是所有的，C是well defined
+   regions</div>
+</center>
+<p>从图6看出，pLDDT和ANSURR没有明显的相关性。</p>
+<p>对于一些ill-defined 区域（一般是由于局部动态），AF2容易将其识别为有结构，然后给一个低的pLDDT，而NMR倾向于有部分结构（partial structure）。这也和之前的研究相符：AF2很难预测出由点突变引起的结构松散（local unfolding）。</p>
+<h1 id="discussion">Discussion<a hidden class="anchor" aria-hidden="true" href="#discussion">#</a></h1>
+<ol>
+<li>通过比较AF2结构与溶液结构的化学位移得出，AF2预测溶液结构的准确性很高。然而也有一些预测结构不如NMR结构的情况。</li>
+<li>计算AF2结构代价很小，但是解一个NMR结构则耗时耗力。但是小型或中型蛋白的主链NMR指认（assignment）流程已经可以自动化。</li>
+<li>对于溶液结构，可以先用AF2预测，在做一个半自动化的NMR骨架指认，然后计算ANSURR分数。如果分数高的可以直接当做准确的结构；对于分数低的，可以在AF2结构的基础上根据ANSURR的结果进行结构优化。比如：在图5A/B中，ANSURR的分析结构显示AF2预测的结构少了一小段反平行的$\beta$-sheet结构，所以我们可以通过加一些额外的约束在AF2预测结构的基础上增加这么一段$\beta$-sheet。</li>
+</ol>
+<h1 id="methods">Methods<a hidden class="anchor" aria-hidden="true" href="#methods">#</a></h1>
+<h2 id="可比的nmr和af2结构">可比的NMR和AF2结构<a hidden class="anchor" aria-hidden="true" href="#可比的nmr和af2结构">#</a></h2>
+<p>使用SIFTS（Structure Integration with Function, Taxonomy）来匹配AFDB的Uniport Id和pdb中的NMR结构。使用uniprot_segment_observed.tsv SIFTS文件来鉴别AF2结构和NMR结构的共有区域，并用in-house软件提取共有区域。使用REDUCE v3.23对AF2预测结构加氢。对NMR结构做如下筛选：</p>
+<p>1）只要一条单链的NMR结构</p>
+<p>2）有一组主链的化学位移至少有75%完整度，来确保ANSURR分析可靠</p>
+<p>3）至少有20个氨基酸残基</p>
+<p>最终得到904个AF2/NMR结构对。</p>
+<h2 id="ansurr计算">ANSURR计算<a hidden class="anchor" aria-hidden="true" href="#ansurr计算">#</a></h2>
+<p>ANSURR计算使用<a href="https://doi.org/10.5281/zenodo.4984229">ANSURR v1.1.0</a>。</p>
+<p>参数如下：</p>
+<p>1）Re-reference chemical shift: PANAV</p>
+<p>2）计算灵活度包括非标准残基（non-standard residue），不包括配体（ligand）。</p>
+<p>NMR结构一般有多个model（～20），对于每一个PDB entry，计算所有model的ANSURR分数，然后取均值。一个AF2结构可能对应多个PDB entries。此情况下，就取多个PDB entries的ANSURR均值，将其与AF2对应区域的ANSURR分数均值进行比较。</p>
+<h1 id="参考文献">参考文献<a hidden class="anchor" aria-hidden="true" href="#参考文献">#</a></h1>
+<ol>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S0969212622001320">The accuracy of protein structures in solution determined by AlphaFold and NMR</a></li>
+</ol>
+
+
+        </div>
+        <div class="post-reward">
+            <div style="padding: 0 0 0 0; margin: 0 0 0 0; width: 100%; font-size:16px; text-align: center;">
+                <div id="QR" style="opacity: 0;">
+                    <div id="wechat" style="display: inline-block">
+                        <a class="fancybox" rel="group">
+                            <img id="wechat_qr" src="https://xiergo.github.io/img/wechat_pay.png" alt="wechat_pay"></a>
+                        <p>微信</p>
+                    </div>
+                    <div id="alipay" style="display: inline-block">
+                        <a class="fancybox" rel="group">
+                            <img id="alipay_qr" src="https://xiergo.github.io/img/alipay.png" alt="alipay"></a>
+                        <p>支付宝</p>
+                    </div>
+                </div>
+                <button id="rewardButton"
+                        onclick="
+                    var qr = document.getElementById('QR');
+                    if (qr.style.opacity === '0') {
+                        qr.style.opacity='1';
+                    } else {
+                        qr.style.opacity='0'
+                    }"
+                >
+                    <span>🧧 鼓励</span>
+                </button>
+            </div>
+        </div>
+
+        <footer class="post-footer">
+            
+<nav class="paginav">
+  <a class="prev" href="https://xiergo.github.io/posts/tech/ansurr1/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>ANSURR:一种验证NMR蛋白结构准确性的方法</span>
+  </a>
+  <a class="next" href="https://xiergo.github.io/posts/tech/slurm_cpu_%E5%B9%B6%E8%A1%8C/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>Slurm Cpu 并行</span>
+  </a>
+</nav>
+
+        </footer>
+    </div>
+
+
+
+<div>
+    <div class="pagination__title">
+        <span class="pagination__title-h" style="font-size: 20px;">💬评论</span>
+        <hr />
+    </div>
+
+    <div id="tcomment"></div>
+
+    <script src="https://cdn.staticfile.org/twikoo/1.6.7/twikoo.all.min.js">
+    </script>
+    
+
+    
+
+    <script>
+        twikoo.init({
+            envId: "https://twikooapi.vercel.app", 
+            el: "#tcomment",
+            lang: 'zh-CN',
+            region: "ap-beijing",
+            path: window.TWIKOO_MAGIC_PATH||window.location.pathname,
+            
+            
+            
+            
+            
+            
+            
+        });
+    </script>
+
+</div>
+</article>
+</main>
+
+
+<script async src="https://unpkg.com/mermaid@8.8.1/dist/mermaid.min.js"></script>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<footer class="footer">
+    <span>
+        Copyright
+        &copy;
+        -2023
+        <a href="https://xiergo.github.io/" style="color:#939393;">Xiergo&#39;s Blog</a>
+        All Rights Reserved
+    </span>
+
+    <a href="https://beian.miit.gov.cn/" target="_blank" style="color:#939393;"></a>&nbsp;
+
+    <span>
+        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null"
+           style="display:inline-block;text-decoration:none;height:20px;color:#939393;">
+            <img src="" style="float:left;margin: 0px 5px 0px 0px;"/>
+            
+        </a>
+    </span>
+
+    <span id="busuanzi_container">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        总访客数: <span id="busuanzi_value_site_uv"></span>
+        总访问量: <span id="busuanzi_value_site_pv"></span>
+    </span>
+
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <span class="topInner">
+        <svg class="topSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z"/>
+        </svg>
+        <span id="read_progress"></span>
+    </span>
+</a>
+
+<script>
+    document.addEventListener('scroll', function (e) {
+        const readProgress = document.getElementById("read_progress");
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight;
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        
+        readProgress.innerText = ((scrollTop / (scrollHeight - clientHeight)).toFixed(2) * 100).toFixed(0);
+    })
+</script>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    let mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script>
+    document.body.addEventListener('copy', function (e) {
+        if (window.getSelection().toString() && window.getSelection().toString().length > 50) {
+            let clipboardData = e.clipboardData || window.clipboardData;
+            if (clipboardData) {
+                e.preventDefault();
+                let htmlData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「' + {
+                { .
+                    Site.Title
+                }
+            }
+                +'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                let textData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「' + {
+                { .
+                    Site.Title
+                }
+            }
+                +'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                clipboardData.setData('text/html', htmlData);
+                clipboardData.setData('text/plain', textData);
+            }
+        }
+    });
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = '📄复制';
+
+        function copyingDone() {
+            copybutton.innerText = '👌🏻已复制!';
+            setTimeout(() => {
+                copybutton.innerText = '📄复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                let text = codeblock.textContent +
+                    '\r\n————————————————\r\n' +
+                    '版权声明：本文为「' + "Xiergo's Blog"
+                +'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                navigator.clipboard.writeText(text);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) {
+            }
+            ;
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild === container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName === "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+    $("code[class^=language] ").on("mouseover", function () {
+        if (this.clientWidth < this.scrollWidth) {
+            $(this).css("width", "135%")
+        }
+    }).on("mouseout", function () {
+        $(this).css("width", "100%")
+    })
+</script>
+</body>
+
+</html>
