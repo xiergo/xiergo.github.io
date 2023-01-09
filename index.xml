@@ -18,10 +18,10 @@
     
     <item>
       <title>使用AF2和NMR确定的溶液中蛋白结构的准确性</title>
-      <link>https://xiergo.github.io/posts/tech/ansurr/</link>
+      <link>https://xiergo.github.io/posts/tech/%E4%BD%BF%E7%94%A8af2%E5%92%8Cnmr%E7%A1%AE%E5%AE%9A%E7%9A%84%E6%BA%B6%E6%B6%B2%E4%B8%AD%E8%9B%8B%E7%99%BD%E7%BB%93%E6%9E%84%E7%9A%84%E5%87%86%E7%A1%AE%E6%80%A7/</link>
       <pubDate>Fri, 06 Jan 2023 11:18:43 +0800</pubDate>
       
-      <guid>https://xiergo.github.io/posts/tech/ansurr/</guid>
+      <guid>https://xiergo.github.io/posts/tech/%E4%BD%BF%E7%94%A8af2%E5%92%8Cnmr%E7%A1%AE%E5%AE%9A%E7%9A%84%E6%BA%B6%E6%B6%B2%E4%B8%AD%E8%9B%8B%E7%99%BD%E7%BB%93%E6%9E%84%E7%9A%84%E5%87%86%E7%A1%AE%E6%80%A7/</guid>
       <description>Abstract CASP比赛中，AF2表现很好，其中表现最差的部分是NMR结构。两种可能：1）NMR结构很差，AF2预测优于NMR；2）晶体结构和溶液结构相差悬殊。我们使用ANSURR（Accuracy of NMR Structure Using RCI and Rigidity）衡量溶液结构的准确性。对比NMR结构和AF2结构，发现大部分A</description>
     </item>
     
