@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>二分类的评估指标 | Xiergo&#39;s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="评估指标（evaluation metrics） 准确率（ACC） 精确度（precision） 召回率（recall） F1 Score 马修斯相关系数（Mathews correlation coefficient, MCC） 受试者操作特征曲线下面积（AUROC: area under receiver operating characteristic curve） AUPRC: area under precision recall curve $$ \text{ACC}=\frac{TP&#43;TN}{TP&#43;TN&#43;FP&#43;FN}\\ \text{precision}=\frac{TP}{TP&#43;FP}\\ \text{recall}=\text{TPR}=\text{sensitivity}=\frac{TP}{TP&#43;FN}\\ F_1=\frac{2\times \text{precision}\times\text{recall}}{\text{precision}&#43;\text{recall}}\\ \text{MCC}=\frac{TN\times TP-FN\times FP}{\sqrt{(TN&#43;FN)\times(TP&#43;FP)\times(TP&#43;FN)\times(TN&#43;FP)}} $$ AUROC ROC is short for Receiver Operating Characteristic. That name stems from the fact that">
+<meta name="author" content="
+作者:&nbsp;Xiergo">
+<link rel="canonical" href="https://xiergo.github.io/posts/tech/%E4%BA%8C%E5%88%86%E7%B1%BB%E7%9A%84%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="icon" type="image/png" sizes="16x16" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="apple-touch-icon" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="mask-icon" href="https://xiergo.github.io/img/Q.jpg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+onload="renderMathInElement(document.body, 
+    {
+              delimiters: [
+                  {left: '$$', right: '$$', display: true},
+                  {left: '\\[', right: '\\]', display: true},
+                  {left: '$', right: '$', display: false},
+                  {left: '\\(', right: '\\)', display: false}
+              ]
+          }
+    );"></script>
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = ""; 
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta property="og:title" content="二分类的评估指标" />
+<meta property="og:description" content="评估指标（evaluation metrics） 准确率（ACC） 精确度（precision） 召回率（recall） F1 Score 马修斯相关系数（Mathews correlation coefficient, MCC） 受试者操作特征曲线下面积（AUROC: area under receiver operating characteristic curve） AUPRC: area under precision recall curve $$ \text{ACC}=\frac{TP&#43;TN}{TP&#43;TN&#43;FP&#43;FN}\\ \text{precision}=\frac{TP}{TP&#43;FP}\\ \text{recall}=\text{TPR}=\text{sensitivity}=\frac{TP}{TP&#43;FN}\\ F_1=\frac{2\times \text{precision}\times\text{recall}}{\text{precision}&#43;\text{recall}}\\ \text{MCC}=\frac{TN\times TP-FN\times FP}{\sqrt{(TN&#43;FN)\times(TP&#43;FP)\times(TP&#43;FN)\times(TN&#43;FP)}} $$ AUROC ROC is short for Receiver Operating Characteristic. That name stems from the fact that" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://xiergo.github.io/posts/tech/%E4%BA%8C%E5%88%86%E7%B1%BB%E7%9A%84%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/" />
+<meta property="og:image" content="https://xiergo.github.io/posts/tech/metrics_for_binary_classification/0.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-01-17T19:12:38&#43;08:00" />
+<meta property="article:modified_time" content="2023-01-17T19:12:38&#43;08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://xiergo.github.io/posts/tech/metrics_for_binary_classification/0.png" />
+<meta name="twitter:title" content="二分类的评估指标"/>
+<meta name="twitter:description" content="评估指标（evaluation metrics） 准确率（ACC） 精确度（precision） 召回率（recall） F1 Score 马修斯相关系数（Mathews correlation coefficient, MCC） 受试者操作特征曲线下面积（AUROC: area under receiver operating characteristic curve） AUPRC: area under precision recall curve $$ \text{ACC}=\frac{TP&#43;TN}{TP&#43;TN&#43;FP&#43;FN}\\ \text{precision}=\frac{TP}{TP&#43;FP}\\ \text{recall}=\text{TPR}=\text{sensitivity}=\frac{TP}{TP&#43;FN}\\ F_1=\frac{2\times \text{precision}\times\text{recall}}{\text{precision}&#43;\text{recall}}\\ \text{MCC}=\frac{TN\times TP-FN\times FP}{\sqrt{(TN&#43;FN)\times(TP&#43;FP)\times(TP&#43;FN)\times(TN&#43;FP)}} $$ AUROC ROC is short for Receiver Operating Characteristic. That name stems from the fact that"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "📚文章",
+      "item": "https://xiergo.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "👨🏻‍💻 技术",
+      "item": "https://xiergo.github.io/posts/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "二分类的评估指标",
+      "item": "https://xiergo.github.io/posts/tech/%E4%BA%8C%E5%88%86%E7%B1%BB%E7%9A%84%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "二分类的评估指标",
+  "name": "二分类的评估指标",
+  "description": "评估指标（evaluation metrics） 准确率（ACC） 精确度（precision） 召回率（recall） F1 Score 马修斯相关系数（Mathews correlation coefficient, MCC） 受试者操作特征曲线下面积（AUROC: area under receiver operating characteristic curve） AUPRC: area under precision recall curve $$ \\text{ACC}=\\frac{TP+TN}{TP+TN+FP+FN}\\\\ \\text{precision}=\\frac{TP}{TP+FP}\\\\ \\text{recall}=\\text{TPR}=\\text{sensitivity}=\\frac{TP}{TP+FN}\\\\ F_1=\\frac{2\\times \\text{precision}\\times\\text{recall}}{\\text{precision}+\\text{recall}}\\\\ \\text{MCC}=\\frac{TN\\times TP-FN\\times FP}{\\sqrt{(TN+FN)\\times(TP+FP)\\times(TP+FN)\\times(TN+FP)}} $$ AUROC ROC is short for Receiver Operating Characteristic. That name stems from the fact that",
+  "keywords": [
+    
+  ],
+  "articleBody": "\r评估指标（evaluation metrics） 准确率（ACC）\n精确度（precision）\n召回率（recall）\nF1 Score\n马修斯相关系数（Mathews correlation coefficient, MCC）\n受试者操作特征曲线下面积（AUROC: area under receiver operating characteristic curve）\nAUPRC: area under precision recall curve\n$$ \\text{ACC}=\\frac{TP+TN}{TP+TN+FP+FN}\\\\ \\text{precision}=\\frac{TP}{TP+FP}\\\\ \\text{recall}=\\text{TPR}=\\text{sensitivity}=\\frac{TP}{TP+FN}\\\\ F_1=\\frac{2\\times \\text{precision}\\times\\text{recall}}{\\text{precision}+\\text{recall}}\\\\ \\text{MCC}=\\frac{TN\\times TP-FN\\times FP}{\\sqrt{(TN+FN)\\times(TP+FP)\\times(TP+FN)\\times(TN+FP)}} $$\nAUROC ROC is short for Receiver Operating Characteristic. That name stems from the fact that the methodology was first developed during World War II to evaluate the performance of radar receivers in the detection of enemy aircraft.\n受试者操作特征曲线（receiver operating characteristic curve， ROC），横轴是假阳性率（false positive rate， FPR），1-TNR，1-specificity。 $$ \\text{TNR}=\\text{specificity}=\\frac{TN}{TN+FP} $$\n$$ \\text{FPR}=\\frac{FP}{TN+FP} $$\n纵轴是真阳性率（True positive rate, TPR） $$ \\text{TPR}=\\text{recall}=\\text{sensitivity}=\\frac{TP}{TP+FN} $$ ROC曲线下面积（Area under ROC curve， AUROC）\nROC曲线\rAUPRC AUPRC即PRC曲线下的面积（area under precision-recall curve）。PRC曲线：\n横轴是：Recall，即TPR\n纵轴是：Precision $$ \\text{AUPRC}=\\int_0^1 p(r)\\text dr $$\n曲线下面积也称为平均精度（Average precision, AP）\nROC和PRC的计算实例\r根据上面的结果，分别绘制ROC和PRC曲线\nROC和PRC的绘制\r与AUROC相比，AUPRC更适合用于正负样本不均衡的情形。\n比如，有20个正样本和2000个负样本，则ROC不能很好的区分模型的效果。我们有两个模型，分别是preferred model（性能好） 和 other model（性能差）。如下图所示：\n两个模型的ROC\rpreferred model在其前 20 个预测中找到 80% 的正确值，other model在其前 60个预测中找到 80% 的正确值，但是ROC中，preferred model还比other model更差。而PRC就可以区分preferred model 和other model。\n两个模型的PRC\r",
+  "wordCount" : "680",
+  "inLanguage": "en",
+  "image":"https://xiergo.github.io/posts/tech/metrics_for_binary_classification/0.png","datePublished": "2023-01-17T19:12:38+08:00",
+  "dateModified": "2023-01-17T19:12:38+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Xiergo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://xiergo.github.io/posts/tech/%E4%BA%8C%E5%88%86%E7%B1%BB%E7%9A%84%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Xiergo's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://xiergo.github.io/img/Q.jpg"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://xiergo.github.io/" accesskey="h" title="Xiergo&#39;s Blog (Alt + H)">
+            <img src="https://xiergo.github.io/img/Q.jpg" alt="logo" aria-label="logo"
+                 height="35">Xiergo&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://xiergo.github.io/search" title="🔍 搜索 (Alt &#43; /)" accesskey=/>
+                <span>🔍 搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/" title="🏠 主页">
+                <span>🏠 主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/posts" title="📚 文章">
+                <span>📚 文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/tags" title="🧩 标签">
+                <span>🧩 标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/archives/" title="⏱️ 时间轴">
+                <span>⏱️ 时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/about" title="🙋🏻‍♂️ 关于">
+                <span>🙋🏻‍♂️ 关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/links" title="🤝 友链">
+                <span>🤝 友链</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main page">
+<article class="post-single">
+    <div id="single-content">
+        <header class="post-header">
+            <div class="breadcrumbs"><a href="https://xiergo.github.io/">主页</a>&nbsp;»&nbsp;<a href="https://xiergo.github.io/posts/">📚文章</a>&nbsp;»&nbsp;<a href="https://xiergo.github.io/posts/tech/">👨🏻‍💻 技术</a></div>
+            <h1 class="post-title">
+                二分类的评估指标
+            </h1>
+            <div class="post-meta">创建:&nbsp;<span title='2023-01-17 19:12:38 +0800 CST'>2023-01-17</span>&nbsp;|&nbsp;更新:&nbsp;2023-01-17&nbsp;|&nbsp;字数:&nbsp;680字&nbsp;|&nbsp;时长:&nbsp;2分钟&nbsp;|&nbsp;
+作者:&nbsp;Xiergo
+
+
+
+                &nbsp;|&nbsp;标签: &nbsp;
+
+                
+                <span id="busuanzi_container_page_pv">
+                &nbsp;| 访问: <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+</div>
+        </header> 
+<figure class="entry-cover1"><img loading="lazy" src="https://xiergo.github.io/posts/tech/metrics_for_binary_classification/0.png" alt="">
+        
+</figure>
+        <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">文章目录</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e8%af%84%e4%bc%b0%e6%8c%87%e6%a0%87evaluation-metrics" aria-label="评估指标（evaluation metrics）">评估指标（evaluation metrics）</a><ul>
+                        
+                <li>
+                    <a href="#auroc" aria-label="AUROC">AUROC</a></li>
+                <li>
+                    <a href="#auprc" aria-label="AUPRC">AUPRC</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+        
+        activeElement = elements[0];
+        const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+        document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+    }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 &&
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+            const id = encodeURI(element.getAttribute('id')).toLowerCase();
+            if (element === activeElement){
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+            } else {
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+            }
+        })
+    }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;
+    }
+</script>
+        
+        <div class="post-content"><!--
+添加图片方法
+
+<center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/yeast_display/1.jpg">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">图注写这里</div>
+</center>
+
+-->
+<h1 id="评估指标evaluation-metrics">评估指标（evaluation metrics）<a hidden class="anchor" aria-hidden="true" href="#评估指标evaluation-metrics">#</a></h1>
+<p>准确率（ACC）</p>
+<p>精确度（precision）</p>
+<p>召回率（recall）</p>
+<p>F1 Score</p>
+<p>马修斯相关系数（Mathews correlation coefficient, MCC）</p>
+<p>受试者操作特征曲线下面积（AUROC: area under receiver operating characteristic curve）</p>
+<p>AUPRC: area under precision recall curve</p>
+<p>$$
+\text{ACC}=\frac{TP+TN}{TP+TN+FP+FN}\\
+\text{precision}=\frac{TP}{TP+FP}\\
+\text{recall}=\text{TPR}=\text{sensitivity}=\frac{TP}{TP+FN}\\
+F_1=\frac{2\times \text{precision}\times\text{recall}}{\text{precision}+\text{recall}}\\
+\text{MCC}=\frac{TN\times TP-FN\times FP}{\sqrt{(TN+FN)\times(TP+FP)\times(TP+FN)\times(TN+FP)}}
+$$</p>
+<h2 id="auroc">AUROC<a hidden class="anchor" aria-hidden="true" href="#auroc">#</a></h2>
+<p>ROC is short for Receiver Operating Characteristic. That name stems from the fact that the methodology was first developed during World War II to evaluate the performance of radar receivers in the detection of enemy aircraft.</p>
+<p>受试者操作特征曲线（receiver operating characteristic curve， ROC），横轴是假阳性率（false positive rate， FPR），1-TNR，1-specificity。
+$$
+\text{TNR}=\text{specificity}=\frac{TN}{TN+FP}
+$$</p>
+<p>$$
+\text{FPR}=\frac{FP}{TN+FP}
+$$</p>
+<p>纵轴是真阳性率（True positive rate, TPR）
+$$
+\text{TPR}=\text{recall}=\text{sensitivity}=\frac{TP}{TP+FN}
+$$
+ROC曲线下面积（Area under ROC curve， AUROC）</p>
+<center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/metrics_for_binary_classification/1.png">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">ROC曲线</div>
+</center>
+<h2 id="auprc">AUPRC<a hidden class="anchor" aria-hidden="true" href="#auprc">#</a></h2>
+<p>AUPRC即PRC曲线下的面积（area under precision-recall curve）。PRC曲线：</p>
+<p>横轴是：Recall，即TPR</p>
+<p>纵轴是：Precision
+$$
+\text{AUPRC}=\int_0^1 p(r)\text dr
+$$</p>
+<p>曲线下面积也称为平均精度（Average precision, AP）</p>
+<center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/metrics_for_binary_classification/2.png">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">ROC和PRC的计算实例</div>
+</center>
+<p>根据上面的结果，分别绘制ROC和PRC曲线</p>
+<center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/metrics_for_binary_classification/3.png">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">ROC和PRC的绘制</div>
+</center>
+<p>与AUROC相比，AUPRC更适合用于正负样本不均衡的情形。</p>
+<p>比如，有20个正样本和2000个负样本，则ROC不能很好的区分模型的效果。我们有两个模型，分别是preferred model（性能好） 和 other model（性能差）。如下图所示：</p>
+<center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/metrics_for_binary_classification/4.png">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">两个模型的ROC</div>
+</center>
+<p>preferred model在其前 20 个预测中找到 80% 的正确值，other model在其前 60个预测中找到 80% 的正确值，但是ROC中，preferred model还比other model更差。而PRC就可以区分preferred model 和other model。</p>
+<center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/metrics_for_binary_classification/5.png">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">两个模型的PRC</div>
+</center>
+
+        </div>
+        <div class="post-reward">
+            <div style="padding: 0 0 0 0; margin: 0 0 0 0; width: 100%; font-size:16px; text-align: center;">
+                <div id="QR" style="opacity: 0;">
+                    <div id="wechat" style="display: inline-block">
+                        <a class="fancybox" rel="group">
+                            <img id="wechat_qr" src="https://xiergo.github.io/img/wechat_pay.png" alt="wechat_pay"></a>
+                        <p>微信</p>
+                    </div>
+                    <div id="alipay" style="display: inline-block">
+                        <a class="fancybox" rel="group">
+                            <img id="alipay_qr" src="https://xiergo.github.io/img/alipay.png" alt="alipay"></a>
+                        <p>支付宝</p>
+                    </div>
+                </div>
+                <button id="rewardButton"
+                        onclick="
+                    var qr = document.getElementById('QR');
+                    if (qr.style.opacity === '0') {
+                        qr.style.opacity='1';
+                    } else {
+                        qr.style.opacity='0'
+                    }"
+                >
+                    <span>🧧 鼓励</span>
+                </button>
+            </div>
+        </div>
+
+        <footer class="post-footer">
+            
+<nav class="paginav">
+  <a class="prev" href="https://xiergo.github.io/posts/tech/rnn/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>RNN</span>
+  </a>
+  <a class="next" href="https://xiergo.github.io/posts/tech/rgn/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>RGN:基于残基的GAT和GCN结合预测蛋白互作位点</span>
+  </a>
+</nav>
+
+        </footer>
+    </div>
+
+
+
+<div>
+    <div class="pagination__title">
+        <span class="pagination__title-h" style="font-size: 20px;">💬评论</span>
+        <hr />
+    </div>
+
+    <div id="tcomment"></div>
+
+    <script src="https://cdn.staticfile.org/twikoo/1.6.7/twikoo.all.min.js">
+    </script>
+    
+
+    
+
+    <script>
+        twikoo.init({
+            envId: "https://twikooapi.vercel.app", 
+            el: "#tcomment",
+            lang: 'zh-CN',
+            region: "ap-beijing",
+            path: window.TWIKOO_MAGIC_PATH||window.location.pathname,
+            
+            
+            
+            
+            
+            
+            
+        });
+    </script>
+
+</div>
+</article>
+</main>
+
+
+<script async src="https://unpkg.com/mermaid@8.8.1/dist/mermaid.min.js"></script>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<footer class="footer">
+    <span>
+        Copyright
+        &copy;
+        -2023
+        <a href="https://xiergo.github.io/" style="color:#939393;">Xiergo&#39;s Blog</a>
+        All Rights Reserved
+    </span>
+
+    <a href="https://beian.miit.gov.cn/" target="_blank" style="color:#939393;"></a>&nbsp;
+
+    <span>
+        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null"
+           style="display:inline-block;text-decoration:none;height:20px;color:#939393;">
+            <img src="" style="float:left;margin: 0px 5px 0px 0px;"/>
+            
+        </a>
+    </span>
+
+    <span id="busuanzi_container">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        总访客数: <span id="busuanzi_value_site_uv"></span>
+        总访问量: <span id="busuanzi_value_site_pv"></span>
+    </span>
+
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <span class="topInner">
+        <svg class="topSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z"/>
+        </svg>
+        <span id="read_progress"></span>
+    </span>
+</a>
+
+<script>
+    document.addEventListener('scroll', function (e) {
+        const readProgress = document.getElementById("read_progress");
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight;
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        
+        readProgress.innerText = ((scrollTop / (scrollHeight - clientHeight)).toFixed(2) * 100).toFixed(0);
+    })
+</script>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    let mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script>
+    document.body.addEventListener('copy', function (e) {
+        if (window.getSelection().toString() && window.getSelection().toString().length > 50) {
+            let clipboardData = e.clipboardData || window.clipboardData;
+            if (clipboardData) {
+                e.preventDefault();
+                let htmlData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「' + {
+                { .
+                    Site.Title
+                }
+            }
+                +'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                let textData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「' + {
+                { .
+                    Site.Title
+                }
+            }
+                +'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                clipboardData.setData('text/html', htmlData);
+                clipboardData.setData('text/plain', textData);
+            }
+        }
+    });
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = '📄复制';
+
+        function copyingDone() {
+            copybutton.innerText = '👌🏻已复制!';
+            setTimeout(() => {
+                copybutton.innerText = '📄复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                let text = codeblock.textContent +
+                    '\r\n————————————————\r\n' +
+                    '版权声明：本文为「' + "Xiergo's Blog"
+                +'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                navigator.clipboard.writeText(text);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) {
+            }
+            ;
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild === container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName === "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+    $("code[class^=language] ").on("mouseover", function () {
+        if (this.clientWidth < this.scrollWidth) {
+            $(this).css("width", "135%")
+        }
+    }).on("mouseout", function () {
+        $(this).css("width", "100%")
+    })
+</script>
+</body>
+
+</html>

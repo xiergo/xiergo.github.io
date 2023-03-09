@@ -6,7 +6,88 @@
     <description>Recent content on Xiergo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 07 Jan 2023 13:33:44 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 09 Mar 2023 10:47:13 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DockQ</title>
+      <link>https://xiergo.github.io/posts/tech/dockq/</link>
+      <pubDate>Thu, 09 Mar 2023 10:47:13 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/dockq/</guid>
+      <description>蛋白结构预测有很多公认的质量评估指标，如： $C_{\alpha}$-RMSD GDT-TS MaxSub TM-Score S-score IS-score 但是复合物模型领域没有。目前主要依靠三个指标： $F_{nat}$：Fraction of native interfacial contacts preserved in the interface of the predicted complex. 界面（interface）：两个分子（受体和配体）的所有距离小于等于5埃的重原子对。 LRMS: Ligand Root Mean Square deviation calculated for the backbone of the shorter chain (ligand) of the model</description>
+    </item>
+    
+    <item>
+      <title>Jensen Inequality</title>
+      <link>https://xiergo.github.io/posts/tech/jensen_inequality/</link>
+      <pubDate>Sat, 25 Feb 2023 17:12:16 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/jensen_inequality/</guid>
+      <description>凸函数 对于函数$f(x)$在定义域$D$上连续且可导，对于$\forall x_1,x_2 \in D,\forall t\in (0,1)$若满足 $$ tf(x_1)+(1-t)f(x_2) \ge f(tx_1+(1-t)x_2) $$ 当且仅当$x_1=x_2$等号成立，则$f(x)$为凸函数 Jensen不等式离散形式 若$f(x)$是凸函数，对于$\forall x_1,x_2,\dots,x_n\in D,\forall t_1,t_2,\dots,t_n\in (0,1),\sum_{i=1}^n t_i=1$，有如下不等式： $$ \sum_{i=1}^n t_i</description>
+    </item>
+    
+    <item>
+      <title>2023年春节</title>
+      <link>https://xiergo.github.io/posts/life/2023%E5%B9%B4%E6%98%A5%E8%8A%82/</link>
+      <pubDate>Sat, 28 Jan 2023 15:28:55 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/life/2023%E5%B9%B4%E6%98%A5%E8%8A%82/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>AlphaFold-Multimer</title>
+      <link>https://xiergo.github.io/posts/tech/alphafold-multimer/</link>
+      <pubDate>Sat, 21 Jan 2023 15:38:02 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/alphafold-multimer/</guid>
+      <description>使用AF-multimer对蛋白复合物结构进行预测 绝大多数的蛋白质单链结构预测已经达到很高精度，但是多链蛋白复合物结构预测仍存在挑战。这里，我们发现，使用已知化学计量学（stoichiometry）的多聚体作为输入训练的AlphaFold模型（起名AlphaFold-Multim</description>
+    </item>
+    
+    <item>
+      <title>反向传播</title>
+      <link>https://xiergo.github.io/posts/tech/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/</link>
+      <pubDate>Fri, 20 Jan 2023 06:58:21 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/</guid>
+      <description>$$ \pmb a^{(1)}=f(\pmb x^{(1)})=f(\pmb W^{(1)}\pmb x^{(0)}) $$ $$ \pmb a^{(k)}=f(\pmb x^{(k)})=f(\pmb W^{(k)} \pmb a^{(k-1)})=\text {sigmoid}(\pmb{W}^{(k)}\pmb{a}^{(k-1)}) \\k=2,3,&amp;hellip;,K $$ $$ \pmb y=\pmb a^{(K)}=f(\pmb x^{(K)}) $$ 第k层的i节点的输出值 $$ a_i^{(k)}=\text{sigmoid}(\sum_j w_{ij}^{(k)} a_j^{(k-1)}) $$ 对于输出节点$i$，误差项$\delta_i$如下： $$ \begin{aligned} \delta_i&amp;amp;=-\frac{\partial \ell}{\partial x_i}\\ &amp;amp;=-\frac{\partial}{\partial x_i}(\frac{1}{2}(t_i-y_i)^2)\\ &amp;amp;=\frac{\partial y_i}{\partial x_i}(t_i-y_i)\\ &amp;amp;=\frac{\partial}{\partial x_i} (\frac{1}{1+e^{-x_i}})(t_i-y_i)\\ &amp;amp;=\frac{e^{-x_i}}{(1+e^{-x_i})^2}(t_i-y_i)\\ &amp;amp;=y_i(1-y_i)(t_i-y_i) \end{aligned} $$ 对于最后一隐藏层的节点$i$，误差项$\delta_i$如下： $$ \begin{aligned} \delta_i&amp;amp;=-\frac{\partial \ell}{\partial x_i}\\ &amp;amp;=-\sum_{j\in \text{output}}\frac{\partial \ell}{\partial x_j}\frac{\partial x_j}{\partial a_i}\frac{\partial a_i}{\partial x_i}\\ &amp;amp;=a_i(1-a_i)\sum_{j\in \text{output}}w_{ji}\delta_j \end{aligned} $$ 更新权重： $$ \begin{aligned} w_{ij}&amp;rsquo;&amp;amp;=w_{ij}-\eta \frac{\partial \ell}{\partial</description>
+    </item>
+    
+    <item>
+      <title>单层感知机代码实现</title>
+      <link>https://xiergo.github.io/posts/tech/perceptron/</link>
+      <pubDate>Wed, 18 Jan 2023 23:40:08 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/perceptron/</guid>
+      <description>举例单层感知机实现逻辑或（OR）： $x_1$ $x_2$ $y$ 0 0 0 1 0 1 0 1 1 1 1 1 $$ y=\pmb w^T\pmb x+b $$ $$ \ell=1/2(y_0-y)^2 $$ $$ \pmb w&amp;rsquo;=\pmb w-\eta\frac {\partial \ell}{\partial \pmb w}\\ =\pmb w-\eta(y-y_0)\pmb x\\ =\pmb w+\eta(y_0-y)\pmb x $$ $$ b&amp;rsquo;=b-\eta(y-y_0)=b+\eta(y_0-y) $$ 代码实现 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 from functools import reduce class Perceptron(object): def __init__(self, dim, activator, eta) -&amp;gt; None: self.w = [0.0 for _ in range(dim)] self.b = 0.0 self.activator = activator self.eta = eta def predict(self, x): wx = reduce(lambda</description>
+    </item>
+    
+    <item>
+      <title>RNN</title>
+      <link>https://xiergo.github.io/posts/tech/rnn/</link>
+      <pubDate>Wed, 18 Jan 2023 13:35:57 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/rnn/</guid>
+      <description>RNN即循环神经网络（recurrent neural network）。 $$ S_{t}=f(WS_{t-1}+UX_t)\\ O_t=g(VS_t) $$</description>
+    </item>
+    
+    <item>
+      <title>二分类的评估指标</title>
+      <link>https://xiergo.github.io/posts/tech/%E4%BA%8C%E5%88%86%E7%B1%BB%E7%9A%84%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/</link>
+      <pubDate>Tue, 17 Jan 2023 19:12:38 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/%E4%BA%8C%E5%88%86%E7%B1%BB%E7%9A%84%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/</guid>
+      <description>评估指标（evaluation metrics） 准确率（ACC） 精确度（precision） 召回率（recall） F1 Score 马修斯相关系数（Mathews correlation coefficient, MCC） 受试者操作特征曲线下面积（AUROC: area under receiver operating characteristic curve） AUPRC: area under precision recall curve $$ \text{ACC}=\frac{TP+TN}{TP+TN+FP+FN}\\ \text{precision}=\frac{TP}{TP+FP}\\ \text{recall}=\text{TPR}=\text{sensitivity}=\frac{TP}{TP+FN}\\ F_1=\frac{2\times \text{precision}\times\text{recall}}{\text{precision}+\text{recall}}\\ \text{MCC}=\frac{TN\times TP-FN\times FP}{\sqrt{(TN+FN)\times(TP+FP)\times(TP+FN)\times(TN+FP)}} $$ AUROC ROC is short for Receiver Operating Characteristic. That name stems from the fact that</description>
+    </item>
+    
+    <item>
+      <title>RGN:基于残基的GAT和GCN结合预测蛋白互作位点</title>
+      <link>https://xiergo.github.io/posts/tech/rgn/</link>
+      <pubDate>Thu, 12 Jan 2023 09:36:32 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/rgn/</guid>
+      <description>蛋白蛋白相互作用（protein-protein interaction, PPI）位点预测问题在生物化学领域都很重要，过去的方法都很耗时且准确度不高。我们提出RGN（Residue based Graph attention and convolutional Network）来预测PPI位点。我们将蛋白看成一张图，残基看作节点，节点的特征包括四部分：PSSM（the position specific scoring</description>
+    </item>
+    
     <item>
       <title>ANSURR:一种验证NMR蛋白结构准确性的方法</title>
       <link>https://xiergo.github.io/posts/tech/ansurr1/</link>
@@ -248,6 +329,15 @@
       
       <guid>https://xiergo.github.io/posts/tech/discrete-pheatmap/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://xiergo.github.io/posts/tech/train_url/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/train_url/</guid>
+      <description>Train_url</description>
     </item>
     
     
