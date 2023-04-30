@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>轨迹聚类 | Xiergo&#39;s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="获取二面角 DCD2Dihedral.cpp 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134">
+<meta name="author" content="
+作者:&nbsp;Xiergo">
+<link rel="canonical" href="https://xiergo.github.io/posts/tech/%E8%BD%A8%E8%BF%B9%E8%81%9A%E7%B1%BB/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="icon" type="image/png" sizes="16x16" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="apple-touch-icon" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="mask-icon" href="https://xiergo.github.io/img/Q.jpg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+onload="renderMathInElement(document.body, 
+    {
+              delimiters: [
+                  {left: '$$', right: '$$', display: true},
+                  {left: '\\[', right: '\\]', display: true},
+                  {left: '$', right: '$', display: false},
+                  {left: '\\(', right: '\\)', display: false}
+              ]
+          }
+    );"></script>
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = ""; 
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta property="og:title" content="轨迹聚类" />
+<meta property="og:description" content="获取二面角 DCD2Dihedral.cpp 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://xiergo.github.io/posts/tech/%E8%BD%A8%E8%BF%B9%E8%81%9A%E7%B1%BB/" />
+<meta property="og:image" content="https://xiergo.github.io/posts/tech/%E8%BD%A8%E8%BF%B9%E8%81%9A%E7%B1%BB.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-03-27T20:49:17&#43;08:00" />
+<meta property="article:modified_time" content="2023-03-27T20:49:17&#43;08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://xiergo.github.io/posts/tech/%E8%BD%A8%E8%BF%B9%E8%81%9A%E7%B1%BB.png" />
+<meta name="twitter:title" content="轨迹聚类"/>
+<meta name="twitter:description" content="获取二面角 DCD2Dihedral.cpp 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "📚文章",
+      "item": "https://xiergo.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "👨🏻‍💻 技术",
+      "item": "https://xiergo.github.io/posts/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "轨迹聚类",
+      "item": "https://xiergo.github.io/posts/tech/%E8%BD%A8%E8%BF%B9%E8%81%9A%E7%B1%BB/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "轨迹聚类",
+  "name": "轨迹聚类",
+  "description": "获取二面角 DCD2Dihedral.cpp 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134",
+  "keywords": [
+    
+  ],
+  "articleBody": "\r获取二面角 DCD2Dihedral.cpp\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 #include \"stdio.h\" #include \"string.h\" #include \"stdlib.h\" #include \"math.h\" struct VECTOR { float x; float y; float z; }; inline VECTOR cross(VECTOR\u0026 ba, VECTOR \u0026bc) { VECTOR normal_abc; normal_abc.x = ba.y * bc.z - ba.z * bc.y; normal_abc.y = ba.z * bc.x - ba.x * bc.z; normal_abc.z = ba.x * bc.y - ba.y * bc.x; float temp = 1.f / fmaxf(sqrtf(normal_abc.x * normal_abc.x + normal_abc.y * normal_abc.y + normal_abc.z * normal_abc.z), 1.e-6f); normal_abc.x *= temp; normal_abc.y *= temp; normal_abc.z *= temp; return normal_abc; } float dihedral(VECTOR a, VECTOR b, VECTOR c, VECTOR d) { float temp; VECTOR ba, bc; ba.x = a.x - b.x; ba.y = a.y - b.y; ba.z = a.z - b.z; bc.x = c.x - b.x; bc.y = c.y - b.y; bc.z = c.z - b.z; VECTOR cd; cd.x = d.x - c.x; cd.y = d.y - c.y; cd.z = d.z - c.z; VECTOR normal_abc = cross(ba, bc); VECTOR normal_bcd = cross(cd, bc); VECTOR help_axis = cross(normal_abc,bc); float x = help_axis.x * normal_bcd.x + help_axis.y * normal_bcd.y + help_axis.z * normal_bcd.z; float y = normal_abc.x * normal_bcd.x + normal_abc.y * normal_bcd.y + normal_abc.z * normal_bcd.z; return -atan2f(x,y); //check /*float theta = 2.f * 3.1415f; printf(\"%f\\n\", dihedral({ 0.f,1.f,0.f }, { 0.f,0.f,0.f }, { 1.f,0.f,0.f }, { 1.f,1.f * cosf(theta),1.f * sinf(theta) })); getchar();*/ } int main(int argn,char *argv[]) { int atom_numbers = 56;//n int file_prefix = 70;//p1 int traj_prefix = 14;//p2 char in_file_name[1024] = \"..\\\\DESRES-Trajectory_NuG2-2-c-alpha\\\\NuG2-2-c-alpha\\\\NuG2-2-c-alpha-000.dcd\";//in char out_file_name[1024] = \"out.txt\";//out for (int i = 0; i \u003c argn; i = i + 1) { if (strcmp(argv[i], \"-n\") == 0) { i = i + 1; sscanf(argv[i], \"%d\", \u0026atom_numbers); } else if (strcmp(argv[i], \"-p1\") == 0) { i = i + 1; sscanf(argv[i], \"%d\", \u0026file_prefix); } else if (strcmp(argv[i], \"-p2\") == 0) { i = i + 1; sscanf(argv[i], \"%d\", \u0026traj_prefix); } else if (strcmp(argv[i], \"-in\") == 0) { i = i + 1; sprintf(in_file_name, \"%s\", argv[i]); } else if (strcmp(argv[i], \"-out\") == 0) { i = i + 1; sprintf(out_file_name, \"%s\", argv[i]); } } int dihedral_numbers = atom_numbers - 3; float* trash_save = NULL; trash_save = (float*)malloc(sizeof(float) * file_prefix); float* crd_save = NULL;//{x1 x2 ... y1 y2 ... ...} crd_save = (float*)malloc(sizeof(float) * atom_numbers * 3); FILE* in = fopen(in_file_name, \"rb\"); FILE* out = fopen(out_file_name, \"w\"); fread(trash_save, sizeof(float), file_prefix, in); while(true) { int pan=fread(trash_save, sizeof(float), traj_prefix, in); if (pan == 0) { break; } fread(\u0026crd_save[0], sizeof(float), atom_numbers, in); fread(trash_save, sizeof(float), 2, in); fread(\u0026crd_save[atom_numbers], sizeof(float), atom_numbers, in); fread(trash_save, sizeof(float), 2, in); fread(\u0026crd_save[2 * atom_numbers], sizeof(float), atom_numbers, in); fread(trash_save, sizeof(float), 2, in); for (int j = 0; j \u003c dihedral_numbers; j = j + 1) { VECTOR a, b, c, d; a.x = crd_save[0 + j]; a.y = crd_save[atom_numbers + j]; a.z = crd_save[2 * atom_numbers + j]; b.x = crd_save[0 + j+1]; b.y = crd_save[atom_numbers + j+1]; b.z = crd_save[2 * atom_numbers + j+1]; c.x = crd_save[0 + j+2]; c.y = crd_save[atom_numbers + j+2]; c.z = crd_save[2 * atom_numbers + j+2]; d.x = crd_save[0 + j+3]; d.y = crd_save[atom_numbers + j+3]; d.z = crd_save[2 * atom_numbers + j+3]; fprintf(out,\"%.4f \",dihedral(a, b, c, d)); //printf(\"%f\\n\",dihedral(a, b, c, d)); } fprintf(out, \"\\n\"); } fclose(in); fclose(out); printf(\"done!\\n\"); return 0; } 编译：\n1 g++ DCD2Dihedral.cpp -o dcd2dihedral 结果：\n体系包括56个CA原子，每个结构可以得到53个二面角。\n致谢： 黄渝鹏师兄提供的代码\nKmeans 聚类 四条轨迹帧数分别为：\n1849251 2223985 844368 863772 因为轨迹前期结构变化大，每条轨迹去掉前1000帧，共计5777376帧。\n聚类使用sklearn的kmeans方法，K取100。\ncluster.py\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 import os import re import pickle import numpy as np import pandas as pd from sklearn.cluster import KMeans from sklearn.decomposition import PCA total = [] for i in range(4): print(i) input_dir = f'./data/DESRES-Trajectory_NuG2-{i}-c-alpha/NuG2-{i}-c-alpha/' dihedral_list = [] num_atoms = os.popen(f'cat {input_dir}*mae| grep ffio_sites').read().strip() num_atoms = int(re.sub('[^0-9]', '', num_atoms)) print(num_atoms) fs = os.listdir(input_dir) fs.sort() for f in fs: f = input_dir + f if f.endswith('dcd'): print(f) outf = f + '.dih' if not os.path.isfile(outf): os.system(f'./dcd2dihedral -n {num_atoms} -in {f} -out {outf}') with open(outf, 'r') as f: lines = [i.strip().split(' ') for i in f.readlines()] dihedral_list.extend([[i.strip() for i in line] for line in lines]) X = np.array(dihedral_list, dtype=np.float128) print(X.shape) print(X) total.append(X[1000: ]) tx = np.concatenate(total) print(tx.shape) cluster_pickle = 'kmeans.pickle' if os.path.isfile(cluster_pickle): with open(cluster_pickle, 'rb') as f: kmeans = pickle.load(f) else: kmeans = KMeans(n_clusters = 100, random_state = 0).fit(tx) with open(cluster_pickle, 'wb') as f: pickle.dump(kmeans, f) centers = kmeans.cluster_centers_ print(centers.shape) closest_to_centers = (((tx[:, None] - centers[None]) ** 2).sum(-1)).argmin(0) print(closest_to_centers) with open('centers.txt', 'w') as f: f.writelines([f'{i}\\n' for i in closest_to_centers]) # reduce dimension with pca pca = PCA(n_components=2) reduced_x = pca.fit_transform(tx) with open('results.pickle', 'wb') as f: pickle.dump([tx, reduced_x, closest_to_centers], f) labels = kmeans.labels_ res = np.concatenate([reduced_x, labels[:, None], np.isin(np.arange(reduced_x.shape[0]), closest_to_centers)[:, None]], axis = 1) df = pd.DataFrame(res) df.columns = ['x', 'y', 'cluster', 'is_center'] df.to_csv('results.tsv', sep='\\t', index=False) 得到100个类别，通过取离每个类中心最近的结构作为该类别的代表性结构，从而得到100个代表性结构。\n速度 70min完成5777376个53维向量的聚类\nstart! Fri 24 Mar 2023 11:13:54 PM CST\nend! Sat 25 Mar 2023 12:23:46 AM CST\n结果 统计每个cluster里的结构数目：\n最多：117670\n均值：57773.76\n中位数：53701\n最少：19128\n后面做了PCA降维到二维平面，由于点太多，以及类别太多，不太好看出来效果。\n1 2 3 4 5 6 7 8 9 10 library(ggplot2) df \u003c- read.delim(\"results.tsv\") df$cluster = factor(df$cluster) df$is_center = factor(df$is_center == 1) png(\"cluster.png\", width = 1000, height = 1000) p = ggplot(data = df, mapping = aes(x, y, alpha = 0.3, col = cluster, shape = is_center, size = is_center)) + geom_point() print(p) dev.off() PCA降维后散点图\r得到类中心的结构 使用mdtraj从dcd提取pdb\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 import os import mdtraj as md import numpy as np with open('centers.txt', 'r') as f: centers = [int(i.strip()) for i in f.readlines()] centers.sort() centers = np.array(centers) print(centers) toti = np.array([1849251, 2223985, 844368, 863772]) tot = 5777376 + 4000 toti1 = toti - 1000 print(toti1) assert toti.sum() == tot def get_coord(i): i1 = 0 i0 = i while i \u003e= toti1[i1]: i -= toti1[i1] i1 += 1 i += 1000 step = 10000 i2 = 0 while i \u003e= step: i -= step i2 += 1 print(i0, i1, i2, i) return (i1, i2, i) topology = './topo.pdb' dcd_prev = '' for c in centers: i1, i2, i3 = get_coord(c) dcd = f'./data/full_atom/DESRES-Trajectory_NuG2-{i1}-protein/NuG2-{i1}-protein/NuG2-{i1}-protein-{i2:0\u003e3}.dcd' if not dcd == dcd_prev: print(dcd) traj = md.load_dcd(dcd, top=topology) print(traj) traj[i3].save_pdb(f'centers/cluster_{c}_{i1}_{i2}_{i3}.pdb') 随机取11个结构，可以看出结构差异明显\n随机挑选的11个结构\r",
+  "wordCount" : "1548",
+  "inLanguage": "en",
+  "image":"https://xiergo.github.io/posts/tech/%E8%BD%A8%E8%BF%B9%E8%81%9A%E7%B1%BB.png","datePublished": "2023-03-27T20:49:17+08:00",
+  "dateModified": "2023-03-27T20:49:17+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Xiergo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://xiergo.github.io/posts/tech/%E8%BD%A8%E8%BF%B9%E8%81%9A%E7%B1%BB/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Xiergo's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://xiergo.github.io/img/Q.jpg"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://xiergo.github.io/" accesskey="h" title="Xiergo&#39;s Blog (Alt + H)">
+            <img src="https://xiergo.github.io/img/Q.jpg" alt="logo" aria-label="logo"
+                 height="35">Xiergo&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://xiergo.github.io/search" title="🔍 搜索 (Alt &#43; /)" accesskey=/>
+                <span>🔍 搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/" title="🏠 主页">
+                <span>🏠 主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/posts" title="📚 文章">
+                <span>📚 文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/tags" title="🧩 标签">
+                <span>🧩 标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/archives/" title="⏱️ 时间轴">
+                <span>⏱️ 时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/about" title="🙋🏻‍♂️ 关于">
+                <span>🙋🏻‍♂️ 关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/links" title="🤝 友链">
+                <span>🤝 友链</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main page">
+<article class="post-single">
+    <div id="single-content">
+        <header class="post-header">
+            <div class="breadcrumbs"><a href="https://xiergo.github.io/">主页</a>&nbsp;»&nbsp;<a href="https://xiergo.github.io/posts/">📚文章</a>&nbsp;»&nbsp;<a href="https://xiergo.github.io/posts/tech/">👨🏻‍💻 技术</a></div>
+            <h1 class="post-title">
+                轨迹聚类
+            </h1>
+            <div class="post-meta">创建:&nbsp;<span title='2023-03-27 20:49:17 +0800 CST'>2023-03-27</span>&nbsp;|&nbsp;更新:&nbsp;2023-03-27&nbsp;|&nbsp;字数:&nbsp;1548字&nbsp;|&nbsp;时长:&nbsp;4分钟&nbsp;|&nbsp;
+作者:&nbsp;Xiergo
+
+
+
+                &nbsp;|&nbsp;标签: &nbsp;
+
+                
+                <span id="busuanzi_container_page_pv">
+                &nbsp;| 访问: <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+</div>
+        </header> 
+<figure class="entry-cover1"><img loading="lazy" src="https://xiergo.github.io/posts/tech/%E8%BD%A8%E8%BF%B9%E8%81%9A%E7%B1%BB.png" alt="">
+        
+</figure>
+        <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">文章目录</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e8%8e%b7%e5%8f%96%e4%ba%8c%e9%9d%a2%e8%a7%92" aria-label="获取二面角">获取二面角</a></li>
+                <li>
+                    <a href="#kmeans-%e8%81%9a%e7%b1%bb" aria-label="Kmeans 聚类">Kmeans 聚类</a></li>
+                <li>
+                    <a href="#%e9%80%9f%e5%ba%a6" aria-label="速度">速度</a></li>
+                <li>
+                    <a href="#%e7%bb%93%e6%9e%9c" aria-label="结果">结果</a></li>
+                <li>
+                    <a href="#%e5%be%97%e5%88%b0%e7%b1%bb%e4%b8%ad%e5%bf%83%e7%9a%84%e7%bb%93%e6%9e%84" aria-label="得到类中心的结构">得到类中心的结构</a>
+                </li>
+            </ul>
+        </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+        
+        activeElement = elements[0];
+        const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+        document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+    }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 &&
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+            const id = encodeURI(element.getAttribute('id')).toLowerCase();
+            if (element === activeElement){
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+            } else {
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+            }
+        })
+    }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;
+    }
+</script>
+        
+        <div class="post-content"><!--
+添加图片方法
+
+<center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/yeast_display/1.jpg">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">图注写这里</div>
+</center>
+-->
+<h2 id="获取二面角">获取二面角<a hidden class="anchor" aria-hidden="true" href="#获取二面角">#</a></h2>
+<blockquote>
+<p>DCD2Dihedral.cpp</p>
+</blockquote>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 39
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 40
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 41
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 42
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 43
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 44
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 45
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 46
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 47
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 48
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 49
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 50
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 51
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 52
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 53
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 54
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 55
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 56
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 57
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 58
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 59
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 60
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 61
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 62
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 63
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 64
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 65
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 66
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 67
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 68
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 69
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 70
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 71
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 72
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 73
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 74
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 75
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 76
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 77
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 78
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 79
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 80
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 81
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 82
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 83
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 84
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 85
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 86
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 87
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 88
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 89
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 90
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 91
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 92
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 93
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 94
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 95
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 96
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 97
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 98
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 99
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">100
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">101
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">102
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">103
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">104
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">105
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">106
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">107
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">108
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">109
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">110
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">111
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">112
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">113
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">114
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">115
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">116
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">117
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">118
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">119
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">120
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">121
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">122
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">123
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">124
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">125
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">126
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">127
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">128
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">129
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">130
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">131
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">132
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">133
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">134
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">135
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">136
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">137
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">138
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">139
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">140
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;stdio.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;string.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;stdlib.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;math.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">VECTOR</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> x;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> y;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> z;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">inline</span> VECTOR <span style="color:#a6e22e">cross</span>(VECTOR<span style="color:#f92672">&amp;</span> ba, VECTOR <span style="color:#f92672">&amp;</span>bc)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	VECTOR normal_abc;
+</span></span><span style="display:flex;"><span>	normal_abc.x <span style="color:#f92672">=</span> ba.y <span style="color:#f92672">*</span> bc.z <span style="color:#f92672">-</span> ba.z <span style="color:#f92672">*</span> bc.y;
+</span></span><span style="display:flex;"><span>	normal_abc.y <span style="color:#f92672">=</span> ba.z <span style="color:#f92672">*</span> bc.x <span style="color:#f92672">-</span> ba.x <span style="color:#f92672">*</span> bc.z;
+</span></span><span style="display:flex;"><span>	normal_abc.z <span style="color:#f92672">=</span> ba.x <span style="color:#f92672">*</span> bc.y <span style="color:#f92672">-</span> ba.y <span style="color:#f92672">*</span> bc.x;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> temp <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.f</span> <span style="color:#f92672">/</span> fmaxf(sqrtf(normal_abc.x <span style="color:#f92672">*</span> normal_abc.x <span style="color:#f92672">+</span> normal_abc.y <span style="color:#f92672">*</span> normal_abc.y <span style="color:#f92672">+</span> normal_abc.z <span style="color:#f92672">*</span> normal_abc.z), <span style="color:#ae81ff">1.e-6</span>f);
+</span></span><span style="display:flex;"><span>	normal_abc.x <span style="color:#f92672">*=</span> temp;
+</span></span><span style="display:flex;"><span>	normal_abc.y <span style="color:#f92672">*=</span> temp;
+</span></span><span style="display:flex;"><span>	normal_abc.z <span style="color:#f92672">*=</span> temp;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> normal_abc;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> <span style="color:#a6e22e">dihedral</span>(VECTOR a, VECTOR b, VECTOR c, VECTOR d)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> temp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	VECTOR ba, bc;
+</span></span><span style="display:flex;"><span>	ba.x <span style="color:#f92672">=</span> a.x <span style="color:#f92672">-</span> b.x;
+</span></span><span style="display:flex;"><span>	ba.y <span style="color:#f92672">=</span> a.y <span style="color:#f92672">-</span> b.y;
+</span></span><span style="display:flex;"><span>	ba.z <span style="color:#f92672">=</span> a.z <span style="color:#f92672">-</span> b.z;
+</span></span><span style="display:flex;"><span>	bc.x <span style="color:#f92672">=</span> c.x <span style="color:#f92672">-</span> b.x;
+</span></span><span style="display:flex;"><span>	bc.y <span style="color:#f92672">=</span> c.y <span style="color:#f92672">-</span> b.y;
+</span></span><span style="display:flex;"><span>	bc.z <span style="color:#f92672">=</span> c.z <span style="color:#f92672">-</span> b.z;
+</span></span><span style="display:flex;"><span>	VECTOR cd;
+</span></span><span style="display:flex;"><span>	cd.x <span style="color:#f92672">=</span> d.x <span style="color:#f92672">-</span> c.x;
+</span></span><span style="display:flex;"><span>	cd.y <span style="color:#f92672">=</span> d.y <span style="color:#f92672">-</span> c.y;
+</span></span><span style="display:flex;"><span>	cd.z <span style="color:#f92672">=</span> d.z <span style="color:#f92672">-</span> c.z;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	VECTOR normal_abc <span style="color:#f92672">=</span> cross(ba, bc);
+</span></span><span style="display:flex;"><span>	VECTOR normal_bcd <span style="color:#f92672">=</span> cross(cd, bc);
+</span></span><span style="display:flex;"><span>	VECTOR help_axis <span style="color:#f92672">=</span> cross(normal_abc,bc);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> x <span style="color:#f92672">=</span> help_axis.x <span style="color:#f92672">*</span> normal_bcd.x <span style="color:#f92672">+</span> help_axis.y <span style="color:#f92672">*</span> normal_bcd.y <span style="color:#f92672">+</span> help_axis.z <span style="color:#f92672">*</span> normal_bcd.z;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> y <span style="color:#f92672">=</span> normal_abc.x <span style="color:#f92672">*</span> normal_bcd.x <span style="color:#f92672">+</span> normal_abc.y <span style="color:#f92672">*</span> normal_bcd.y <span style="color:#f92672">+</span> normal_abc.z <span style="color:#f92672">*</span> normal_bcd.z;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span>atan2f(x,y);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//check
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">/*float theta = 2.f * 3.1415f;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	printf(&#34;%f\n&#34;, dihedral({ 0.f,1.f,0.f }, { 0.f,0.f,0.f }, { 1.f,0.f,0.f }, { 1.f,1.f * cosf(theta),1.f * sinf(theta) }));
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	getchar();*/</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argn,<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>argv[])
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> atom_numbers <span style="color:#f92672">=</span> <span style="color:#ae81ff">56</span>;<span style="color:#75715e">//n
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> file_prefix <span style="color:#f92672">=</span> <span style="color:#ae81ff">70</span>;<span style="color:#75715e">//p1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> traj_prefix <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>;<span style="color:#75715e">//p2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">char</span> in_file_name[<span style="color:#ae81ff">1024</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;..</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">DESRES-Trajectory_NuG2-2-c-alpha</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">NuG2-2-c-alpha</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">NuG2-2-c-alpha-000.dcd&#34;</span>;<span style="color:#75715e">//in
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">char</span> out_file_name[<span style="color:#ae81ff">1024</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;out.txt&#34;</span>;<span style="color:#75715e">//out
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> argn; i <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (strcmp(argv[i], <span style="color:#e6db74">&#34;-n&#34;</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			i <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>			sscanf(argv[i], <span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>atom_numbers);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (strcmp(argv[i], <span style="color:#e6db74">&#34;-p1&#34;</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			i <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>			sscanf(argv[i], <span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>file_prefix);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (strcmp(argv[i], <span style="color:#e6db74">&#34;-p2&#34;</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			i <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>			sscanf(argv[i], <span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>traj_prefix);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (strcmp(argv[i], <span style="color:#e6db74">&#34;-in&#34;</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			i <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>			sprintf(in_file_name, <span style="color:#e6db74">&#34;%s&#34;</span>, argv[i]);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (strcmp(argv[i], <span style="color:#e6db74">&#34;-out&#34;</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			i <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>			sprintf(out_file_name, <span style="color:#e6db74">&#34;%s&#34;</span>, argv[i]);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> dihedral_numbers <span style="color:#f92672">=</span> atom_numbers <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span><span style="color:#f92672">*</span> trash_save <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>	trash_save <span style="color:#f92672">=</span> (<span style="color:#66d9ef">float</span><span style="color:#f92672">*</span>)malloc(<span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>) <span style="color:#f92672">*</span> file_prefix);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span><span style="color:#f92672">*</span> crd_save <span style="color:#f92672">=</span> NULL;<span style="color:#75715e">//{x1 x2 ... y1 y2 ... ...}
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	crd_save <span style="color:#f92672">=</span> (<span style="color:#66d9ef">float</span><span style="color:#f92672">*</span>)malloc(<span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>) <span style="color:#f92672">*</span> atom_numbers <span style="color:#f92672">*</span> <span style="color:#ae81ff">3</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	FILE<span style="color:#f92672">*</span> in <span style="color:#f92672">=</span> fopen(in_file_name, <span style="color:#e6db74">&#34;rb&#34;</span>);
+</span></span><span style="display:flex;"><span>	FILE<span style="color:#f92672">*</span> out <span style="color:#f92672">=</span> fopen(out_file_name, <span style="color:#e6db74">&#34;w&#34;</span>);
+</span></span><span style="display:flex;"><span>	fread(trash_save, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>), file_prefix, in);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span>(true)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> pan<span style="color:#f92672">=</span>fread(trash_save, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>), traj_prefix, in);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (pan <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		fread(<span style="color:#f92672">&amp;</span>crd_save[<span style="color:#ae81ff">0</span>], <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>), atom_numbers, in);
+</span></span><span style="display:flex;"><span>		fread(trash_save, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>), <span style="color:#ae81ff">2</span>, in);
+</span></span><span style="display:flex;"><span>		fread(<span style="color:#f92672">&amp;</span>crd_save[atom_numbers], <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>), atom_numbers, in);
+</span></span><span style="display:flex;"><span>		fread(trash_save, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>), <span style="color:#ae81ff">2</span>, in);
+</span></span><span style="display:flex;"><span>		fread(<span style="color:#f92672">&amp;</span>crd_save[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> atom_numbers], <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>), atom_numbers, in);
+</span></span><span style="display:flex;"><span>		fread(trash_save, <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>), <span style="color:#ae81ff">2</span>, in);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> dihedral_numbers; j <span style="color:#f92672">=</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			VECTOR a, b, c, d;
+</span></span><span style="display:flex;"><span>			a.x <span style="color:#f92672">=</span> crd_save[<span style="color:#ae81ff">0</span> <span style="color:#f92672">+</span> j];
+</span></span><span style="display:flex;"><span>			a.y <span style="color:#f92672">=</span> crd_save[atom_numbers <span style="color:#f92672">+</span> j];
+</span></span><span style="display:flex;"><span>			a.z <span style="color:#f92672">=</span> crd_save[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> atom_numbers <span style="color:#f92672">+</span> j];
+</span></span><span style="display:flex;"><span>			b.x <span style="color:#f92672">=</span> crd_save[<span style="color:#ae81ff">0</span> <span style="color:#f92672">+</span> j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>			b.y <span style="color:#f92672">=</span> crd_save[atom_numbers <span style="color:#f92672">+</span> j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>			b.z <span style="color:#f92672">=</span> crd_save[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> atom_numbers <span style="color:#f92672">+</span> j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>			c.x <span style="color:#f92672">=</span> crd_save[<span style="color:#ae81ff">0</span> <span style="color:#f92672">+</span> j<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>];
+</span></span><span style="display:flex;"><span>			c.y <span style="color:#f92672">=</span> crd_save[atom_numbers <span style="color:#f92672">+</span> j<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>];
+</span></span><span style="display:flex;"><span>			c.z <span style="color:#f92672">=</span> crd_save[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> atom_numbers <span style="color:#f92672">+</span> j<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>];
+</span></span><span style="display:flex;"><span>			d.x <span style="color:#f92672">=</span> crd_save[<span style="color:#ae81ff">0</span> <span style="color:#f92672">+</span> j<span style="color:#f92672">+</span><span style="color:#ae81ff">3</span>];
+</span></span><span style="display:flex;"><span>			d.y <span style="color:#f92672">=</span> crd_save[atom_numbers <span style="color:#f92672">+</span> j<span style="color:#f92672">+</span><span style="color:#ae81ff">3</span>];
+</span></span><span style="display:flex;"><span>			d.z <span style="color:#f92672">=</span> crd_save[<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> atom_numbers <span style="color:#f92672">+</span> j<span style="color:#f92672">+</span><span style="color:#ae81ff">3</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			fprintf(out,<span style="color:#e6db74">&#34;%.4f &#34;</span>,dihedral(a, b, c, d));
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">//printf(&#34;%f\n&#34;,dihedral(a, b, c, d));
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		}
+</span></span><span style="display:flex;"><span>		fprintf(out, <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	fclose(in);
+</span></span><span style="display:flex;"><span>	fclose(out);
+</span></span><span style="display:flex;"><span>	printf(<span style="color:#e6db74">&#34;done!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>编译：</strong></p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>g++ DCD2Dihedral.cpp -o dcd2dihedral
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>结果：</strong></p>
+<p>体系包括56个CA原子，每个结构可以得到53个二面角。</p>
+<p><strong>致谢：</strong> 黄渝鹏师兄提供的代码</p>
+<h2 id="kmeans-聚类">Kmeans 聚类<a hidden class="anchor" aria-hidden="true" href="#kmeans-聚类">#</a></h2>
+<p>四条轨迹帧数分别为：</p>
+<ol>
+<li>1849251</li>
+<li>2223985</li>
+<li>844368</li>
+<li>863772</li>
+</ol>
+<p>因为轨迹前期结构变化大，每条轨迹去掉前1000帧，共计5777376帧。</p>
+<p>聚类使用sklearn的kmeans方法，K取100。</p>
+<blockquote>
+<p>cluster.py</p>
+</blockquote>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> re
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pickle
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.cluster <span style="color:#f92672">import</span> KMeans
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.decomposition <span style="color:#f92672">import</span> PCA
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>total <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">4</span>):
+</span></span><span style="display:flex;"><span>    print(i)
+</span></span><span style="display:flex;"><span>    input_dir <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;./data/DESRES-Trajectory_NuG2-</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">-c-alpha/NuG2-</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">-c-alpha/&#39;</span>
+</span></span><span style="display:flex;"><span>    dihedral_list <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    num_atoms <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>popen(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;cat </span><span style="color:#e6db74">{</span>input_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">*mae| grep ffio_sites&#39;</span>)<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>strip()
+</span></span><span style="display:flex;"><span>    num_atoms <span style="color:#f92672">=</span> int(re<span style="color:#f92672">.</span>sub(<span style="color:#e6db74">&#39;[^0-9]&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>, num_atoms))
+</span></span><span style="display:flex;"><span>    print(num_atoms)
+</span></span><span style="display:flex;"><span>    fs <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(input_dir)
+</span></span><span style="display:flex;"><span>    fs<span style="color:#f92672">.</span>sort()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> f <span style="color:#f92672">in</span> fs:
+</span></span><span style="display:flex;"><span>        f <span style="color:#f92672">=</span> input_dir <span style="color:#f92672">+</span> f
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> f<span style="color:#f92672">.</span>endswith(<span style="color:#e6db74">&#39;dcd&#39;</span>):
+</span></span><span style="display:flex;"><span>            print(f)
+</span></span><span style="display:flex;"><span>            outf <span style="color:#f92672">=</span> f <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;.dih&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isfile(outf):
+</span></span><span style="display:flex;"><span>                os<span style="color:#f92672">.</span>system(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;./dcd2dihedral -n </span><span style="color:#e6db74">{</span>num_atoms<span style="color:#e6db74">}</span><span style="color:#e6db74"> -in </span><span style="color:#e6db74">{</span>f<span style="color:#e6db74">}</span><span style="color:#e6db74"> -out </span><span style="color:#e6db74">{</span>outf<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">with</span> open(outf, <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>                lines <span style="color:#f92672">=</span> [i<span style="color:#f92672">.</span>strip()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39; &#39;</span>) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> f<span style="color:#f92672">.</span>readlines()]
+</span></span><span style="display:flex;"><span>                dihedral_list<span style="color:#f92672">.</span>extend([[i<span style="color:#f92672">.</span>strip() <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> line] <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> lines])
+</span></span><span style="display:flex;"><span>    X <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(dihedral_list, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float128)
+</span></span><span style="display:flex;"><span>    print(X<span style="color:#f92672">.</span>shape)
+</span></span><span style="display:flex;"><span>    print(X)
+</span></span><span style="display:flex;"><span>    total<span style="color:#f92672">.</span>append(X[<span style="color:#ae81ff">1000</span>: ])
+</span></span><span style="display:flex;"><span>tx <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>concatenate(total)
+</span></span><span style="display:flex;"><span>print(tx<span style="color:#f92672">.</span>shape)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cluster_pickle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;kmeans.pickle&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isfile(cluster_pickle):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> open(cluster_pickle, <span style="color:#e6db74">&#39;rb&#39;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>        kmeans <span style="color:#f92672">=</span> pickle<span style="color:#f92672">.</span>load(f)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>    kmeans <span style="color:#f92672">=</span> KMeans(n_clusters <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>, random_state <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>fit(tx)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> open(cluster_pickle, <span style="color:#e6db74">&#39;wb&#39;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>        pickle<span style="color:#f92672">.</span>dump(kmeans, f)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>centers <span style="color:#f92672">=</span> kmeans<span style="color:#f92672">.</span>cluster_centers_
+</span></span><span style="display:flex;"><span>print(centers<span style="color:#f92672">.</span>shape)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>closest_to_centers <span style="color:#f92672">=</span> (((tx[:, <span style="color:#66d9ef">None</span>] <span style="color:#f92672">-</span> centers[<span style="color:#66d9ef">None</span>]) <span style="color:#f92672">**</span> <span style="color:#ae81ff">2</span>)<span style="color:#f92672">.</span>sum(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))<span style="color:#f92672">.</span>argmin(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>print(closest_to_centers)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;centers.txt&#39;</span>, <span style="color:#e6db74">&#39;w&#39;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>    f<span style="color:#f92672">.</span>writelines([<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span> <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> closest_to_centers])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># reduce dimension with pca</span>
+</span></span><span style="display:flex;"><span>pca <span style="color:#f92672">=</span> PCA(n_components<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>reduced_x <span style="color:#f92672">=</span> pca<span style="color:#f92672">.</span>fit_transform(tx)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;results.pickle&#39;</span>, <span style="color:#e6db74">&#39;wb&#39;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>    pickle<span style="color:#f92672">.</span>dump([tx, reduced_x, closest_to_centers], f)
+</span></span><span style="display:flex;"><span>labels <span style="color:#f92672">=</span> kmeans<span style="color:#f92672">.</span>labels_
+</span></span><span style="display:flex;"><span>res <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>concatenate([reduced_x, labels[:, <span style="color:#66d9ef">None</span>], np<span style="color:#f92672">.</span>isin(np<span style="color:#f92672">.</span>arange(reduced_x<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]), closest_to_centers)[:, <span style="color:#66d9ef">None</span>]], axis <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(res)
+</span></span><span style="display:flex;"><span>df<span style="color:#f92672">.</span>columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;x&#39;</span>, <span style="color:#e6db74">&#39;y&#39;</span>, <span style="color:#e6db74">&#39;cluster&#39;</span>, <span style="color:#e6db74">&#39;is_center&#39;</span>]
+</span></span><span style="display:flex;"><span>df<span style="color:#f92672">.</span>to_csv(<span style="color:#e6db74">&#39;results.tsv&#39;</span>, sep<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">&#39;</span>, index<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>得到100个类别，通过取离每个类中心最近的结构作为该类别的代表性结构，从而得到100个代表性结构。</p>
+<h2 id="速度">速度<a hidden class="anchor" aria-hidden="true" href="#速度">#</a></h2>
+<p>70min完成5777376个53维向量的聚类</p>
+<blockquote>
+<p>start! Fri 24 Mar 2023 11:13:54 PM CST</p>
+<p>end! Sat 25 Mar 2023 12:23:46 AM CST</p>
+</blockquote>
+<h2 id="结果">结果<a hidden class="anchor" aria-hidden="true" href="#结果">#</a></h2>
+<p>统计每个cluster里的结构数目：</p>
+<p>最多：117670</p>
+<p>均值：57773.76</p>
+<p>中位数：53701</p>
+<p>最少：19128</p>
+<p>后面做了PCA降维到二维平面，由于点太多，以及类别太多，不太好看出来效果。</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-R" data-lang="R"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(ggplot2)
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read.delim</span>(<span style="color:#e6db74">&#34;results.tsv&#34;</span>)
+</span></span><span style="display:flex;"><span>df<span style="color:#f92672">$</span>cluster <span style="color:#f92672">=</span> <span style="color:#a6e22e">factor</span>(df<span style="color:#f92672">$</span>cluster)
+</span></span><span style="display:flex;"><span>df<span style="color:#f92672">$</span>is_center <span style="color:#f92672">=</span> <span style="color:#a6e22e">factor</span>(df<span style="color:#f92672">$</span>is_center <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">png</span>(<span style="color:#e6db74">&#34;cluster.png&#34;</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>)
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">=</span> <span style="color:#a6e22e">ggplot</span>(data <span style="color:#f92672">=</span> df, mapping <span style="color:#f92672">=</span> <span style="color:#a6e22e">aes</span>(x, y, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>, col <span style="color:#f92672">=</span> cluster,
+</span></span><span style="display:flex;"><span>    shape <span style="color:#f92672">=</span> is_center, size <span style="color:#f92672">=</span> is_center)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">geom_point</span>()
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(p)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">dev.off</span>()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/轨迹聚类/1.png">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">PCA降维后散点图</div>
+</center>
+<h2 id="得到类中心的结构">得到类中心的结构<a hidden class="anchor" aria-hidden="true" href="#得到类中心的结构">#</a></h2>
+<p>使用mdtraj从dcd提取pdb</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> mdtraj <span style="color:#66d9ef">as</span> md
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;centers.txt&#39;</span>, <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>    centers <span style="color:#f92672">=</span> [int(i<span style="color:#f92672">.</span>strip()) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> f<span style="color:#f92672">.</span>readlines()]
+</span></span><span style="display:flex;"><span>    centers<span style="color:#f92672">.</span>sort()
+</span></span><span style="display:flex;"><span>centers <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(centers)
+</span></span><span style="display:flex;"><span>print(centers)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>toti <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">1849251</span>, <span style="color:#ae81ff">2223985</span>, <span style="color:#ae81ff">844368</span>, <span style="color:#ae81ff">863772</span>])
+</span></span><span style="display:flex;"><span>tot <span style="color:#f92672">=</span> <span style="color:#ae81ff">5777376</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">4000</span>
+</span></span><span style="display:flex;"><span>toti1 <span style="color:#f92672">=</span> toti <span style="color:#f92672">-</span> <span style="color:#ae81ff">1000</span>
+</span></span><span style="display:flex;"><span>print(toti1)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">assert</span> toti<span style="color:#f92672">.</span>sum() <span style="color:#f92672">==</span> tot
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_coord</span>(i):
+</span></span><span style="display:flex;"><span>    i1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    i0 <span style="color:#f92672">=</span> i
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> i <span style="color:#f92672">&gt;=</span> toti1[i1]:
+</span></span><span style="display:flex;"><span>        i <span style="color:#f92672">-=</span> toti1[i1]
+</span></span><span style="display:flex;"><span>        i1 <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1000</span>
+</span></span><span style="display:flex;"><span>    step <span style="color:#f92672">=</span> <span style="color:#ae81ff">10000</span>
+</span></span><span style="display:flex;"><span>    i2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> i <span style="color:#f92672">&gt;=</span> step:
+</span></span><span style="display:flex;"><span>        i <span style="color:#f92672">-=</span> step
+</span></span><span style="display:flex;"><span>        i2 <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    print(i0, i1, i2, i)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (i1, i2, i)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>topology <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;./topo.pdb&#39;</span>
+</span></span><span style="display:flex;"><span>dcd_prev <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> centers:
+</span></span><span style="display:flex;"><span>    i1, i2, i3 <span style="color:#f92672">=</span> get_coord(c)
+</span></span><span style="display:flex;"><span>    dcd <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;./data/full_atom/DESRES-Trajectory_NuG2-</span><span style="color:#e6db74">{</span>i1<span style="color:#e6db74">}</span><span style="color:#e6db74">-protein/NuG2-</span><span style="color:#e6db74">{</span>i1<span style="color:#e6db74">}</span><span style="color:#e6db74">-protein/NuG2-</span><span style="color:#e6db74">{</span>i1<span style="color:#e6db74">}</span><span style="color:#e6db74">-protein-</span><span style="color:#e6db74">{</span>i2<span style="color:#e6db74">:</span><span style="color:#e6db74">0&gt;3</span><span style="color:#e6db74">}</span><span style="color:#e6db74">.dcd&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> dcd <span style="color:#f92672">==</span> dcd_prev:
+</span></span><span style="display:flex;"><span>        print(dcd)
+</span></span><span style="display:flex;"><span>        traj <span style="color:#f92672">=</span> md<span style="color:#f92672">.</span>load_dcd(dcd, top<span style="color:#f92672">=</span>topology)
+</span></span><span style="display:flex;"><span>        print(traj)
+</span></span><span style="display:flex;"><span>    traj[i3]<span style="color:#f92672">.</span>save_pdb(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;centers/cluster_</span><span style="color:#e6db74">{</span>c<span style="color:#e6db74">}</span><span style="color:#e6db74">_</span><span style="color:#e6db74">{</span>i1<span style="color:#e6db74">}</span><span style="color:#e6db74">_</span><span style="color:#e6db74">{</span>i2<span style="color:#e6db74">}</span><span style="color:#e6db74">_</span><span style="color:#e6db74">{</span>i3<span style="color:#e6db74">}</span><span style="color:#e6db74">.pdb&#39;</span>)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>随机取11个结构，可以看出结构差异明显</p>
+<center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/轨迹聚类/2.png">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">随机挑选的11个结构</div>
+</center>
+
+
+        </div>
+        <div class="post-reward">
+            <div style="padding: 0 0 0 0; margin: 0 0 0 0; width: 100%; font-size:16px; text-align: center;">
+                <div id="QR" style="opacity: 0;">
+                    <div id="wechat" style="display: inline-block">
+                        <a class="fancybox" rel="group">
+                            <img id="wechat_qr" src="https://xiergo.github.io/img/wechat_pay.png" alt="wechat_pay"></a>
+                        <p>微信</p>
+                    </div>
+                    <div id="alipay" style="display: inline-block">
+                        <a class="fancybox" rel="group">
+                            <img id="alipay_qr" src="https://xiergo.github.io/img/alipay.png" alt="alipay"></a>
+                        <p>支付宝</p>
+                    </div>
+                </div>
+                <button id="rewardButton"
+                        onclick="
+                    var qr = document.getElementById('QR');
+                    if (qr.style.opacity === '0') {
+                        qr.style.opacity='1';
+                    } else {
+                        qr.style.opacity='0'
+                    }"
+                >
+                    <span>🧧 鼓励</span>
+                </button>
+            </div>
+        </div>
+
+        <footer class="post-footer">
+            
+<nav class="paginav">
+  <a class="prev" href="https://xiergo.github.io/posts/tech/kabsch%E7%AE%97%E6%B3%95/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>Kabsch算法</span>
+  </a>
+  <a class="next" href="https://xiergo.github.io/posts/tech/%E7%88%AC%E5%8F%96pdb%E5%AE%98%E7%BD%91%E4%B8%8A%E7%9A%84%E8%9B%8B%E7%99%BD%E6%95%B0%E6%8D%AE/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>爬取PDB官网上的蛋白数据</span>
+  </a>
+</nav>
+
+        </footer>
+    </div>
+
+
+
+<div>
+    <div class="pagination__title">
+        <span class="pagination__title-h" style="font-size: 20px;">💬评论</span>
+        <hr />
+    </div>
+
+    <div id="tcomment"></div>
+
+    <script src="https://cdn.staticfile.org/twikoo/1.6.7/twikoo.all.min.js">
+    </script>
+    
+
+    
+
+    <script>
+        twikoo.init({
+            envId: "https://twikooapi.vercel.app", 
+            el: "#tcomment",
+            lang: 'zh-CN',
+            region: "ap-beijing",
+            path: window.TWIKOO_MAGIC_PATH||window.location.pathname,
+            
+            
+            
+            
+            
+            
+            
+        });
+    </script>
+
+</div>
+</article>
+</main>
+
+
+<script async src="https://unpkg.com/mermaid@8.8.1/dist/mermaid.min.js"></script>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<footer class="footer">
+    <span>
+        Copyright
+        &copy;
+        -2023
+        <a href="https://xiergo.github.io/" style="color:#939393;">Xiergo&#39;s Blog</a>
+        All Rights Reserved
+    </span>
+
+    <a href="https://beian.miit.gov.cn/" target="_blank" style="color:#939393;"></a>&nbsp;
+
+    <span>
+        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null"
+           style="display:inline-block;text-decoration:none;height:20px;color:#939393;">
+            <img src="" style="float:left;margin: 0px 5px 0px 0px;"/>
+            
+        </a>
+    </span>
+
+    <span id="busuanzi_container">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        总访客数: <span id="busuanzi_value_site_uv"></span>
+        总访问量: <span id="busuanzi_value_site_pv"></span>
+    </span>
+
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <span class="topInner">
+        <svg class="topSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z"/>
+        </svg>
+        <span id="read_progress"></span>
+    </span>
+</a>
+
+<script>
+    document.addEventListener('scroll', function (e) {
+        const readProgress = document.getElementById("read_progress");
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight;
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        
+        readProgress.innerText = ((scrollTop / (scrollHeight - clientHeight)).toFixed(2) * 100).toFixed(0);
+    })
+</script>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    let mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script>
+    document.body.addEventListener('copy', function (e) {
+        if (window.getSelection().toString() && window.getSelection().toString().length > 50) {
+            let clipboardData = e.clipboardData || window.clipboardData;
+            if (clipboardData) {
+                e.preventDefault();
+                let htmlData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「' + {
+                { .
+                    Site.Title
+                }
+            }
+                +'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                let textData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「' + {
+                { .
+                    Site.Title
+                }
+            }
+                +'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                clipboardData.setData('text/html', htmlData);
+                clipboardData.setData('text/plain', textData);
+            }
+        }
+    });
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = '📄复制';
+
+        function copyingDone() {
+            copybutton.innerText = '👌🏻已复制!';
+            setTimeout(() => {
+                copybutton.innerText = '📄复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                let text = codeblock.textContent +
+                    '\r\n————————————————\r\n' +
+                    '版权声明：本文为「' + "Xiergo's Blog"
+                +'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                navigator.clipboard.writeText(text);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) {
+            }
+            ;
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild === container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName === "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+    $("code[class^=language] ").on("mouseover", function () {
+        if (this.clientWidth < this.scrollWidth) {
+            $(this).css("width", "135%")
+        }
+    }).on("mouseout", function () {
+        $(this).css("width", "100%")
+    })
+</script>
+</body>
+
+</html>

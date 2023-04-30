@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>爬取PDB官网上的蛋白数据 | Xiergo&#39;s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="之前遇到一个比较棘手的问题，就是获取pdb的蛋白结构的一些信息，比如分辨率、解结构的方法、发布日期等等。刚开始师姐给了我一堆mmcif文件，里面有相应pdb的上述信息。但是cif文件提取信息太麻烦了，需要用正则表达式一个一个字段弄，对各种特殊情况处理。后面github上找了一个c">
+<meta name="author" content="
+作者:&nbsp;Xiergo">
+<link rel="canonical" href="https://xiergo.github.io/posts/tech/%E7%88%AC%E5%8F%96pdb%E5%AE%98%E7%BD%91%E4%B8%8A%E7%9A%84%E8%9B%8B%E7%99%BD%E6%95%B0%E6%8D%AE/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="icon" type="image/png" sizes="16x16" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="apple-touch-icon" href="https://xiergo.github.io/img/Q.jpg">
+<link rel="mask-icon" href="https://xiergo.github.io/img/Q.jpg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+onload="renderMathInElement(document.body, 
+    {
+              delimiters: [
+                  {left: '$$', right: '$$', display: true},
+                  {left: '\\[', right: '\\]', display: true},
+                  {left: '$', right: '$', display: false},
+                  {left: '\\(', right: '\\)', display: false}
+              ]
+          }
+    );"></script>
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = ""; 
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<meta property="og:title" content="爬取PDB官网上的蛋白数据" />
+<meta property="og:description" content="之前遇到一个比较棘手的问题，就是获取pdb的蛋白结构的一些信息，比如分辨率、解结构的方法、发布日期等等。刚开始师姐给了我一堆mmcif文件，里面有相应pdb的上述信息。但是cif文件提取信息太麻烦了，需要用正则表达式一个一个字段弄，对各种特殊情况处理。后面github上找了一个c" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://xiergo.github.io/posts/tech/%E7%88%AC%E5%8F%96pdb%E5%AE%98%E7%BD%91%E4%B8%8A%E7%9A%84%E8%9B%8B%E7%99%BD%E6%95%B0%E6%8D%AE/" />
+<meta property="og:image" content="https://xiergo.github.io/posts/tech/%E7%88%AC%E5%8F%96PDB%E5%AE%98%E7%BD%91%E4%B8%8A%E7%9A%84%E8%9B%8B%E7%99%BD%E6%95%B0%E6%8D%AE.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-03-17T16:30:58&#43;08:00" />
+<meta property="article:modified_time" content="2023-03-17T16:30:58&#43;08:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://xiergo.github.io/posts/tech/%E7%88%AC%E5%8F%96PDB%E5%AE%98%E7%BD%91%E4%B8%8A%E7%9A%84%E8%9B%8B%E7%99%BD%E6%95%B0%E6%8D%AE.png" />
+<meta name="twitter:title" content="爬取PDB官网上的蛋白数据"/>
+<meta name="twitter:description" content="之前遇到一个比较棘手的问题，就是获取pdb的蛋白结构的一些信息，比如分辨率、解结构的方法、发布日期等等。刚开始师姐给了我一堆mmcif文件，里面有相应pdb的上述信息。但是cif文件提取信息太麻烦了，需要用正则表达式一个一个字段弄，对各种特殊情况处理。后面github上找了一个c"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "📚文章",
+      "item": "https://xiergo.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "👨🏻‍💻 技术",
+      "item": "https://xiergo.github.io/posts/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "爬取PDB官网上的蛋白数据",
+      "item": "https://xiergo.github.io/posts/tech/%E7%88%AC%E5%8F%96pdb%E5%AE%98%E7%BD%91%E4%B8%8A%E7%9A%84%E8%9B%8B%E7%99%BD%E6%95%B0%E6%8D%AE/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "爬取PDB官网上的蛋白数据",
+  "name": "爬取PDB官网上的蛋白数据",
+  "description": "之前遇到一个比较棘手的问题，就是获取pdb的蛋白结构的一些信息，比如分辨率、解结构的方法、发布日期等等。刚开始师姐给了我一堆mmcif文件，里面有相应pdb的上述信息。但是cif文件提取信息太麻烦了，需要用正则表达式一个一个字段弄，对各种特殊情况处理。后面github上找了一个c",
+  "keywords": [
+    
+  ],
+  "articleBody": "\r之前遇到一个比较棘手的问题，就是获取pdb的蛋白结构的一些信息，比如分辨率、解结构的方法、发布日期等等。刚开始师姐给了我一堆mmcif文件，里面有相应pdb的上述信息。但是cif文件提取信息太麻烦了，需要用正则表达式一个一个字段弄，对各种特殊情况处理。后面github上找了一个cif文件读取的方法，可以直接解析cif文件，也比较麻烦。\n然后干脆直接直接使用爬虫，这里用到了BeautifulSoup进行有组织结构的提取html文件。详细代码可以参考我的github（https://github.com/xiergo/PDBSpider）。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 import re import urllib.request from bs4 import BeautifulSoup class PDBSpider: \"\"\"PDB Spider\"\"\" def __init__(self, pdb_id): self.pdb_id = pdb_id.upper() self.soup = self._get_page_content() def _get_page_content(self): site_url = 'https://www.rcsb.org/structure/' + self.pdb_id page=urllib.request.urlopen(site_url).read().decode('UTF-8') soup=BeautifulSoup(page, 'html.parser') return soup def _get_content_from_keyword(self, soup, pattern, type = None): if type: ls = [x.text.replace('\u0026nbsp',' ').replace('\\xa0', '') for x in soup.find_all(type)] else: # split by hr/br ls = [BeautifulSoup(i, 'html.parser').text for i in re.split('\u003c[bh]r/\u003e', str(soup))] for x in ls: cont=re.search(pattern, x) if cont: return cont.group(1).strip() return '' def _get_all_single_chains(self): chains = [] soup = self.soup.find('div', {'id': 'macromoleculespanel'}) for table in soup.find_all('table', {'class': \"table table-bordered table-condensed tableEntity\"}): chain = {} tds = [i.text.replace('\\xa0', ' ') for i in table.find_all('td')] chain['pdb_id'] = self.pdb_id chain['molecule'] = tds[0] chain['chains'] = tds[1] chain['sequence_length'] = tds[2] chain['organism'] = tds[3] chain['details'] = tds[4] chains.append(chain) return chains def get_content(self): content = {} content['pdb_id'] = self.pdb_id content['resolution'] = self._get_content_from_keyword(self.soup, 'Resolution:(.+)', 'li') content['method'] = self._get_content_from_keyword(self.soup, 'Method:(.+)', 'li') content['release_date'] = self._get_content_from_keyword(self.soup, 'Released:([0-9\\\\-]+)', 'li') content['deposite_date'] = self._get_content_from_keyword(self.soup, 'Deposited:([0-9\\\\-]+)', 'li') content['classification'] = self._get_content_from_keyword(self.soup, 'Classification:(.+)', 'li') content['organisms'] = self._get_content_from_keyword(self.soup, 'Organism\\\\(s\\\\):(.+)', 'li') content['mutations'] = self._get_content_from_keyword(self.soup, 'Mutation\\\\(s\\\\):*(.+)', 'li') content['author'] = self._get_content_from_keyword(self.soup, 'Deposition Author\\\\(s\\\\):(.+)', 'li') content['r_value_free'] = self._get_content_from_keyword(self.soup, 'R-Value Free:(.+)', 'li') content['r_value_work'] = self._get_content_from_keyword(self.soup, 'R-Value Work:(.+)', 'li') content['r_value_observed'] = self._get_content_from_keyword(self.soup, 'R-Value Observed:(.+)', 'li') content['title'] = self.soup.find('span', {'id': 'structureTitle'}).text # soup = self.soup.find('div', {'id': 'macromoleculeContent'}) content['total_structure_weight'] = self._get_content_from_keyword(soup, 'Total Structure Weight: (.+)', 'li') content['atom_count'] = self._get_content_from_keyword(soup, 'Atom Count: (.+)', 'li') content['modelled_residue_count'] = self._get_content_from_keyword(soup, 'Modelled Residue Count: (.+)', 'li') content['deposited_residue_count'] = self._get_content_from_keyword(soup, 'Deposited Residue Count: (.+)', 'li') content['unique_protein_chains'] = self._get_content_from_keyword(soup, 'Unique protein chains: (.+)', 'li') # soup = self.soup.find('div', {'id': 'Carousel-BiologicalUnit1'}) content['global_symmetry'] = self._get_content_from_keyword(soup, 'Global Symmetry: (.+)').replace('(3D View)', '').strip() content['global_stoichiometry'] = self._get_content_from_keyword(soup, 'Global Stoichiometry: (.+)').replace('(3D View)', '').strip() content['local_symmetry'] = self._get_content_from_keyword(soup, 'Local Symmetry: (.+)').replace('(3D View)', '').strip() content['local_stoichiometry'] = self._get_content_from_keyword(soup, 'Local Stoichiometry: (.+)').replace('(3D View)', '').strip() # single chains content['chains'] = self._get_all_single_chains() return content ",
+  "wordCount" : "653",
+  "inLanguage": "en",
+  "image":"https://xiergo.github.io/posts/tech/%E7%88%AC%E5%8F%96PDB%E5%AE%98%E7%BD%91%E4%B8%8A%E7%9A%84%E8%9B%8B%E7%99%BD%E6%95%B0%E6%8D%AE.png","datePublished": "2023-03-17T16:30:58+08:00",
+  "dateModified": "2023-03-17T16:30:58+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Xiergo"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://xiergo.github.io/posts/tech/%E7%88%AC%E5%8F%96pdb%E5%AE%98%E7%BD%91%E4%B8%8A%E7%9A%84%E8%9B%8B%E7%99%BD%E6%95%B0%E6%8D%AE/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Xiergo's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://xiergo.github.io/img/Q.jpg"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://xiergo.github.io/" accesskey="h" title="Xiergo&#39;s Blog (Alt + H)">
+            <img src="https://xiergo.github.io/img/Q.jpg" alt="logo" aria-label="logo"
+                 height="35">Xiergo&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://xiergo.github.io/search" title="🔍 搜索 (Alt &#43; /)" accesskey=/>
+                <span>🔍 搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/" title="🏠 主页">
+                <span>🏠 主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/posts" title="📚 文章">
+                <span>📚 文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/tags" title="🧩 标签">
+                <span>🧩 标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/archives/" title="⏱️ 时间轴">
+                <span>⏱️ 时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/about" title="🙋🏻‍♂️ 关于">
+                <span>🙋🏻‍♂️ 关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://xiergo.github.io/links" title="🤝 友链">
+                <span>🤝 友链</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main page">
+<article class="post-single">
+    <div id="single-content">
+        <header class="post-header">
+            <div class="breadcrumbs"><a href="https://xiergo.github.io/">主页</a>&nbsp;»&nbsp;<a href="https://xiergo.github.io/posts/">📚文章</a>&nbsp;»&nbsp;<a href="https://xiergo.github.io/posts/tech/">👨🏻‍💻 技术</a></div>
+            <h1 class="post-title">
+                爬取PDB官网上的蛋白数据
+            </h1>
+            <div class="post-meta">创建:&nbsp;<span title='2023-03-17 16:30:58 +0800 CST'>2023-03-17</span>&nbsp;|&nbsp;更新:&nbsp;2023-03-17&nbsp;|&nbsp;字数:&nbsp;653字&nbsp;|&nbsp;时长:&nbsp;2分钟&nbsp;|&nbsp;
+作者:&nbsp;Xiergo
+
+
+
+                &nbsp;|&nbsp;标签: &nbsp;
+
+                
+                <span id="busuanzi_container_page_pv">
+                &nbsp;| 访问: <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+</div>
+        </header> 
+<figure class="entry-cover1"><img loading="lazy" src="https://xiergo.github.io/posts/tech/%E7%88%AC%E5%8F%96PDB%E5%AE%98%E7%BD%91%E4%B8%8A%E7%9A%84%E8%9B%8B%E7%99%BD%E6%95%B0%E6%8D%AE.png" alt="">
+        
+</figure>
+        
+        
+        <div class="post-content"><!--
+添加图片方法
+
+<center>
+    <img  style="border-radius:0.3125em;
+    box-shadow: 0 4px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="/img/tech/yeast_display/1.jpg">
+    <div style="color:gray; border-bottom: 1px solid gray;
+    display: inline-block;">图注写这里</div>
+</center>
+
+-->
+<p>之前遇到一个比较棘手的问题，就是获取pdb的蛋白结构的一些信息，比如分辨率、解结构的方法、发布日期等等。刚开始师姐给了我一堆mmcif文件，里面有相应pdb的上述信息。但是cif文件提取信息太麻烦了，需要用正则表达式一个一个字段弄，对各种特殊情况处理。后面github上找了一个cif文件读取的方法，可以直接解析cif文件，也比较麻烦。</p>
+<p>然后干脆直接直接使用爬虫，这里用到了BeautifulSoup进行有组织结构的提取html文件。详细代码可以参考我的<a href="https://github.com/xiergo/PDBSpider">github</a>（https://github.com/xiergo/PDBSpider）。</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">72
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">73
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">74
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">75
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">76
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">77
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">78
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">79
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">80
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> re
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.request
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> bs4 <span style="color:#f92672">import</span> BeautifulSoup
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PDBSpider</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;PDB Spider&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, pdb_id):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>pdb_id <span style="color:#f92672">=</span> pdb_id<span style="color:#f92672">.</span>upper()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>soup <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_page_content()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_get_page_content</span>(self):
+</span></span><span style="display:flex;"><span>        site_url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://www.rcsb.org/structure/&#39;</span> <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>pdb_id
+</span></span><span style="display:flex;"><span>        page<span style="color:#f92672">=</span>urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>urlopen(site_url)<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;UTF-8&#39;</span>)
+</span></span><span style="display:flex;"><span>        soup<span style="color:#f92672">=</span>BeautifulSoup(page, <span style="color:#e6db74">&#39;html.parser&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> soup
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_get_content_from_keyword</span>(self, soup, pattern, type <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> type:
+</span></span><span style="display:flex;"><span>            ls <span style="color:#f92672">=</span> [x<span style="color:#f92672">.</span>text<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;&amp;nbsp&#39;</span>,<span style="color:#e6db74">&#39; &#39;</span>)<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\xa0</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>) <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> soup<span style="color:#f92672">.</span>find_all(type)]
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># split by hr/br</span>
+</span></span><span style="display:flex;"><span>            ls <span style="color:#f92672">=</span> [BeautifulSoup(i, <span style="color:#e6db74">&#39;html.parser&#39;</span>)<span style="color:#f92672">.</span>text <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> re<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;&lt;[bh]r/&gt;&#39;</span>, str(soup))]
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> ls:
+</span></span><span style="display:flex;"><span>            cont<span style="color:#f92672">=</span>re<span style="color:#f92672">.</span>search(pattern, x)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> cont:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> cont<span style="color:#f92672">.</span>group(<span style="color:#ae81ff">1</span>)<span style="color:#f92672">.</span>strip()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_get_all_single_chains</span>(self):
+</span></span><span style="display:flex;"><span>        chains <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        soup <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>soup<span style="color:#f92672">.</span>find(<span style="color:#e6db74">&#39;div&#39;</span>, {<span style="color:#e6db74">&#39;id&#39;</span>: <span style="color:#e6db74">&#39;macromoleculespanel&#39;</span>})
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> table <span style="color:#f92672">in</span> soup<span style="color:#f92672">.</span>find_all(<span style="color:#e6db74">&#39;table&#39;</span>, {<span style="color:#e6db74">&#39;class&#39;</span>: <span style="color:#e6db74">&#34;table table-bordered table-condensed tableEntity&#34;</span>}):
+</span></span><span style="display:flex;"><span>            chain <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>            tds <span style="color:#f92672">=</span> [i<span style="color:#f92672">.</span>text<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\xa0</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39; &#39;</span>) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> table<span style="color:#f92672">.</span>find_all(<span style="color:#e6db74">&#39;td&#39;</span>)]
+</span></span><span style="display:flex;"><span>            chain[<span style="color:#e6db74">&#39;pdb_id&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>pdb_id
+</span></span><span style="display:flex;"><span>            chain[<span style="color:#e6db74">&#39;molecule&#39;</span>] <span style="color:#f92672">=</span> tds[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>            chain[<span style="color:#e6db74">&#39;chains&#39;</span>] <span style="color:#f92672">=</span> tds[<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>            chain[<span style="color:#e6db74">&#39;sequence_length&#39;</span>] <span style="color:#f92672">=</span> tds[<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>            chain[<span style="color:#e6db74">&#39;organism&#39;</span>] <span style="color:#f92672">=</span> tds[<span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>            chain[<span style="color:#e6db74">&#39;details&#39;</span>] <span style="color:#f92672">=</span> tds[<span style="color:#ae81ff">4</span>]
+</span></span><span style="display:flex;"><span>            chains<span style="color:#f92672">.</span>append(chain)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> chains
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_content</span>(self):
+</span></span><span style="display:flex;"><span>        content <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;pdb_id&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>pdb_id
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;resolution&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(self<span style="color:#f92672">.</span>soup, <span style="color:#e6db74">&#39;Resolution:(.+)&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>)
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;method&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(self<span style="color:#f92672">.</span>soup, <span style="color:#e6db74">&#39;Method:(.+)&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>)
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;release_date&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(self<span style="color:#f92672">.</span>soup, <span style="color:#e6db74">&#39;Released:([0-9</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">-]+)&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>)
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;deposite_date&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(self<span style="color:#f92672">.</span>soup, <span style="color:#e6db74">&#39;Deposited:([0-9</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">-]+)&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>)
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;classification&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(self<span style="color:#f92672">.</span>soup, <span style="color:#e6db74">&#39;Classification:(.+)&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>)
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;organisms&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(self<span style="color:#f92672">.</span>soup, <span style="color:#e6db74">&#39;Organism</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">(s</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">):(.+)&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>)
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;mutations&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(self<span style="color:#f92672">.</span>soup, <span style="color:#e6db74">&#39;Mutation</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">(s</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">):*(.+)&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>)
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;author&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(self<span style="color:#f92672">.</span>soup, <span style="color:#e6db74">&#39;Deposition Author</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">(s</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">):(.+)&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>)
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;r_value_free&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(self<span style="color:#f92672">.</span>soup, <span style="color:#e6db74">&#39;R-Value Free:(.+)&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>)
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;r_value_work&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(self<span style="color:#f92672">.</span>soup, <span style="color:#e6db74">&#39;R-Value Work:(.+)&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>)
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;r_value_observed&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(self<span style="color:#f92672">.</span>soup, <span style="color:#e6db74">&#39;R-Value Observed:(.+)&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>)
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;title&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>soup<span style="color:#f92672">.</span>find(<span style="color:#e6db74">&#39;span&#39;</span>, {<span style="color:#e6db74">&#39;id&#39;</span>: <span style="color:#e6db74">&#39;structureTitle&#39;</span>})<span style="color:#f92672">.</span>text
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># &lt;div class=&#34;well well-sm hidden-sm hidden-xs well-nomar&#34; id=&#34;macromoleculeContent&#34;&gt;</span>
+</span></span><span style="display:flex;"><span>        soup <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>soup<span style="color:#f92672">.</span>find(<span style="color:#e6db74">&#39;div&#39;</span>, {<span style="color:#e6db74">&#39;id&#39;</span>: <span style="color:#e6db74">&#39;macromoleculeContent&#39;</span>})
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;total_structure_weight&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(soup, <span style="color:#e6db74">&#39;Total Structure Weight: (.+)&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>)
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;atom_count&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(soup, <span style="color:#e6db74">&#39;Atom Count: (.+)&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>)
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;modelled_residue_count&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(soup, <span style="color:#e6db74">&#39;Modelled Residue Count: (.+)&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>)
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;deposited_residue_count&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(soup, <span style="color:#e6db74">&#39;Deposited Residue Count: (.+)&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>)
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;unique_protein_chains&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(soup, <span style="color:#e6db74">&#39;Unique protein chains: (.+)&#39;</span>, <span style="color:#e6db74">&#39;li&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># &lt;div class=&#34;item imageCarouselItem&#34; id=&#34;Carousel-BiologicalUnit1&#34;&gt;</span>
+</span></span><span style="display:flex;"><span>        soup <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>soup<span style="color:#f92672">.</span>find(<span style="color:#e6db74">&#39;div&#39;</span>, {<span style="color:#e6db74">&#39;id&#39;</span>: <span style="color:#e6db74">&#39;Carousel-BiologicalUnit1&#39;</span>})
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;global_symmetry&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(soup, <span style="color:#e6db74">&#39;Global Symmetry: (.+)&#39;</span>)<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;(3D View)&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>strip()
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;global_stoichiometry&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(soup, <span style="color:#e6db74">&#39;Global Stoichiometry: (.+)&#39;</span>)<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;(3D View)&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>strip()
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;local_symmetry&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(soup, <span style="color:#e6db74">&#39;Local Symmetry: (.+)&#39;</span>)<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;(3D View)&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>strip()
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;local_stoichiometry&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_content_from_keyword(soup, <span style="color:#e6db74">&#39;Local Stoichiometry: (.+)&#39;</span>)<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39;(3D View)&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>strip()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># single chains</span>
+</span></span><span style="display:flex;"><span>        content[<span style="color:#e6db74">&#39;chains&#39;</span>] <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_get_all_single_chains()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> content
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+        </div>
+        <div class="post-reward">
+            <div style="padding: 0 0 0 0; margin: 0 0 0 0; width: 100%; font-size:16px; text-align: center;">
+                <div id="QR" style="opacity: 0;">
+                    <div id="wechat" style="display: inline-block">
+                        <a class="fancybox" rel="group">
+                            <img id="wechat_qr" src="https://xiergo.github.io/img/wechat_pay.png" alt="wechat_pay"></a>
+                        <p>微信</p>
+                    </div>
+                    <div id="alipay" style="display: inline-block">
+                        <a class="fancybox" rel="group">
+                            <img id="alipay_qr" src="https://xiergo.github.io/img/alipay.png" alt="alipay"></a>
+                        <p>支付宝</p>
+                    </div>
+                </div>
+                <button id="rewardButton"
+                        onclick="
+                    var qr = document.getElementById('QR');
+                    if (qr.style.opacity === '0') {
+                        qr.style.opacity='1';
+                    } else {
+                        qr.style.opacity='0'
+                    }"
+                >
+                    <span>🧧 鼓励</span>
+                </button>
+            </div>
+        </div>
+
+        <footer class="post-footer">
+            
+<nav class="paginav">
+  <a class="prev" href="https://xiergo.github.io/posts/tech/%E8%BD%A8%E8%BF%B9%E8%81%9A%E7%B1%BB/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>轨迹聚类</span>
+  </a>
+  <a class="next" href="https://xiergo.github.io/posts/tech/dockq/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>DockQ</span>
+  </a>
+</nav>
+
+        </footer>
+    </div>
+
+
+
+<div>
+    <div class="pagination__title">
+        <span class="pagination__title-h" style="font-size: 20px;">💬评论</span>
+        <hr />
+    </div>
+
+    <div id="tcomment"></div>
+
+    <script src="https://cdn.staticfile.org/twikoo/1.6.7/twikoo.all.min.js">
+    </script>
+    
+
+    
+
+    <script>
+        twikoo.init({
+            envId: "https://twikooapi.vercel.app", 
+            el: "#tcomment",
+            lang: 'zh-CN',
+            region: "ap-beijing",
+            path: window.TWIKOO_MAGIC_PATH||window.location.pathname,
+            
+            
+            
+            
+            
+            
+            
+        });
+    </script>
+
+</div>
+</article>
+</main>
+
+
+<script async src="https://unpkg.com/mermaid@8.8.1/dist/mermaid.min.js"></script>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<footer class="footer">
+    <span>
+        Copyright
+        &copy;
+        -2023
+        <a href="https://xiergo.github.io/" style="color:#939393;">Xiergo&#39;s Blog</a>
+        All Rights Reserved
+    </span>
+
+    <a href="https://beian.miit.gov.cn/" target="_blank" style="color:#939393;"></a>&nbsp;
+
+    <span>
+        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null"
+           style="display:inline-block;text-decoration:none;height:20px;color:#939393;">
+            <img src="" style="float:left;margin: 0px 5px 0px 0px;"/>
+            
+        </a>
+    </span>
+
+    <span id="busuanzi_container">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        总访客数: <span id="busuanzi_value_site_uv"></span>
+        总访问量: <span id="busuanzi_value_site_pv"></span>
+    </span>
+
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <span class="topInner">
+        <svg class="topSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z"/>
+        </svg>
+        <span id="read_progress"></span>
+    </span>
+</a>
+
+<script>
+    document.addEventListener('scroll', function (e) {
+        const readProgress = document.getElementById("read_progress");
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight;
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        
+        readProgress.innerText = ((scrollTop / (scrollHeight - clientHeight)).toFixed(2) * 100).toFixed(0);
+    })
+</script>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    let mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+
+<script>
+    document.body.addEventListener('copy', function (e) {
+        if (window.getSelection().toString() && window.getSelection().toString().length > 50) {
+            let clipboardData = e.clipboardData || window.clipboardData;
+            if (clipboardData) {
+                e.preventDefault();
+                let htmlData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「' + {
+                { .
+                    Site.Title
+                }
+            }
+                +'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                let textData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「' + {
+                { .
+                    Site.Title
+                }
+            }
+                +'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                clipboardData.setData('text/html', htmlData);
+                clipboardData.setData('text/plain', textData);
+            }
+        }
+    });
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = '📄复制';
+
+        function copyingDone() {
+            copybutton.innerText = '👌🏻已复制!';
+            setTimeout(() => {
+                copybutton.innerText = '📄复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                let text = codeblock.textContent +
+                    '\r\n————————————————\r\n' +
+                    '版权声明：本文为「' + "Xiergo's Blog"
+                +'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                navigator.clipboard.writeText(text);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) {
+            }
+            ;
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild === container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName === "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+    $("code[class^=language] ").on("mouseover", function () {
+        if (this.clientWidth < this.scrollWidth) {
+            $(this).css("width", "135%")
+        }
+    }).on("mouseout", function () {
+        $(this).css("width", "100%")
+    })
+</script>
+</body>
+
+</html>

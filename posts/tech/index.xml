@@ -6,7 +6,34 @@
     <description>Recent content in 👨🏻‍💻 技术 on Xiergo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 09 Mar 2023 10:47:13 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 28 Apr 2023 11:40:55 +0800</lastBuildDate><atom:link href="https://xiergo.github.io/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kabsch算法</title>
+      <link>https://xiergo.github.io/posts/tech/kabsch%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Fri, 28 Apr 2023 11:40:55 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/kabsch%E7%AE%97%E6%B3%95/</guid>
+      <description>给定$P,Q\in \mathbb R^{n\times 3}$，如何通过旋转和平移从$P$到$P&amp;rsquo;$，使得$P&amp;rsquo;$和$Q$最接近？即： $$ R,T=\underset{R\in \mathbb R^{3\times3}, T\in \R^3}{\mathrm{argmin}}, \text{trace}\left((PR+T-Q)(PR+T-Q)^{\top}\right ) $$ 显然: $$ T=\bar Q-\bar P R $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}},\left { \text{trace}\left(\left((P-\bar P)R-(Q-\bar Q)\right)\left ((P-\bar P)R-(Q-\bar Q)\right)^\top \right) \right } $$ 记 $$ \tilde P=P-\bar P\\ \tilde Q=Q-\bar Q $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}},\left { \text{trace}\left(\tilde PRR^\top \tilde P^\top \right)+\text{trace}\left(\tilde Q\tilde Q^\top \right)-2\text{trace}\left(\tilde PR\tilde Q^\top \right) \right } $$ 其中旋转矩阵$R$为标准正交矩</description>
+    </item>
+    
+    <item>
+      <title>轨迹聚类</title>
+      <link>https://xiergo.github.io/posts/tech/%E8%BD%A8%E8%BF%B9%E8%81%9A%E7%B1%BB/</link>
+      <pubDate>Mon, 27 Mar 2023 20:49:17 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/%E8%BD%A8%E8%BF%B9%E8%81%9A%E7%B1%BB/</guid>
+      <description>获取二面角 DCD2Dihedral.cpp 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134</description>
+    </item>
+    
+    <item>
+      <title>爬取PDB官网上的蛋白数据</title>
+      <link>https://xiergo.github.io/posts/tech/%E7%88%AC%E5%8F%96pdb%E5%AE%98%E7%BD%91%E4%B8%8A%E7%9A%84%E8%9B%8B%E7%99%BD%E6%95%B0%E6%8D%AE/</link>
+      <pubDate>Fri, 17 Mar 2023 16:30:58 +0800</pubDate>
+      
+      <guid>https://xiergo.github.io/posts/tech/%E7%88%AC%E5%8F%96pdb%E5%AE%98%E7%BD%91%E4%B8%8A%E7%9A%84%E8%9B%8B%E7%99%BD%E6%95%B0%E6%8D%AE/</guid>
+      <description>之前遇到一个比较棘手的问题，就是获取pdb的蛋白结构的一些信息，比如分辨率、解结构的方法、发布日期等等。刚开始师姐给了我一堆mmcif文件，里面有相应pdb的上述信息。但是cif文件提取信息太麻烦了，需要用正则表达式一个一个字段弄，对各种特殊情况处理。后面github上找了一个c</description>
+    </item>
+    
     <item>
       <title>DockQ</title>
       <link>https://xiergo.github.io/posts/tech/dockq/</link>
