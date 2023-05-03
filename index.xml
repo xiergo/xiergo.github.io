@@ -13,7 +13,7 @@
       <pubDate>Fri, 28 Apr 2023 11:40:55 +0800</pubDate>
       
       <guid>https://xiergo.github.io/posts/tech/kabsch%E7%AE%97%E6%B3%95/</guid>
-      <description>给定$P,Q\in \mathbb R^{n\times 3}$，如何通过旋转和平移从$P$到$P&amp;rsquo;$，使得$P&amp;rsquo;$和$Q$最接近？即： $$ R,T=\underset{R\in \mathbb R^{3\times3}, T\in \R^3}{\mathrm{argmin}}\ \text{trace}\left((PR+T-Q)(PR+T-Q)^{\top}\right ) $$ 显然: $$ T=\bar Q-\bar P R $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left { \text{trace}\left(\left((P-\bar P)R-(Q-\bar Q)\right)\left ((P-\bar P)R-(Q-\bar Q)\right)^\top \right) \right } $$ 记 $$ \tilde P=P-\bar P\\ \tilde Q=Q-\bar Q $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left { \text{trace}\left(\tilde PRR^\top \tilde P^\top \right)+\text{trace}\left(\tilde Q\tilde Q^\top \right)-2\text{trace}\left(\tilde PR\tilde Q^\top \right) \right } $$ 其中旋转矩阵$R$为标准正</description>
+      <description>给定$P,Q\in \mathbb R^{n\times 3}$，如何通过旋转和平移从$P$到$P&amp;rsquo;$，使得$P&amp;rsquo;$和$Q$最接近？即： $$ R,T=\underset{R\in \mathbb R^{3\times3}, T\in \R^3}{\mathrm{argmin}}\ \text{trace}\left((PR+T-Q)(PR+T-Q)^{\top}\right ) $$ 显然: $$ T=\bar Q-\bar P R $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left ( \text{trace}\left(\left((P-\bar P)R-(Q-\bar Q)\right)\left ((P-\bar P)R-(Q-\bar Q)\right)^\top \right) \right ) $$ 记 $$ \tilde P=P-\bar P\\ \tilde Q=Q-\bar Q $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left (\text{trace}\left(\tilde PRR^\top \tilde P^\top \right)+\text{trace}\left(\tilde Q\tilde Q^\top \right)-2\text{trace}\left(\tilde PR\tilde Q^\top \right) \right ) $$ 其中旋转矩阵$R$为标准正交</description>
     </item>
     
     <item>

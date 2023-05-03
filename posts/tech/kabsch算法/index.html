@@ -7,7 +7,7 @@
 <meta name="robots" content="index, follow">
 <title>Kabsch算法 | Xiergo&#39;s Blog</title>
 <meta name="keywords" content="">
-<meta name="description" content="给定$P,Q\in \mathbb R^{n\times 3}$，如何通过旋转和平移从$P$到$P&rsquo;$，使得$P&rsquo;$和$Q$最接近？即： $$ R,T=\underset{R\in \mathbb R^{3\times3}, T\in \R^3}{\mathrm{argmin}}\ \text{trace}\left((PR&#43;T-Q)(PR&#43;T-Q)^{\top}\right ) $$ 显然: $$ T=\bar Q-\bar P R $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left { \text{trace}\left(\left((P-\bar P)R-(Q-\bar Q)\right)\left ((P-\bar P)R-(Q-\bar Q)\right)^\top \right) \right } $$ 记 $$ \tilde P=P-\bar P\\ \tilde Q=Q-\bar Q $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left { \text{trace}\left(\tilde PRR^\top \tilde P^\top \right)&#43;\text{trace}\left(\tilde Q\tilde Q^\top \right)-2\text{trace}\left(\tilde PR\tilde Q^\top \right) \right } $$ 其中旋转矩阵$R$为标准正">
+<meta name="description" content="给定$P,Q\in \mathbb R^{n\times 3}$，如何通过旋转和平移从$P$到$P&rsquo;$，使得$P&rsquo;$和$Q$最接近？即： $$ R,T=\underset{R\in \mathbb R^{3\times3}, T\in \R^3}{\mathrm{argmin}}\ \text{trace}\left((PR&#43;T-Q)(PR&#43;T-Q)^{\top}\right ) $$ 显然: $$ T=\bar Q-\bar P R $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left ( \text{trace}\left(\left((P-\bar P)R-(Q-\bar Q)\right)\left ((P-\bar P)R-(Q-\bar Q)\right)^\top \right) \right ) $$ 记 $$ \tilde P=P-\bar P\\ \tilde Q=Q-\bar Q $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left (\text{trace}\left(\tilde PRR^\top \tilde P^\top \right)&#43;\text{trace}\left(\tilde Q\tilde Q^\top \right)-2\text{trace}\left(\tilde PR\tilde Q^\top \right) \right ) $$ 其中旋转矩阵$R$为标准正交">
 <meta name="author" content="
 作者:&nbsp;Xiergo">
 <link rel="canonical" href="https://xiergo.github.io/posts/tech/kabsch%E7%AE%97%E6%B3%95/">
@@ -84,7 +84,7 @@ var _hmt = _hmt || [];
 })();
 </script>
 <meta property="og:title" content="Kabsch算法" />
-<meta property="og:description" content="给定$P,Q\in \mathbb R^{n\times 3}$，如何通过旋转和平移从$P$到$P&rsquo;$，使得$P&rsquo;$和$Q$最接近？即： $$ R,T=\underset{R\in \mathbb R^{3\times3}, T\in \R^3}{\mathrm{argmin}}\ \text{trace}\left((PR&#43;T-Q)(PR&#43;T-Q)^{\top}\right ) $$ 显然: $$ T=\bar Q-\bar P R $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left { \text{trace}\left(\left((P-\bar P)R-(Q-\bar Q)\right)\left ((P-\bar P)R-(Q-\bar Q)\right)^\top \right) \right } $$ 记 $$ \tilde P=P-\bar P\\ \tilde Q=Q-\bar Q $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left { \text{trace}\left(\tilde PRR^\top \tilde P^\top \right)&#43;\text{trace}\left(\tilde Q\tilde Q^\top \right)-2\text{trace}\left(\tilde PR\tilde Q^\top \right) \right } $$ 其中旋转矩阵$R$为标准正" />
+<meta property="og:description" content="给定$P,Q\in \mathbb R^{n\times 3}$，如何通过旋转和平移从$P$到$P&rsquo;$，使得$P&rsquo;$和$Q$最接近？即： $$ R,T=\underset{R\in \mathbb R^{3\times3}, T\in \R^3}{\mathrm{argmin}}\ \text{trace}\left((PR&#43;T-Q)(PR&#43;T-Q)^{\top}\right ) $$ 显然: $$ T=\bar Q-\bar P R $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left ( \text{trace}\left(\left((P-\bar P)R-(Q-\bar Q)\right)\left ((P-\bar P)R-(Q-\bar Q)\right)^\top \right) \right ) $$ 记 $$ \tilde P=P-\bar P\\ \tilde Q=Q-\bar Q $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left (\text{trace}\left(\tilde PRR^\top \tilde P^\top \right)&#43;\text{trace}\left(\tilde Q\tilde Q^\top \right)-2\text{trace}\left(\tilde PR\tilde Q^\top \right) \right ) $$ 其中旋转矩阵$R$为标准正交" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://xiergo.github.io/posts/tech/kabsch%E7%AE%97%E6%B3%95/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-04-28T11:40:55&#43;08:00" />
@@ -92,7 +92,7 @@ var _hmt = _hmt || [];
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Kabsch算法"/>
-<meta name="twitter:description" content="给定$P,Q\in \mathbb R^{n\times 3}$，如何通过旋转和平移从$P$到$P&rsquo;$，使得$P&rsquo;$和$Q$最接近？即： $$ R,T=\underset{R\in \mathbb R^{3\times3}, T\in \R^3}{\mathrm{argmin}}\ \text{trace}\left((PR&#43;T-Q)(PR&#43;T-Q)^{\top}\right ) $$ 显然: $$ T=\bar Q-\bar P R $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left { \text{trace}\left(\left((P-\bar P)R-(Q-\bar Q)\right)\left ((P-\bar P)R-(Q-\bar Q)\right)^\top \right) \right } $$ 记 $$ \tilde P=P-\bar P\\ \tilde Q=Q-\bar Q $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left { \text{trace}\left(\tilde PRR^\top \tilde P^\top \right)&#43;\text{trace}\left(\tilde Q\tilde Q^\top \right)-2\text{trace}\left(\tilde PR\tilde Q^\top \right) \right } $$ 其中旋转矩阵$R$为标准正"/>
+<meta name="twitter:description" content="给定$P,Q\in \mathbb R^{n\times 3}$，如何通过旋转和平移从$P$到$P&rsquo;$，使得$P&rsquo;$和$Q$最接近？即： $$ R,T=\underset{R\in \mathbb R^{3\times3}, T\in \R^3}{\mathrm{argmin}}\ \text{trace}\left((PR&#43;T-Q)(PR&#43;T-Q)^{\top}\right ) $$ 显然: $$ T=\bar Q-\bar P R $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left ( \text{trace}\left(\left((P-\bar P)R-(Q-\bar Q)\right)\left ((P-\bar P)R-(Q-\bar Q)\right)^\top \right) \right ) $$ 记 $$ \tilde P=P-\bar P\\ \tilde Q=Q-\bar Q $$ $$ R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left (\text{trace}\left(\tilde PRR^\top \tilde P^\top \right)&#43;\text{trace}\left(\tilde Q\tilde Q^\top \right)-2\text{trace}\left(\tilde PR\tilde Q^\top \right) \right ) $$ 其中旋转矩阵$R$为标准正交"/>
 
 
 <script type="application/ld+json">
@@ -127,12 +127,12 @@ var _hmt = _hmt || [];
   "@type": "BlogPosting",
   "headline": "Kabsch算法",
   "name": "Kabsch算法",
-  "description": "给定$P,Q\\in \\mathbb R^{n\\times 3}$，如何通过旋转和平移从$P$到$P\u0026rsquo;$，使得$P\u0026rsquo;$和$Q$最接近？即： $$ R,T=\\underset{R\\in \\mathbb R^{3\\times3}, T\\in \\R^3}{\\mathrm{argmin}}\\ \\text{trace}\\left((PR+T-Q)(PR+T-Q)^{\\top}\\right ) $$ 显然: $$ T=\\bar Q-\\bar P R $$ $$ R=\\underset{R\\in \\mathbb R^{3\\times 3}}{\\mathrm{argmin}}\\ \\left { \\text{trace}\\left(\\left((P-\\bar P)R-(Q-\\bar Q)\\right)\\left ((P-\\bar P)R-(Q-\\bar Q)\\right)^\\top \\right) \\right } $$ 记 $$ \\tilde P=P-\\bar P\\\\ \\tilde Q=Q-\\bar Q $$ $$ R=\\underset{R\\in \\mathbb R^{3\\times 3}}{\\mathrm{argmin}}\\ \\left { \\text{trace}\\left(\\tilde PRR^\\top \\tilde P^\\top \\right)+\\text{trace}\\left(\\tilde Q\\tilde Q^\\top \\right)-2\\text{trace}\\left(\\tilde PR\\tilde Q^\\top \\right) \\right } $$ 其中旋转矩阵$R$为标准正",
+  "description": "给定$P,Q\\in \\mathbb R^{n\\times 3}$，如何通过旋转和平移从$P$到$P\u0026rsquo;$，使得$P\u0026rsquo;$和$Q$最接近？即： $$ R,T=\\underset{R\\in \\mathbb R^{3\\times3}, T\\in \\R^3}{\\mathrm{argmin}}\\ \\text{trace}\\left((PR+T-Q)(PR+T-Q)^{\\top}\\right ) $$ 显然: $$ T=\\bar Q-\\bar P R $$ $$ R=\\underset{R\\in \\mathbb R^{3\\times 3}}{\\mathrm{argmin}}\\ \\left ( \\text{trace}\\left(\\left((P-\\bar P)R-(Q-\\bar Q)\\right)\\left ((P-\\bar P)R-(Q-\\bar Q)\\right)^\\top \\right) \\right ) $$ 记 $$ \\tilde P=P-\\bar P\\\\ \\tilde Q=Q-\\bar Q $$ $$ R=\\underset{R\\in \\mathbb R^{3\\times 3}}{\\mathrm{argmin}}\\ \\left (\\text{trace}\\left(\\tilde PRR^\\top \\tilde P^\\top \\right)+\\text{trace}\\left(\\tilde Q\\tilde Q^\\top \\right)-2\\text{trace}\\left(\\tilde PR\\tilde Q^\\top \\right) \\right ) $$ 其中旋转矩阵$R$为标准正交",
   "keywords": [
     
   ],
-  "articleBody": "\r给定$P,Q\\in \\mathbb R^{n\\times 3}$，如何通过旋转和平移从$P$到$P’$，使得$P’$和$Q$最接近？即： $$ R,T=\\underset{R\\in \\mathbb R^{3\\times3}, T\\in \\R^3}{\\mathrm{argmin}}\\ \\text{trace}\\left((PR+T-Q)(PR+T-Q)^{\\top}\\right ) $$\n显然: $$ T=\\bar Q-\\bar P R $$\n$$ R=\\underset{R\\in \\mathbb R^{3\\times 3}}{\\mathrm{argmin}}\\ \\left { \\text{trace}\\left(\\left((P-\\bar P)R-(Q-\\bar Q)\\right)\\left ((P-\\bar P)R-(Q-\\bar Q)\\right)^\\top \\right) \\right } $$ 记 $$ \\tilde P=P-\\bar P\\\\ \\tilde Q=Q-\\bar Q $$\n$$ R=\\underset{R\\in \\mathbb R^{3\\times 3}}{\\mathrm{argmin}}\\ \\left { \\text{trace}\\left(\\tilde PRR^\\top \\tilde P^\\top \\right)+\\text{trace}\\left(\\tilde Q\\tilde Q^\\top \\right)-2\\text{trace}\\left(\\tilde PR\\tilde Q^\\top \\right) \\right } $$ 其中旋转矩阵$R$为标准正交矩阵，即:$R^\\top R=I$，代入则有： $$ R=\\underset{R\\in \\mathbb R^{3\\times 3}}{\\mathrm{argmax}}\\ \\left { \\text{trace}\\left(\\tilde PR\\tilde Q^\\top \\right) \\right } $$\n根据迹的循环性质： $$ tr(AB)=tr(BA) $$ ​\t证明： $$ tr(A_{m\\times n}B_{n\\times m})=tr(C_{m\\times m})=\\sum_{i=1}^m c_{ii}=\\sum_{i=1}^m \\sum_{j=1}^n a_{ij}b_{ji} $$\n$$ tr(B_{n\\times m}A_{m\\times n})=tr(D_{n\\times n})=\\sum_{j=1}^n d_{jj}=\\sum_{j=1}^n \\sum_{i=1}^m b_{ji}a_{ij} $$\n证毕。\n则： $$ R=\\underset{R\\in \\mathbb R^{3\\times 3}}{\\mathrm{argmax}}\\ \\left { \\text{trace}\\left(\\tilde P\\tilde Q^\\top R\\right) \\right } $$ 记 $$ H=\\tilde P\\tilde Q^\\top $$\n对$H$进行奇异值分解$H=U\\Sigma V^\\top$，代入得： $$ R=\\underset{R\\in \\mathbb R^{3\\times 3}}{\\mathrm{argmax}}\\ \\left { \\text{trace}\\left(U V ^\\top R \\Sigma\\right) \\right }=\\underset{R\\in \\mathbb R^{3\\times 3}}{\\mathrm{argmax}}\\ \\left { \\text{trace}\\left(W \\Sigma\\right) \\right } $$ 其中$W=UV^\\top R$也是标准正交矩阵。所以当且仅当$W=I$时， $\\text{trace}\\left(W \\Sigma\\right)$最大。\n所以$R=V U^\\top$\n",
-  "wordCount" : "354",
+  "articleBody": "\r给定$P,Q\\in \\mathbb R^{n\\times 3}$，如何通过旋转和平移从$P$到$P’$，使得$P’$和$Q$最接近？即： $$ R,T=\\underset{R\\in \\mathbb R^{3\\times3}, T\\in \\R^3}{\\mathrm{argmin}}\\ \\text{trace}\\left((PR+T-Q)(PR+T-Q)^{\\top}\\right ) $$\n显然: $$ T=\\bar Q-\\bar P R $$\n$$ R=\\underset{R\\in \\mathbb R^{3\\times 3}}{\\mathrm{argmin}}\\ \\left ( \\text{trace}\\left(\\left((P-\\bar P)R-(Q-\\bar Q)\\right)\\left ((P-\\bar P)R-(Q-\\bar Q)\\right)^\\top \\right) \\right ) $$ 记 $$ \\tilde P=P-\\bar P\\\\ \\tilde Q=Q-\\bar Q $$\n$$ R=\\underset{R\\in \\mathbb R^{3\\times 3}}{\\mathrm{argmin}}\\ \\left (\\text{trace}\\left(\\tilde PRR^\\top \\tilde P^\\top \\right)+\\text{trace}\\left(\\tilde Q\\tilde Q^\\top \\right)-2\\text{trace}\\left(\\tilde PR\\tilde Q^\\top \\right) \\right ) $$ 其中旋转矩阵$R$为标准正交矩阵，即:$R^\\top R=I$，代入则有： $$ R=\\underset{R\\in \\mathbb R^{3\\times 3}}{\\mathrm{argmax}}\\ \\left (\\text{trace}\\left(\\tilde PR\\tilde Q^\\top \\right) \\right ) $$\n根据迹的循环性质： $$ tr(AB)=tr(BA) $$ ​\t证明： $$ tr(A_{m\\times n}B_{n\\times m})=tr(C_{m\\times m})=\\sum_{i=1}^m c_{ii}=\\sum_{i=1}^m \\sum_{j=1}^n a_{ij}b_{ji} $$\n$$ tr(B_{n\\times m}A_{m\\times n})=tr(D_{n\\times n})=\\sum_{j=1}^n d_{jj}=\\sum_{j=1}^n \\sum_{i=1}^m b_{ji}a_{ij} $$\n证毕。\n则： $$ R=\\underset{R\\in \\mathbb R^{3\\times 3}}{\\mathrm{argmax}}\\ \\left ( \\text{trace}\\left(\\tilde P\\tilde Q^\\top R\\right) \\right ) $$ 记 $$ H=\\tilde P\\tilde Q^\\top $$\n对$H$进行奇异值分解$H=U\\Sigma V^\\top$，代入得： $$ R=\\underset{R\\in \\mathbb R^{3\\times 3}}{\\mathrm{argmax}}\\ \\left ( \\text{trace}\\left(U V ^\\top R \\Sigma\\right) \\right )=\\underset{R\\in \\mathbb R^{3\\times 3}}{\\mathrm{argmax}}\\ \\left ( \\text{trace}\\left(W \\Sigma\\right) \\right ) $$ 其中$W=UV^\\top R$也是标准正交矩阵。所以当且仅当$W=I$时， $\\text{trace}\\left(W \\Sigma\\right)$最大。\n所以$R=V U^\\top$\n",
+  "wordCount" : "352",
   "inLanguage": "en",
   "datePublished": "2023-04-28T11:40:55+08:00",
   "dateModified": "2023-04-28T11:40:55+08:00",
@@ -249,7 +249,7 @@ var _hmt = _hmt || [];
             <h1 class="post-title">
                 Kabsch算法
             </h1>
-            <div class="post-meta">创建:&nbsp;<span title='2023-04-28 11:40:55 +0800 CST'>2023-04-28</span>&nbsp;|&nbsp;更新:&nbsp;2023-04-28&nbsp;|&nbsp;字数:&nbsp;354字&nbsp;|&nbsp;时长:&nbsp;1分钟&nbsp;|&nbsp;
+            <div class="post-meta">创建:&nbsp;<span title='2023-04-28 11:40:55 +0800 CST'>2023-04-28</span>&nbsp;|&nbsp;更新:&nbsp;2023-04-28&nbsp;|&nbsp;字数:&nbsp;352字&nbsp;|&nbsp;时长:&nbsp;1分钟&nbsp;|&nbsp;
 作者:&nbsp;Xiergo
 
 
@@ -285,7 +285,7 @@ $$
 T=\bar Q-\bar P R
 $$</p>
 <p>$$
-R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left { \text{trace}\left(\left((P-\bar P)R-(Q-\bar Q)\right)\left ((P-\bar P)R-(Q-\bar Q)\right)^\top \right) \right }
+R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left ( \text{trace}\left(\left((P-\bar P)R-(Q-\bar Q)\right)\left ((P-\bar P)R-(Q-\bar Q)\right)^\top \right) \right )
 $$
 记
 $$
@@ -293,11 +293,11 @@ $$
 \tilde Q=Q-\bar Q
 $$</p>
 <p>$$
-R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left { \text{trace}\left(\tilde PRR^\top \tilde P^\top \right)+\text{trace}\left(\tilde Q\tilde Q^\top \right)-2\text{trace}\left(\tilde PR\tilde Q^\top \right) \right }
+R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmin}}\ \left (\text{trace}\left(\tilde PRR^\top \tilde P^\top \right)+\text{trace}\left(\tilde Q\tilde Q^\top \right)-2\text{trace}\left(\tilde PR\tilde Q^\top \right) \right )
 $$
 其中旋转矩阵$R$为标准正交矩阵，即:$R^\top R=I$，代入则有：
 $$
-R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmax}}\ \left { \text{trace}\left(\tilde PR\tilde Q^\top \right) \right }
+R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmax}}\ \left (\text{trace}\left(\tilde PR\tilde Q^\top \right) \right )
 $$</p>
 <p>根据迹的循环性质：
 $$
@@ -313,7 +313,7 @@ $$</p>
 <p>证毕。</p>
 <p>则：
 $$
-R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmax}}\ \left { \text{trace}\left(\tilde P\tilde Q^\top R\right) \right }
+R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmax}}\ \left ( \text{trace}\left(\tilde P\tilde Q^\top R\right) \right )
 $$
 记
 $$
@@ -321,7 +321,7 @@ H=\tilde P\tilde Q^\top
 $$</p>
 <p>对$H$进行奇异值分解$H=U\Sigma V^\top$，代入得：
 $$
-R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmax}}\ \left { \text{trace}\left(U V ^\top R \Sigma\right) \right }=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmax}}\ \left { \text{trace}\left(W \Sigma\right) \right }
+R=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmax}}\ \left ( \text{trace}\left(U V ^\top R \Sigma\right) \right )=\underset{R\in \mathbb R^{3\times 3}}{\mathrm{argmax}}\ \left ( \text{trace}\left(W \Sigma\right) \right )
 $$
 其中$W=UV^\top R$也是标准正交矩阵。所以当且仅当$W=I$时， $\text{trace}\left(W \Sigma\right)$最大。</p>
 <p>所以$R=V U^\top$</p>
